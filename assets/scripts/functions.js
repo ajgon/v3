@@ -79,35 +79,28 @@ $(document).ready(function () {
 		//show the loading sign
 		$('.loading').show();
 		
-		//start the ajax
-		$.ajax({
-			//this is the php file that processes the data and send mail
-			url : "process.php",
+		//get the results
+        var sc = document.createElement('script');
+        sc.type = 'text/javascript';
+        sc.src = 'http://ajgon.netne.net/process.php?' + data;
+        document.body.appendChild(sc);
+        var intie = setInterval(function() {
+            if(window.formResult) {
+                var html = window.formResult;
+                clearInterval(intie);
+                if (html == 1) {
+                    //hide the form
+                    $('.form').fadeOut('slow');
 
-			//GET method is used
-			type : "GET",
+                    //show the success message
+                    $('.done').fadeIn('slow');
 
-			//pass the data
-			data : data,
+                    //if process.php returned 0/false (send mail failed)
+                } else
+                    alert('Sorry, unexpected error. Please try again later.');
+            }
 
-			//Do not cache the page
-			cache : false,
-
-			//success
-			success : function (html) {
-				//if process.php returned 1/true (send mail success)
-				if (html == 1) {
-					//hide the form
-					$('.form').fadeOut('slow');
-
-					//show the success message
-					$('.done').fadeIn('slow');
-
-					//if process.php returned 0/false (send mail failed)
-				} else
-					alert('Sorry, unexpected error. Please try again later.');
-			}
-		});
+        }, 100);
 
 		//cancel the submit button default behaviours
 		return false;
