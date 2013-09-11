@@ -49,12 +49,12 @@
                 .on('mouseleave', '.item', function () {
                     $(this).removeClass('hovered').find('.front, .back').removeClass('paused');
                 })
-                .on('animationend', '.front, .back', function () {
+                .on('animationend webkitAnimationEnd oanimationend MSAnimationEnd', '.front, .back', function () {
                     var $this = $(this);
                     $this.removeClass('front-animating');
                     $this.removeClass('back-animating');
                 })
-                .on('animationiteration', '.hovered .front, .hovered .back', function () {
+                .on('animationiteration webkitAnimationIteration oanimationiteration MSAnimationIteration', '.hovered .front, .hovered .back', function () {
                     $(this).addClass('paused');
                 });
         },
