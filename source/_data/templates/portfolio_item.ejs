@@ -1,0 +1,19 @@
+<li class="item <% if (item.promoted) { %>promoted<% } %>" data-date="<%= item.date %>" data-client="<%= item.client ? item.client : '~' %>" data-year="<%= item.date.replace(/-[0-9\-]*/, '') %>" data-specs="<%= item.specs.join(',') %>">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/<% if (!item.promoted) { %>s-<% } %><%= item.id %>.jpg" alt="">
+            <time class="released"><%= moment(item.date, 'YYYY-MM-DD').format('MMM YYYY') %></time>
+        </div>
+        <div class="back">
+            <h5 class="card-title"><%= item.title %></h5>
+            <h6 class="card-subtitle"><%= item.subtitle %></h6>
+            <ul class="details">
+<% if (item.client) { -%>
+                <li>For <a href="<%= clients[item.client].url %>"><%= clients[item.client].name %></a></li>
+<% } -%>
+                <li class="specs"><%- item.specs.map(function(i) { return '<abbr title="' + specs[i].long + '">' + specs[i].short + '</abbr>' }).join(', ') %>.</li>
+                <li><a href="<%= item.url %>" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>

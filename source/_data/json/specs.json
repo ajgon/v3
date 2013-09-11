@@ -1,0 +1,38 @@
+{
+    "css": {
+        "short": "CSS",
+        "long": "Cascading Style Sheets"
+    },
+    "css3": {
+        "short": "CSS3",
+        "long": "Cascading Style Sheets 3"
+    },
+    "html5": {
+        "short": "HTML5",
+        "long": "HyperText Markup Language 5"
+    },
+    "js": {
+        "short": "JS",
+        "long": "JavaScript"
+    },
+    "php5": {
+        "short": "PHP5",
+        "long": "PHP Hypertext Preprocessor 5"
+    },
+    "ror": {
+        "short": "ROR",
+        "long": "Ruby on Rails"
+    },
+    "wp": {
+        "short": "WP",
+        "long": "WordPress"
+    },
+    "xhtml": {
+        "short": "XHTML",
+        "long": "eXtensible HyperText Markup Language"
+    },
+    "zf": {
+        "short": "ZF",
+        "long": "Zend Framework"
+    }
+}

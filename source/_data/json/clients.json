@@ -1,0 +1,70 @@
+{
+    "active-pharma": {
+        "name": "Active Pharma",
+        "url": "http://www.activepharma.pl/"
+    },
+    "apeiro": {
+        "name": "Apeiro",
+        "url": "http://apeiro.pl/"
+    },
+    "devonstudio": {
+        "name": "DevonStudio",
+        "url": "http://devonstudio.com/"
+    },
+    "drp-solutions": {
+        "name": "DRP Solutions",
+        "url": "https://prod.ceidg.gov.pl/CEIDG/ceidg.public.ui/SearchDetails.aspx?Id=3ea80cd8-968a-42aa-8524-59b280e52267"
+    },
+    "enigmatis": {
+        "name": "Enigmatis",
+        "url": "http://enigmatis.pl/"
+    },
+    "garden-partner": {
+        "name": "Garden Partner",
+        "url": "http://gardenpartner.com.pl/"
+    },
+    "iizt": {
+        "name": "IIZT",
+        "url": "http://iizt.com/"
+    },
+    "jkm": {
+        "name": "JKM",
+        "url": "http://korwin-mikke.pl/"
+    },
+    "kraina-pomyslow": {
+        "name": "Kraina Pomyslow",
+        "url": "http://krainapomyslow.pl/"
+    },
+    "nextframe": {
+        "name": "Nextframe",
+        "url": "http://www.nextframe.pl/"
+    },
+    "nodormz": {
+        "name": "NoDormz",
+        "url": "http://nodormz.com/"
+    },
+    "powiat-konecki": {
+        "name": "Powiat Konecki",
+        "url": "http://powiat.konskie.pl/"
+    },
+    "puffy": {
+        "name": "PuFFy",
+        "url": "http://puffy.pl/"
+    },
+    "respectance": {
+        "name": "Respectance",
+        "url": "http://respectance.com/"
+    },
+    "starfactory": {
+        "name": "StarFactory",
+        "url": "http://starfactory.pl/"
+    },
+    "weedo": {
+        "name": "Weedo",
+        "url": "http://weedo.pl/"
+    },
+    "wordwatch": {
+        "name": "Wordwatch Inc.",
+        "url": "http://www.wordwatch.com/"
+    }
+}
