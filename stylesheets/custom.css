@@ -32,8 +32,8 @@
 }
 
 .isotope-hidden {
-  pointer-events: none;
-  z-index: 1;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .portfolio {
@@ -104,8 +104,8 @@
     padding: 1px 0;
     text-align: center;
     top: 18px;
-    right: -23px;
-    width: 100px;
+    right: -45px;
+    width: 150px;
     -webkit-transform: rotateZ(45deg);
     -moz-transform: rotateZ(45deg);
     -o-transform: rotateZ(45deg);
@@ -186,17 +186,31 @@
 
 .portfolio .item .front-animating,
 .portfolio .item .back-animating {
+    -webkit-animation-play-state: running;
+    -moz-animation-play-state: running;
+    -ms-animation-play-state: running;
+    -o-animation-play-state: running;
     animation-play-state: running;
 }
 
+
 .portfolio .item .paused {
+    -webkit-animation-play-state: paused;
+    -moz-animation-play-state: paused;
+    -ms-animation-play-state: paused;
+    -o-animation-play-state: paused;
     animation-play-state: paused;
 }
+
 
 .portfolio .item:hover .front,
 .portfolio .flipped .front,
 .portfolio .item .front-animating {
     z-index: 5;
+    -webkit-animation-name: rotate-front;
+    -moz-animation-name: rotate-front;
+    -ms-animation-name: rotate-front;
+    -o-animation-name: rotate-front;
     animation-name: rotate-front;
 }
 
@@ -204,9 +218,12 @@
 .portfolio .flipped .back,
 .portfolio .item .back-animating {
     z-index: 10;
+    -webkit-animation-name: rotate-back;
+    -moz-animation-name: rotate-back;
+    -ms-animation-name: rotate-back;
+    -o-animation-name: rotate-back;
     animation-name: rotate-back;
 }
-
 
 .portfolio .back .card-title {
     text-align: center;
@@ -287,16 +304,6 @@
 .portfolio .back .details li a,
 .portfolio .promoted .back .details li a {
     font-size: 0.9em;
-}
-
-
-/*
- * Footer
- */
-
-.footer {
-    background: #0cc;
-    height: 300px;
 }
 
 /* Animation keyframes */
