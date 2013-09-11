@@ -71,6 +71,8 @@
     
     
     
+    <li><a href="mailto:igor@rzegocki.pl" title="Email"><i class="icon-envelope-alt social-navbar"></i></a></li>
+    
     
     <li><a href="/public-key.txt" title="GPG Key"><i class="icon-key social-navbar"></i></a></li>
     
@@ -236,7 +238,7 @@ this initial deploy, make sure that all the files are moved to box.com!</p>
 </span><span class='line'>git add -A
 </span><span class='line'>git commit -m <span class="s2">&quot;${NOW}&quot;</span> -a
 </span><span class='line'>git format-patch -1 --stdout &gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
-</span><span class='line'>gpg -e -r igor@rzegocki.pl /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>gpg -e -r your@key.email /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
 </span><span class='line'>split --bytes<span class="o">=</span>50m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.
 </span><span class='line'>mv /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.?? /mnt/Box/Backups/patches
 </span></code></pre></td></tr></table></div></figure>
