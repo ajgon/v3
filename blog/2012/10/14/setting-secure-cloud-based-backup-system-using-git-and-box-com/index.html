@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Setting secure, cloud-based backup system using git and box.com - Igor Rzegocki Personal Homepage</title>
+  <meta name="author" content="Igor Rzegocki">
+
+   
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Igor Rzegocki Personal Homepage" type="application/atom+xml">
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/bootstrap-collapse.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">About me</a></li>
+    
+        <li ><a href="/portfolio">Portfolio</a></li>
+    
+        <li ><a href="/open-source">Open source</a></li>
+    
+        <li ><a href="/blog">Blog</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/ajgon" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://twitter.com/ajgon" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Setting Secure, Cloud-based Backup System Using Git and box.com
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2012-10-14T12:57:00+02:00" pubdate data-updated="true">Oct 14<span>th</span>, 2012</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>After giving up my <a href="http://gmail.com/">spying e-mail provider</a>, and moving
+everything to my own <a href="https://github.com/ajgon/DeeDee">DeeDee server</a>, I moved
+smoothly from one paranoia to another. Ok, my e-mail is not read anymore by
+anyone except me, but on the other hand it&rsquo;s on an ATOM machine staying in my
+room. Which unfortunatelly, is not fire, burglar, lightning and UFO protected.
+So idea of backups was born. Firstly, I was using an external drive, which I
+was keeping in the same room, most of the time even attached to the machine.
+But I thought, that it is still
+<a href="http://www.youtube.com/watch?v=U4oB28ksiIo#t=286s">not a best solution</a>. So I
+started swinging in the clouds.</p>
+
+<!--more-->
+
+
+<p>And immediately faced some problems:</p>
+
+<ul>
+<li>They are expensive, and free solutions have very limited capacity,</li>
+<li>They are external service, so distrust paranoia is getting back (in my case
+at least :))</li>
+<li>Most of them doesn&rsquo;t have any &ldquo;normal&rdquo; protocol to handle files, and they are
+basing on a web interface and they &ldquo;one and only true&rdquo; client</li>
+</ul>
+
+
+<p>All of those three problems are unacceptable and needed to be solved if I
+wanted to even think about clouds.</p>
+
+<p>So I did some research, and found <a href="https://www.box.com/">box.com</a> &ndash; in my
+opinion, the best solution out there. Why? Because it solves cases one and
+three for me. It offers 50GB of storage (ALOT more than I need, all my emails
+and server-related files are approx. 8GB summarized), and they are supporting
+WebDAV protocol. Which means that fuse and davfs comes to play. The second
+problem is actually pretty easy to solve as well &ndash; just use encryption
+(I use GPG).</p>
+
+<p>The next thing was snapshots. They had to be diff-based &ndash; that for sure. At the
+beginning I tried to use rsync. It was nightmare. Sure, it had this
+<code>compare-dest</code> option, and after many hours of VooDoo magic I was able to set
+it properly, but still I was unhappy with it. Mostly, because it didn&rsquo;t handle
+file removal very well (if some files were removed in a new snapshot, they
+simply weren&rsquo;t included, so I didn&rsquo;t have any information about that, so when I
+restore the backup, I will have all the files in a newest versions &ndash; removed as
+well). And then it hit me &ndash; why not use some VCS? After 0.2 seconds of
+wondering, I chose git, because I love it. The next question is &ndash;  how to put
+all of this together?</p>
+
+<h2>Setting davfs for box.com</h2>
+
+<p>This step is pretty simple, just install it, add your box.com credentials to
+<code>/etc/davfs2/secrets</code>, set <code>use_locks</code> to <code>0</code> and add proper line to
+<code>/etc/fstab</code>. Then just mount it. So:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;https://www.box.com/dav    login@email.com     my_box_com_password&quot;</span> &gt;&gt; /etc/davfs2/secrets
+</span><span class='line'>sed -i<span class="s1">&#39;&#39;</span> -r <span class="s1">&#39;s/#?\s*use_locks\s+0/use_locks 1/g&#39;</span> /etc/davfs2/davfs2.conf
+</span><span class='line'>mkdir /mnt/Box
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;https://www.box.com/dav /mnt/Box davfs rw,noauto 0 0&quot;</span> &gt;&gt; /etc/fstab
+</span><span class='line'>mount /mnt/Box
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If everything went smooth, you will have access to your box.com account via
+filesystem. Pretty neat.</p>
+
+<h2>Setting git-based backup</h2>
+
+<p>Firstly you need to set initial repository and backup files. Then encrypt them
+and copy to box.com. Here is how I do it:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /
+</span><span class='line'><span class="nb">export </span><span class="nv">MACHINE</span><span class="o">=</span>DeeDee
+</span><span class='line'>mkdir -p /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>
+</span><span class='line'>mkdir -p /mnt/Box/Backups/patches
+</span><span class='line'>ln -s /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span> /.git
+</span><span class='line'>git init
+</span><span class='line'>git add -A etc root home some/other/important/dirs
+</span><span class='line'>git commit -m <span class="s2">&quot;Initial&quot;</span>
+</span><span class='line'>git gc <span class="c"># compress repository</span>
+</span><span class='line'>tar -cf /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>/*
+</span><span class='line'>gpg -e -r my.key@email.com /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar
+</span><span class='line'><span class="c"># box.com has maximum file limit so split files to lesser chunks</span>
+</span><span class='line'>split --bytes<span class="o">=</span>99m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar.
+</span><span class='line'>mv /home/Backup/DeeDee.<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.tar.?? /mnt/Box/Backups
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you have alot of files, some of them may not be copied in a first time &ndash; in
+this initial deploy, make sure that all the files are moved to box.com!</p>
+
+<p>After that all we need is a daily-snapshot deploy script</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">NOW</span><span class="o">=</span><span class="sb">`</span>date -I<span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">MACHINE</span><span class="o">=</span>DeeDee
+</span><span class='line'><span class="nb">cd</span> /
+</span><span class='line'>git add -A
+</span><span class='line'>git commit -m <span class="s2">&quot;${NOW}&quot;</span> -a
+</span><span class='line'>git format-patch -1 --stdout &gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>gpg -e -r igor@rzegocki.pl /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>split --bytes<span class="o">=</span>50m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.
+</span><span class='line'>mv /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.?? /mnt/Box/Backups/patches
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now all you need to do is put this script to some file, and add it to cron:</p>
+
+<figure class='code'><figcaption><span>crontab -e </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>0 3 * * * /backup
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Restoring backup</h2>
+
+<p>This is pretty simple. First, fetch all the <code>*.initial.*</code> files to some
+directory, then merge them, decrypt and unpack.</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p /home/Restore/.git
+</span><span class='line'><span class="nb">cd</span> /home/Restore/.git
+</span><span class='line'>cp /mnt/Box/Backups/*.initial.* .
+</span><span class='line'>cat *.initial.* &gt; Backup.initial.tar
+</span><span class='line'>tar -xf Backup.initial.tar
+</span><span class='line'>rm -rf Backup.initial.tar
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you need to apply the patches:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /home/Restore
+</span><span class='line'>cp /mnt/Box/Backups/patches/* .
+</span><span class='line'><span class="k">for </span>i in *.patch.aa; <span class="k">do </span>mv <span class="k">${</span><span class="nv">i</span><span class="k">}</span> <span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | sed -r <span class="s1">&#39;s/.aa$//&#39;</span><span class="sb">`</span>; <span class="k">done</span>
+</span><span class='line'><span class="c"># Don&#39;t forget to concatenate splitted patches, so for example:</span>
+</span><span class='line'>cat Backup.2012-10-14.patch.* &gt; Backup.2012-10.14.patch
+</span><span class='line'>git apply *.patch
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the last thing is simply to restore repo to it&rsquo;s current state:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git reset --hard master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And voilla, everything is back!</p>
+
+<h2>Conclusion</h2>
+
+<p>Is simple&hellip; I sincerely hope, that you will have better sleep with this
+solution applied. I have :). And if not, you can always extend it to another
+good-space, webdav supporting clouds. I didn&rsquo;t find anything as good as
+box.com, but if you do &ndash; please, let me know!</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/blog/categories/Administration/"><span class="badge">Administration</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/blog/2012/09/22/setting-development-environment-on-your-mac/" title="Previous Post: Setting development environment on your Mac">&laquo; Setting development environment on your Mac</a>
+          
+          
+            <a class="basic-alignment right" href="/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/" title="Next Post: Add more complexity to your Emails - use DKIM and SPF">Add more complexity to your Emails - use DKIM and SPF &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2013 - Igor Rzegocki -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>. Old version of the site, available <a href="/v1">here</a>.
+</p>
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

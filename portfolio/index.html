@@ -1,0 +1,997 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Portfolio - Igor Rzegocki Personal Homepage</title>
+  <meta name="author" content="Igor Rzegocki">
+
+   
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.rzegocki.pl/portfolio">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Igor Rzegocki Personal Homepage" type="application/atom+xml">
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/bootstrap-collapse.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">About me</a></li>
+    
+        <li ><a href="/portfolio">Portfolio</a></li>
+    
+        <li ><a href="/open-source">Open source</a></li>
+    
+        <li ><a href="/blog">Blog</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/ajgon" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://twitter.com/ajgon" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <article role="article">
+  
+  <header>
+    <div class="jumbotron">
+      Portfolio
+      
+        <h3 class="tagline">All the stuff I have done</h3>
+      
+    </div>
+    
+  </header>
+  
+  <section id="portfolio">
+    <ul class="options">
+        <li>
+            <em>Sort by:</em>
+            <select name="sort" class="option-sort" autocomplete="off">
+                <option value="" selected>Shuffle</option>
+                <option value="date" data-ascending="false">Date</option>
+                <option value="client" data-ascending="true">Client</option>
+            </select>
+        </li>
+        <li>
+            <em>Filter:</em>
+            <select name="filter" class="option-filter" autocomplete="off">
+                <option value="">none</option>
+                <option value="year">Year</option>
+                <option value="client">Client</option>
+                <option value="specs">Technology</option>
+            </select>
+            <select name="filter-year" class="option-filter-item" data-filter="year" autocomplete="off">
+                <option value="">none</option>
+                <option value="2013">2013</option>
+                <option value="2012">2012</option>
+                <option value="2011">2011</option>
+                <option value="2010">2010</option>
+                <option value="2009">2009</option>
+                <option value="2008">2008</option>
+                <option value="2007">2007</option>
+                <option value="2006">2006</option>
+            </select>
+            <select name="filter-client" class="option-filter-item" data-filter="client" autocomplete="off">
+                <option value="">none</option>
+                <option value="active-pharma">Active Pharma</option>
+                <option value="apeiro">Apeiro</option>
+                <option value="devonstudio">DevonStudio</option>
+                <option value="drp-solutions">DRP Solutions</option>
+                <option value="enigmatis">Enigmatis</option>
+                <option value="garden-partner">Garden Partner</option>
+                <option value="iizt">IIZT</option>
+                <option value="jkm">JKM</option>
+                <option value="kraina-pomyslow">Kraina Pomyslow</option>
+                <option value="nextframe">Nextframe</option>
+                <option value="nodormz">NoDormz</option>
+                <option value="powiat-konecki">Powiat Konecki</option>
+                <option value="puffy">PuFFy</option>
+                <option value="respectance">Respectance</option>
+                <option value="starfactory">StarFactory</option>
+                <option value="weedo">Weedo</option>
+                <option value="wordwatch">Wordwatch Inc.</option>
+            </select>
+            <select name="filter-specs" class="option-filter-item" data-filter="specs" data-includes="true" autocomplete="off">
+                <option value="">none</option>
+                <option value="css">Cascading Style Sheets</option>
+                <option value="css3">Cascading Style Sheets 3</option>
+                <option value="html5">HyperText Markup Language 5</option>
+                <option value="js">JavaScript</option>
+                <option value="php5">PHP Hypertext Preprocessor 5</option>
+                <option value="ror">Ruby on Rails</option>
+                <option value="wp">WordPress</option>
+                <option value="xhtml">eXtensible HyperText Markup Language</option>
+                <option value="zf">Zend Framework</option>
+            </select>
+        </li>
+    </ul>
+    <ul class="portfolio clearfix" id="portfolioItems">
+<li class="item " data-date="2013-07-24" data-client="nextframe" data-year="2013" data-specs="html5,css3,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-pavilion512.jpg" alt="">
+            <time class="released">Jul 2013</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Pawilon 512</h5>
+            <h6 class="card-subtitle">Distant place</h6>
+            <ul class="details">
+                <li>For <a href="http://www.nextframe.pl/">Nextframe</a></li>
+                <li class="specs"><abbr title="HyperText Markup Language 5">HTML5</abbr>, <abbr title="Cascading Style Sheets 3">CSS3</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://512.kopernik.org.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2012-05-31" data-client="nextframe" data-year="2012" data-specs="html5,css3,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-poznajzasady.jpg" alt="">
+            <time class="released">May 2012</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Poznaj Zasady</h5>
+            <h6 class="card-subtitle">Mineral water ads</h6>
+            <ul class="details">
+                <li>For <a href="http://www.nextframe.pl/">Nextframe</a></li>
+                <li class="specs"><abbr title="HyperText Markup Language 5">HTML5</abbr>, <abbr title="Cascading Style Sheets 3">CSS3</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://poznajzasady.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item promoted" data-date="2012-05-14" data-client="nextframe" data-year="2012" data-specs="html5,css3,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/listerinezero.jpg" alt="">
+            <time class="released">May 2012</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Listerine Zero</h5>
+            <h6 class="card-subtitle">Mouthwash campaign</h6>
+            <ul class="details">
+                <li>For <a href="http://www.nextframe.pl/">Nextframe</a></li>
+                <li class="specs"><abbr title="HyperText Markup Language 5">HTML5</abbr>, <abbr title="Cascading Style Sheets 3">CSS3</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://listerinezero.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2012-04-17" data-client="garden-partner" data-year="2012" data-specs="html5,css3,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-gardenpartner.jpg" alt="">
+            <time class="released">Apr 2012</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Garden Partner</h5>
+            <h6 class="card-subtitle">Garden services</h6>
+            <ul class="details">
+                <li>For <a href="http://gardenpartner.com.pl/">Garden Partner</a></li>
+                <li class="specs"><abbr title="HyperText Markup Language 5">HTML5</abbr>, <abbr title="Cascading Style Sheets 3">CSS3</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://gardenpartner.com.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2012-04-12" data-client="nextframe" data-year="2012" data-specs="html5,css3,php5,wp">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-studiofx.jpg" alt="">
+            <time class="released">Apr 2012</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">StudioFX</h5>
+            <h6 class="card-subtitle">Special effects studio</h6>
+            <ul class="details">
+                <li>For <a href="http://www.nextframe.pl/">Nextframe</a></li>
+                <li class="specs"><abbr title="HyperText Markup Language 5">HTML5</abbr>, <abbr title="Cascading Style Sheets 3">CSS3</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="WordPress">WP</abbr>.</li>
+                <li><a href="http://www.studiofx.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2012-03-20" data-client="nextframe" data-year="2012" data-specs="xhtml,css,php5,wp">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-ckk.jpg" alt="">
+            <time class="released">Mar 2012</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">CKK</h5>
+            <h6 class="card-subtitle">Conference center</h6>
+            <ul class="details">
+                <li>For <a href="http://www.nextframe.pl/">Nextframe</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="WordPress">WP</abbr>.</li>
+                <li><a href="http://centrumkonferencyjnekopernik.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-09-06" data-client="nextframe" data-year="2011" data-specs="xhtml,css,php5">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-adbud.jpg" alt="">
+            <time class="released">Sep 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">AD-BUD</h5>
+            <h6 class="card-subtitle">Real estate management</h6>
+            <ul class="details">
+                <li>For <a href="http://www.nextframe.pl/">Nextframe</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>.</li>
+                <li><a href="http://www.ad-bud.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item promoted" data-date="2011-08-25" data-client="nextframe" data-year="2011" data-specs="xhtml,css,js,php5">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/niebokopernika.jpg" alt="">
+            <time class="released">Aug 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Niebo Kopernika</h5>
+            <h6 class="card-subtitle">Planetarium</h6>
+            <ul class="details">
+                <li>For <a href="http://www.nextframe.pl/">Nextframe</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>.</li>
+                <li><a href="http://www.niebokopernika.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-08-20" data-client="devonstudio" data-year="2011" data-specs="html5,css3,js,php5,wp">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-morgangroup.jpg" alt="">
+            <time class="released">Aug 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Morgan Group</h5>
+            <h6 class="card-subtitle">Apartments rental agency</h6>
+            <ul class="details">
+                <li>For <a href="http://devonstudio.com/">DevonStudio</a></li>
+                <li class="specs"><abbr title="HyperText Markup Language 5">HTML5</abbr>, <abbr title="Cascading Style Sheets 3">CSS3</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="WordPress">WP</abbr>.</li>
+                <li><a href="http://morgangroup.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-08-19" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-cimp.jpg" alt="">
+            <time class="released">Aug 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">W podrozy</h5>
+            <h6 class="card-subtitle">Travelling medicine</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-08-03" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-avamys.jpg" alt="">
+            <time class="released">Aug 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Avamys</h5>
+            <h6 class="card-subtitle">Allergic rhinitis drug</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/avamys/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-07-13" data-client="weedo" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-weedo.jpg" alt="">
+            <time class="released">Jul 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Weedo</h5>
+            <h6 class="card-subtitle">iPad Accessories</h6>
+            <ul class="details">
+                <li>For <a href="http://weedo.pl/">Weedo</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/weedo/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-07-12" data-client="devonstudio" data-year="2011" data-specs="html5,css3,js,php5,wp">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-lapremiere.jpg" alt="">
+            <time class="released">Jul 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">La Premiere</h5>
+            <h6 class="card-subtitle">Beauty studio</h6>
+            <ul class="details">
+                <li>For <a href="http://devonstudio.com/">DevonStudio</a></li>
+                <li class="specs"><abbr title="HyperText Markup Language 5">HTML5</abbr>, <abbr title="Cascading Style Sheets 3">CSS3</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="WordPress">WP</abbr>.</li>
+                <li><a href="http://lapremiere.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-06-27" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-malaria.jpg" alt="">
+            <time class="released">Jun 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Malaria</h5>
+            <h6 class="card-subtitle">Malaria informations</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/malaria/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-06-20" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-tyverb.jpg" alt="">
+            <time class="released">Jun 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Tyverb</h5>
+            <h6 class="card-subtitle">Anti-cancer drug</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/tyverb/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-06-04" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-votrient20.jpg" alt="">
+            <time class="released">Jun 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Votrient 2.0</h5>
+            <h6 class="card-subtitle">Pazopanib</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/votrient20/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-05-07" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-fraxi.jpg" alt="">
+            <time class="released">May 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Fraxi</h5>
+            <h6 class="card-subtitle">Molecular weight heparin</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/fraxi/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-04-17" data-client="wordwatch" data-year="2011" data-specs="xhtml,css,js,ror">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-wordwatch.jpg" alt="">
+            <time class="released">Apr 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">WordWatch</h5>
+            <h6 class="card-subtitle">AdSense positioning</h6>
+            <ul class="details">
+                <li>For <a href="http://www.wordwatch.com/">Wordwatch Inc.</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="Ruby on Rails">ROR</abbr>.</li>
+                <li><a href="http://www.wordwatch.com/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-04-13" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-niedoboryodpornosci.jpg" alt="">
+            <time class="released">Apr 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">O odpornosci</h5>
+            <h6 class="card-subtitle">Body immunity information</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://niedoboryodpornosci.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-03-27" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-kleszcze.jpg" alt="">
+            <time class="released">Mar 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Kleszcze</h5>
+            <h6 class="card-subtitle">Ticks prevention</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://kleszczeinfo.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-02-17" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-ospawietrzna.jpg" alt="">
+            <time class="released">Feb 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Ospa Wietrzna</h5>
+            <h6 class="card-subtitle">Smallpox informations</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://ospawietrzna.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-02-15" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-votrient.jpg" alt="">
+            <time class="released">Feb 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Votrient</h5>
+            <h6 class="card-subtitle">Pazopanib</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/votrient/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-01-15" data-client="starfactory" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-bigansoft.jpg" alt="">
+            <time class="released">Jan 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">BiGanSoft</h5>
+            <h6 class="card-subtitle">IT Agency</h6>
+            <ul class="details">
+                <li>For <a href="http://starfactory.pl/">StarFactory</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.bigandsoft.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-01-14" data-client="starfactory" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-xxlstock.jpg" alt="">
+            <time class="released">Jan 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">XXLStock</h5>
+            <h6 class="card-subtitle">Photo Stock</h6>
+            <ul class="details">
+                <li>For <a href="http://starfactory.pl/">StarFactory</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/xxlstock/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2011-01-13" data-client="active-pharma" data-year="2011" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-cukrzyca.jpg" alt="">
+            <time class="released">Jan 2011</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Cukrzyca</h5>
+            <h6 class="card-subtitle">Diabetics advices</h6>
+            <ul class="details">
+                <li>For <a href="http://www.activepharma.pl/">Active Pharma</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/cukrzyca/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item promoted" data-date="2010-10-04" data-client="enigmatis" data-year="2010" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/stalexport.jpg" alt="">
+            <time class="released">Oct 2010</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Stalexport</h5>
+            <h6 class="card-subtitle">Lesser Poland highway</h6>
+            <ul class="details">
+                <li>For <a href="http://enigmatis.pl/">Enigmatis</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.autostrada-a4.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2010-09-01" data-client="starfactory" data-year="2010" data-specs="xhtml,css,js,php5,wp">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-perfectdoor.jpg" alt="">
+            <time class="released">Sep 2010</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">PerfectDoor</h5>
+            <h6 class="card-subtitle">Doors and frames shop</h6>
+            <ul class="details">
+                <li>For <a href="http://starfactory.pl/">StarFactory</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="WordPress">WP</abbr>.</li>
+                <li><a href="http://perfectdoor.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2010-07-21" data-client="drp-solutions" data-year="2010" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-optiva.jpg" alt="">
+            <time class="released">Jul 2010</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Optiva</h5>
+            <h6 class="card-subtitle">Optic salon</h6>
+            <ul class="details">
+                <li>For <a href="https://prod.ceidg.gov.pl/CEIDG/ceidg.public.ui/SearchDetails.aspx?Id=3ea80cd8-968a-42aa-8524-59b280e52267">DRP Solutions</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.optiva.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2010-05-07" data-client="nodormz" data-year="2010" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-nodormz.jpg" alt="">
+            <time class="released">May 2010</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">NoDormz</h5>
+            <h6 class="card-subtitle">Student voices for places</h6>
+            <ul class="details">
+                <li>For <a href="http://nodormz.com/">NoDormz</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://nodormz.com/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2010-03-19" data-client="puffy" data-year="2010" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-plusmed.jpg" alt="">
+            <time class="released">Mar 2010</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Plus-Med</h5>
+            <h6 class="card-subtitle">Living orthopedic</h6>
+            <ul class="details">
+                <li>For <a href="http://puffy.pl/">PuFFy</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://www.plus-med.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2009-12-22" data-client="~" data-year="2009" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-maxbart.jpg" alt="">
+            <time class="released">Dec 2009</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">MaxBart</h5>
+            <h6 class="card-subtitle">Construction Company</h6>
+            <ul class="details">
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/maxbart/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2009-11-12" data-client="~" data-year="2009" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-instytutpiekna.jpg" alt="">
+            <time class="released">Nov 2009</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Instytut piekna</h5>
+            <h6 class="card-subtitle">Beauty studio</h6>
+            <ul class="details">
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/instytutpiekna/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item promoted" data-date="2009-11-15" data-client="iizt" data-year="2009" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/schiphol.jpg" alt="">
+            <time class="released">Nov 2009</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Schiphol</h5>
+            <h6 class="card-subtitle">International Airport</h6>
+            <ul class="details">
+                <li>For <a href="http://iizt.com/">IIZT</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://www.irgon.com/schiphol/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2009-04-21" data-client="puffy" data-year="2009" data-specs="xhtml,css,js,php5,wp">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-shiva.jpg" alt="">
+            <time class="released">Apr 2009</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Shiva</h5>
+            <h6 class="card-subtitle">Dance &amp; Fitness</h6>
+            <ul class="details">
+                <li>For <a href="http://puffy.pl/">PuFFy</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="WordPress">WP</abbr>.</li>
+                <li><a href="http://taniec.tarnow.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2009-01-09" data-client="iizt" data-year="2009" data-specs="xhtml,css,js">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-iizt.jpg" alt="">
+            <time class="released">Jan 2009</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">IIZT</h5>
+            <h6 class="card-subtitle">IT Agency</h6>
+            <ul class="details">
+                <li>For <a href="http://iizt.com/">IIZT</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>.</li>
+                <li><a href="http://www.irgon.com/iizt/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2008-12-12" data-client="apeiro" data-year="2008" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-apeiro.jpg" alt="">
+            <time class="released">Dec 2008</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Apeiro</h5>
+            <h6 class="card-subtitle">IT Agency</h6>
+            <ul class="details">
+                <li>For <a href="http://apeiro.pl/">Apeiro</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://www.irgon.com/apeiro/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2008-08-19" data-client="iizt" data-year="2008" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-kistenmakerterrein.jpg" alt="">
+            <time class="released">Aug 2008</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Kistenmaker</h5>
+            <h6 class="card-subtitle">Real Estate Agency</h6>
+            <ul class="details">
+                <li>For <a href="http://iizt.com/">IIZT</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://www.irgon.com/kistenmakerterrein/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2008-04-14" data-client="respectance" data-year="2008" data-specs="xhtml,css,js,php5,zf">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-respectance.jpg" alt="">
+            <time class="released">Apr 2008</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Respectance</h5>
+            <h6 class="card-subtitle">Online Tributes</h6>
+            <ul class="details">
+                <li>For <a href="http://respectance.com/">Respectance</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="Zend Framework">ZF</abbr>.</li>
+                <li><a href="http://respectance.com/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2008-04-14" data-client="respectance" data-year="2008" data-specs="xhtml,css,js,php5,zf">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-brabbelboek.jpg" alt="">
+            <time class="released">Apr 2008</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Brabbelboek</h5>
+            <h6 class="card-subtitle">Online baby books</h6>
+            <ul class="details">
+                <li>For <a href="http://respectance.com/">Respectance</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="Zend Framework">ZF</abbr>.</li>
+                <li><a href="http://brabbelboek.nl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2008-04-14" data-client="respectance" data-year="2008" data-specs="xhtml,css,js,php5,zf">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-bruidsbubbels.jpg" alt="">
+            <time class="released">Apr 2008</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">BruidsBubbels</h5>
+            <h6 class="card-subtitle">Online wedding books</h6>
+            <ul class="details">
+                <li>For <a href="http://respectance.com/">Respectance</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="JavaScript">JS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>, <abbr title="Zend Framework">ZF</abbr>.</li>
+                <li><a href="http://bruidsbubbels.nl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2007-10-20" data-client="jkm" data-year="2007" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-jkm.jpg" alt="">
+            <time class="released">Oct 2007</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Korwin-Mikke</h5>
+            <h6 class="card-subtitle">Polish publicist</h6>
+            <ul class="details">
+                <li>For <a href="http://korwin-mikke.pl/">JKM</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://www.irgon.com/jkm/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2007-03-15" data-client="devonstudio" data-year="2007" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-fotekapl.jpg" alt="">
+            <time class="released">Mar 2007</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Foteka.pl</h5>
+            <h6 class="card-subtitle">Image sharing</h6>
+            <ul class="details">
+                <li>For <a href="http://devonstudio.com/">DevonStudio</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://www.irgon.com/fotekapl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2006-07-04" data-client="powiat-konecki" data-year="2006" data-specs="xhtml,css,php5">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-powiatkonecki.jpg" alt="">
+            <time class="released">Jul 2006</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Powiat Konecki</h5>
+            <h6 class="card-subtitle">European Union programme</h6>
+            <ul class="details">
+                <li>For <a href="http://powiat.konskie.pl/">Powiat Konecki</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title="PHP Hypertext Preprocessor 5">PHP5</abbr>.</li>
+                <li><a href="http://innowacyjnosc.powiat.konskie.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<li class="item " data-date="2006-04-11" data-client="kraina-pomyslow" data-year="2006" data-specs="xhtml,css">
+    <div class="card">
+        <div class="front">
+            <img src="images/portfolio/s-krainapomyslow.jpg" alt="">
+            <time class="released">Apr 2006</time>
+        </div>
+        <div class="back">
+            <h5 class="card-title">Kraina Pomyslow</h5>
+            <h6 class="card-subtitle">Hand-made soaps</h6>
+            <ul class="details">
+                <li>For <a href="http://krainapomyslow.pl/">Kraina Pomyslow</a></li>
+                <li class="specs"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>.</li>
+                <li><a href="http://krainapomyslow.pl/" target="_blank">See online &raquo;</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
+
+    </ul>
+
+<script type="text/javascript" src="/javascripts/libs/isotope.min.js"></script></section>
+<script type="text/javascript" src="/javascripts/portfolio.js"></script>
+
+</article>
+
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2013 - Igor Rzegocki -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>. Old version of the site, available <a href="/v1">here</a>.
+</p>
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

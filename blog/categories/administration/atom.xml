@@ -1,0 +1,1151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Administration | Igor Rzegocki Personal Homepage]]></title>
+  <link href="http://www.rzegocki.pl/blog/categories/administration/atom.xml" rel="self"/>
+  <link href="http://www.rzegocki.pl/"/>
+  <updated>2013-09-11T19:38:35+02:00</updated>
+  <id>http://www.rzegocki.pl/</id>
+  <author>
+    <name><![CDATA[Igor Rzegocki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Setting encrypted backup Email server]]></title>
+    <link href="http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server/"/>
+    <updated>2013-04-14T13:34:00+02:00</updated>
+    <id>http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server</id>
+    <content type="html"><![CDATA[<p>There is a popular Internet saying that people are divided into two groups &ndash;
+those who make backups, and those who will. I strongly believe into that,
+that&rsquo;s why despite that I trust my mailserver setup completely, I still want to
+keep them in some other safe place. Probably somewhere, where somebody else
+takes care of everything :) That&rsquo;s why I chose
+<a href="http://mail.zoho.com/">ZOHO MAIL</a> as my backup server.</p>
+
+<!--more-->
+
+
+<p>Mostly for three reasons:</p>
+
+<ul>
+<li>They have IMAP</li>
+<li>They have enough space for free</li>
+<li>They also provide a nice webmail</li>
+</ul>
+
+
+<p>So my next task was to configure postfix in a way, that it will deliver all the
+messages as it does currently, but also forward them to zoho.com. Of course I
+wasn&rsquo;t THAT crazy, to send my private emails over the Internet as they are, so
+I also needed some kind of encryption before that. It appeared that somebody
+had the same problem, and there is a tool for that called
+<a href="http://code.google.com/p/gpg-mailgate/">gpg-mailgate</a>. Unfortunately it&rsquo;s a
+very unfinished application, and lots of things doesn&rsquo;t work (multipart
+messages support, attachmenets encryption, extra email encryption and so on),
+so I needed to do
+<a href="https://github.com/ajgon/gpg-mailgate">a little bit of extra hacking</a>. And I
+strongly recommend you, to use my version if you thinking about encrypting your
+email out of the box. Ok, that&rsquo;s for the beginning &ndash; let&rsquo;s do some
+configuration!</p>
+
+<h2>Setting gpg</h2>
+
+<p>First thing is to install and configure a gpg account. I strongly recommend to
+not to use your gpg keys (if you already have some), but create new, clean key.
+Also, we need a new user in the file system for postfix to handle key support.
+Lastly, gpg-mailgate comes with a Python library, which also needs to be
+installed.</p>
+
+<p>Install GPG:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install gpg
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Create a gpg user and give him the key (don&rsquo;t forget to disable the password,
+and set trust to ultimate &ndash; otherwise tour scripts will stop to ask about
+confirmation &ndash; and eventually fail):</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>useradd -s /bin/false -d /var/gpg -M gpgmap
+</span><span class='line'>mkdir -p /var/gpg/.gnupg
+</span><span class='line'>chown -R gpgmap /var/gpg
+</span><span class='line'>chmod 700 /var/gpg/.gnupg
+</span><span class='line'>sudo -u gpgmap /usr/bin/gpg &amp;mdash;gen-key &amp;mdash;homedir<span class="o">=</span>/var/gpg/.gnupg
+</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#121;&amp;#111;&amp;#x75;&amp;#114;&amp;#64;&amp;#x6b;&amp;#101;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&quot;</span>&gt;&amp;#121;&amp;#111;&amp;#x75;&amp;#x72;&amp;#x40;&amp;#107;&amp;#x65;&amp;#x79;&amp;#x2e;&amp;#101;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt; trust quit
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Setting gpg-mailgate</h2>
+
+<p>Install GnuPG Python library, and gpg-mailgate itself:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /root
+</span><span class='line'>git clone &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/ajgon/gpg-mailgate.git&quot;</span>&gt;https://github.com/ajgon/gpg-mailgate.git&lt;/a&gt;
+</span><span class='line'><span class="nb">cd </span>gpg-mailgate
+</span><span class='line'>cp -R GnuPG /usr/lib/python2.6
+</span><span class='line'>cp gpg-mailgate.py /usr/local/bin/gpg-mailgate.py
+</span><span class='line'>cp gpg-mailgate.conf.sample /etc/gpg-mailgate.conf
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Config file is pretty explanatory &ndash; what you have to change is &ldquo;domains&rdquo;
+parameter (put only domains, which you want to receive encrypted messages),
+keyhome (set to <code>/var/gpg/.gnupg</code>) and keymap (map all the emails which should
+receive encrypted content there &ndash; follow the hint in file). So all in all your
+config file should look similar to this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/gpg-mailgate.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="k">[default]</span>
+</span><span class='line'><span class="na">add_header</span> <span class="o">=</span> <span class="s">yes</span>
+</span><span class='line'><span class="na">domains</span> <span class="o">=</span> <span class="s">zoho.com&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[gpg]</span>
+</span><span class='line'><span class="na">keyhome</span> <span class="o">=</span> <span class="s">/var/gpg/.gnupg&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[logging]</span>
+</span><span class='line'><span class="na">file</span> <span class="o">=</span> <span class="s">/tmp/gpg-mailgate.log&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[relay]</span>
+</span><span class='line'><span class="na">host</span> <span class="o">=</span> <span class="s">127.0.0.1</span>
+</span><span class='line'><span class="na">port</span> <span class="o">=</span> <span class="s">10028&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[keymap]</span>
+</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#58;&amp;#101;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#x77;&amp;#x68;&amp;#x69;&amp;#x63;&amp;#x68;&amp;#x2e;&amp;#119;&amp;#105;&amp;#108;&amp;#108;&amp;#46;&amp;#x72;&amp;#101;&amp;#99;&amp;#x65;&amp;#x69;&amp;#x76;&amp;#x65;&amp;#x2e;&amp;#101;&amp;#x6e;&amp;#99;&amp;#114;&amp;#121;&amp;#112;&amp;#x74;&amp;#x65;&amp;#100;&amp;#46;&amp;#99;&amp;#111;&amp;#110;&amp;#116;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#x7a;&amp;#x6f;&amp;#x68;&amp;#x6f;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;&quot;&gt;&amp;#101;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x2e;&amp;#119;&amp;#x68;&amp;#105;&amp;#99;&amp;#x68;&amp;#x2e;&amp;#x77;&amp;#105;&amp;#x6c;&amp;#108;&amp;#46;&amp;#x72;&amp;#101;&amp;#99;&amp;#101;&amp;#x69;&amp;#x76;&amp;#x65;&amp;#46;&amp;#101;&amp;#x6e;&amp;#99;&amp;#x72;&amp;#121;&amp;#x70;&amp;#x74;&amp;#x65;&amp;#100;&amp;#46;&amp;#99;&amp;#111;&amp;#110;&amp;#116;&amp;#101;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#122;&amp;#x6f;&amp;#104;&amp;#111;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&lt;/a&gt; = 123456789ABCDEF</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Setting postfix</h2>
+
+<p>The last thing is postfix configuration which is (surprisingly) really easy,
+just activate content filter in <code>main.cf</code> and add relay to <code>master.cf</code>. One
+last thing is to add X-GPG-* headers to tell the script, which extra email
+addresses we want to deliver messages encrypted. Normally gpg-mailgate encrypts
+only messages to addresses that are configured in gpg-mailgate.conf file and
+available in To/Cc/Bcc headers of original message. Unfortunatelly, we are
+using a totally different zoho.com email intended only for backups &ndash; it will
+never appear in original message headers, because it&rsquo;s not the recipient. To
+make it appear &ndash; simply add <code>X-GPG-Encrypt-Cc</code> header to your message. So, the
+configuration will present as follows:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;gpg&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;header_checks <span class="o">=</span> regexp:/etc/postfix/header_checks
+</span><span class='line'><span class="nv">content_filter</span> <span class="o">=</span> gpg-mailgate
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/header_checks </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#101;&#x6d;&#x61;&#x69;&#108;&#46;&#119;&#x68;&#x69;&#99;&#x68;&#x2e;&#119;&#105;&#108;&#x6c;&#x2e;&#114;&#x65;&#x63;&#101;&#x69;&#118;&#101;&#46;&#x65;&#x6e;&#99;&#x72;&#121;&#x70;&#116;&#x65;&#100;&#x2e;&#99;&#x6f;&#x6e;&#x74;&#101;&#x6e;&#116;&#x40;&#x7a;&#x6f;&#x68;&#111;&#46;&#x63;&#111;&#x6d;">&#x65;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#119;&#x68;&#105;&#x63;&#104;&#46;&#119;&#x69;&#108;&#108;&#46;&#x72;&#x65;&#99;&#x65;&#105;&#x76;&#101;&#x2e;&#101;&#x6e;&#x63;&#114;&#x79;&#112;&#x74;&#101;&#100;&#x2e;&#99;&#x6f;&#x6e;&#x74;&#x65;&#110;&#116;&#64;&#x7a;&#x6f;&#104;&#x6f;&#x2e;&#x63;&#x6f;&#x6d;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;gpg-mailgate&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;gpg-mailgate    unix    &amp;ndash;       n       n       &amp;ndash;       &amp;ndash;       pipe
+</span><span class='line'>  <span class="nv">flags</span><span class="o">=</span> <span class="nv">user</span><span class="o">=</span>gpgmap <span class="nv">argv</span><span class="o">=</span>/usr/local/bin/gpg-mailgate.py&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;127.0.0.1:10028 inet    n       &amp;ndash;       n       &amp;ndash;       10      smtpd&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    -o <span class="nv">content_filter</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">receive_override_options</span><span class="o">=</span>no_unknown_recipient_checks,no_header_body_checks
+</span><span class='line'>    -o <span class="nv">smtpd_helo_restrictions</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">smtpd_client_restrictions</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">smtpd_sender_restrictions</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">smtpd_recipient_restrictions</span><span class="o">=</span>permit_mynetworks,reject
+</span><span class='line'>    -o <span class="nv">mynetworks</span><span class="o">=</span>127.0.0.0/8
+</span><span class='line'>    -o <span class="nv">smtpd_authorized_xforward_hosts</span><span class="o">=</span>127.0.0.0/8
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Don&rsquo;t forget to create <code>header_checks.db</code> and restart postfix.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>postmap header_checks
+</span><span class='line'>/etc/init.d/postfix restart
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And that&rsquo;s pretty much everything. Send yourself an email, and enjoy your new,
+shiny and secure backup :)</p>
+
+<h3>Sources</h3>
+
+<ul>
+<li><a href="http://ultramegaman.wordpress.com/tag/gpg-mailgate/">http://ultramegaman.wordpress.com/tag/gpg-mailgate/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Add more complexity to your Emails - use DKIM and SPF]]></title>
+    <link href="http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/"/>
+    <updated>2012-10-27T13:15:00+02:00</updated>
+    <id>http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf</id>
+    <content type="html"><![CDATA[<p>The next thing my paranoid me couldn&rsquo;t stand of is that my emails can be easily
+spoofed. Yeah, I know I&rsquo;m not a very famous person, so probability of such
+thing happening is similar to zero, but hey &ndash; tell this to my Paranoid me. :)
+I also sign every mail I could (they can be easily verified using
+<a href="/public-key.txt">my public key</a>), but still &ndash; DKIM seems to be a fine
+solution. And besides, I love to play with new things. So after many
+experiments with <a href="http://sourceforge.net/projects/dkim-milter/">dkim-milter</a>,
+<a href="http://sourceforge.net/projects/dkimproxy/">DKIMProxy</a> and
+<a href="http://www.opendkim.org/">opendkim</a> I finally decided to use the last one.
+Mostly because it&rsquo;s easiest to configure and is still maintained.</p>
+
+<!--more-->
+
+
+<h2>Installing and configuring opendkim</h2>
+
+<p>You will be suprised how simple it is. :) Firstly you need to install a proper
+debian packages:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install opendkim libmail-dkim-perl
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The second one is a dkim support for spamassassin. I&rsquo;ll cover that later. Next,
+you need to edit your <code>/etc/opendkim.conf</code> file:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/opendkim.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>SysLog             yes
+</span><span class='line'>Umask              002&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;KeyTable           /etc/mail/dkim/KeyTable
+</span><span class='line'>SigningTable       /etc/mail/dkim/SigningTable
+</span><span class='line'>ExternalIgnoreList /etc/mail/dkim/TrustedHosts
+</span><span class='line'>InternalHosts      /etc/mail/dkim/TrustedHosts&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Canonicalization   relaxed/simple
+</span><span class='line'>Mode               sv
+</span><span class='line'>X-Header           yes
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><code>Mode sv</code> directive tells opendkim to sign but also verify messages, while
+<code>X-Header</code> adds <code>X-Dkim</code> header (which contains information about the DKIM
+daemon you are using). Next we need to tell opendkim which port it will be
+using, so in <code>/etc/default/opendkim</code> uncomment:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/default/opendkim </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">SOCKET</span><span class="o">=</span>&amp;ldquo;inet:12345@localhost&amp;rdquo; <span class="c"># listen on loopback on port 12345</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now we have to populate those extra files we defined. <code>TrustedHosts</code> is the
+easiest one, it&rsquo;s just the list of hosts and domains which are allowed to use
+DKIM. So in most cases:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/dkim/TrustedHosts </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>localhost
+</span><span class='line'>127.0.0.1
+</span><span class='line'>192.168.1.1
+</span><span class='line'>1.2.3.4 <span class="c"># external IP</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Next, we need to create a key and DNS TXT record pair for each domain we want
+to be signed. I suggest to use strong key (<code>-b</code> parameter), to avoid
+<a href="http://www.wired.com/threatlevel/2012/10/dkim-vulnerability-widespread">some company&rsquo;s failure</a>.
+To do this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p /etc/mail/dkim/keys/mydomain.com
+</span><span class='line'><span class="nb">cd</span> /etc/mail/dkim/keys/mydomain.com
+</span><span class='line'>opendkim-genkey -r -b 2048 -d mydomain.com -s mail
+</span><span class='line'>chown opendkim:opendkim mail.private
+</span><span class='line'>chmod 600 mail.private
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This will create two files: <code>mail.private</code> &ndash; which contains a private RSA key,
+and <code>mail.txt</code> which contains a contents for DNS TXT record. So let&rsquo;s make use
+of them! First keys &ndash; they need to be fined in <code>KeyTable</code> and <code>SingingTable</code>
+files.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/dkim/KeyTable </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mail._domainkey.mydomain.com mydomain.com:mail:/etc/mail/dkim/keys/mydomain.com/mail.private
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/dkim/SigningTable </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mydomain.com mail._domainkey.mydomain.com
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The last thing we need to do is to add a DNS TXT record for
+<code>mail._domainkey.mydomain.com</code> domain containing contents provided by
+<code>opendkim-genkey</code>. For example for irgon.com it looks like this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>DNS TXT record </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mail._domainkey.irgon.com descriptive text &amp;ldquo;v<span class="o">=</span>DKIM1<span class="se">\;</span> <span class="nv">g</span><span class="o">=</span>*<span class="se">\;</span> <span class="nv">k</span><span class="o">=</span>rsa<span class="se">\;</span> <span class="nv">p</span><span class="o">=</span>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsfIThdXoizR6sop0gifPwPkT45I/KnTTNKDS4BHWtoU6as62c/3BRQuKqDAIacheZzWbfEPq/M2YvoNrVhx1laltg7aeUhZlcVOtz415lIy8M8oUVTCDxewBKsTEQD5M4Roaadoj7vzpA1JMcOEv36TizFq/KB5GL46pVNyOMJ+Mg&amp;rdquo; &amp;ldquo;97F+EQQeiOFsn/T+tNuxWky3l4Qky3S8U34wYmRSr+sVLu4U31QtocwL4uJ7ofVNdVk0baYo7s1HYnM3CGEKK+zdHTR/AoNiquvVX1lLX9s85bade4cNuRaINjzDyM4fAglLgSHZEtRcRlYqdMEpQcplI1OaSxIFS4DpFL3RwIDAQAB&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And that settles DKIM. All we have left is starting it:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/etc/init.d/opendkim start
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Connecting opendkim to postfix</h2>
+
+<p>This is really simple part.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;DKIM&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;milter_default_action <span class="o">=</span> accept
+</span><span class='line'><span class="nv">milter_protocol</span> <span class="o">=</span> 6
+</span><span class='line'><span class="nv">smtpd_milters</span> <span class="o">=</span> inet:localhost:12345
+</span><span class='line'><span class="nv">non_smtpd_milters</span> <span class="o">=</span> inet:localhost:12345
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>then. reload it and you are set.</p>
+
+<h2>Installing SPF</h2>
+
+<p>Ok, now THAT is simple. Just install package:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install postfix-policyd-spf-python
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>and add service:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>policy-spf  unix  &amp;ndash;  n  n  &amp;ndash;  &amp;ndash;  spawn <span class="nv">user</span><span class="o">=</span>nobody <span class="nv">argv</span><span class="o">=</span>/usr/bin/policyd-spf
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Add spf timeout to <code>/etc/postfix/main.cf</code> and adjust
+<code>smtpd_recipient_restrictions</code> to include
+<code>check_policy_service unix:private/policy-spf</code>, so in my file it looks like
+this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="o">[</span>&amp;hellip;<span class="o">]</span>
+</span><span class='line'><span class="nv">smtpd_recipient_restrictions</span> <span class="o">=</span> reject_unauth_pipelining,&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;                           permit_sasl_authenticated,
+</span><span class='line'>                           permit_mynetworks,
+</span><span class='line'>                           reject_non_fqdn_recipient,
+</span><span class='line'>                           reject_unknown_recipient_domain,
+</span><span class='line'>                           reject_unauth_destination,
+</span><span class='line'>                           reject_unknown_sender_domain,
+</span><span class='line'>                           check_policy_service unix:private/policy-spf
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">[</span>&amp;hellip;<span class="o">]</span>
+</span><span class='line'>spf-policyd_time_limit <span class="o">=</span> 3600s
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Last but not least is updating a DNS record. This is simple and similar to DKIM &ndash;
+just ad TXT record to your TLD containing <code>v=spf1 a mx ip4:&lt;your ip&gt;</code>, for
+example my looks like this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>DNS TXT record </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>irgon.com descriptive text &amp;ldquo;v<span class="o">=</span>spf1 a mx ip4:213.134.188.213&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Don&rsquo;t forget to restart your Postfix when you&rsquo;re done!</p>
+
+<h2>Testing</h2>
+
+<p>To test if everything works fine, just send yourself an email and check it
+headers. You should see something like:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Mail header </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>X-Dkim: OpenDKIM Filter v2.0.1 myexample.com 0224020B8
+</span><span class='line'>Dkim-Signature: <span class="nv">v</span><span class="o">=</span>1; <span class="nv">a</span><span class="o">=</span>rsa-sha256; <span class="nv">c</span><span class="o">=</span>relaxed/simple; <span class="nv">d</span><span class="o">=</span>myexample.com; <span class="nv">s</span><span class="o">=</span>mail; <span class="nv">t</span><span class="o">=</span>1351357546; <span class="nv">bh</span><span class="o">=</span>Rskt6Q/nZKmxgXkWUYP6cCBSDJhtkVT0PSrUEVGVgp4<span class="o">=</span>; <span class="nv">h</span><span class="o">=</span>From:Content-Type:Content-Transfer-Encoding:Subject:Message-Id: Date:To:Mime-Version; <span class="nv">b</span><span class="o">=</span>phPQdG6HYaders4Xv0TsK2mT+PFYVk/brOFpnmCjCZtvbeGJ+XwrNk4Tnc9xGELtAglLOVplSvMV9nTK6xonta1qLTtnLYPsY4o/WPfyZYDgHmp6X9ZYP4otAHYK3jC00PbKGNqhXeD3bCc7CBV/aVGMQX4Bt0TjAAgndeYCI9VnvR2zH0iTEjlAT2OXrh2JV+wrK5UOXae8gRPT28F2Mg325YOiDwD1T5bgFtfc9mh2s/NRcy7lyDiPcb3CNV+nMXKyq/47o22LlALv5g5+OBBZACQYpYtgalM54InQDPoL/udvKtI/YYaiByFLwqeYFh2LXX6et 9dAiNCRLL+EoA<span class="o">==</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Which means that singing is alive and kicking. To test verification, just send
+yourself an email from DKIM-using provider (like Yahoo or Gmail) and check for
+following header:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Mail header </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>Authentication-Results: myexample.com; <span class="nv">dkim</span><span class="o">=</span>pass <span class="o">(</span>2048-bit key; insecure key<span class="o">)</span> header.i<span class="o">=</span>@gmail.com; dkim-adsp<span class="o">=</span>pass
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Which means, that verfication is working. As the last final test, send email to
+`<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x61;&#117;&#x74;&#x6f;&#114;&#x65;&#x73;&#x70;&#x6f;&#110;&#100;&#x2b;&#100;&#x6b;&#x69;&#109;&#64;&#100;&#107;&#x2e;&#x65;&#x6c;&#97;&#110;&#100;&#x73;&#121;&#x73;&#x2e;&#99;&#x6f;&#109;&#x7a;&#46;">&#97;&#x75;&#x74;&#x6f;&#114;&#x65;&#115;&#112;&#111;&#110;&#x64;&#x2b;&#100;&#x6b;&#x69;&#109;&#x40;&#100;&#x6b;&#x2e;&#101;&#x6c;&#x61;&#110;&#100;&#115;&#121;&#x73;&#x2e;&#x63;&#x6f;&#x6d;&#122;&#x2e;</a> This is automated service, which checks
+your DKIM headers for you and sends back the results. If you get DKIM Signature
+validation: passz in the body, then it means, that everything is working
+properly.</p>
+
+<h2>Final polishing</h2>
+
+<p>By default spamassassin has DKIM filters enabled. To ensure, look for
+<code>loadplugin Mail::SpamAssassin::Plugin::DKIM</code> in your
+<code>/etc/spamassassin/v312.pre</code> file. When it&rsquo;s enabled you should see values like
+<code>DKIM_VALID</code> or <code>T_DKIM_INVALID</code> in <code>X-Spam-Status</code> header. Normally,
+spamassassin puts a very little weight to that rules, but you can easily
+increase it by adding:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/spamassassin/local.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>score T_DKIM_INVALID 10
+</span><span class='line'>score DKIM_ADSP_CUSTOM_MED 10
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You can also add sieve filter based on <code>Authentication-Results</code> if you want to
+treat those suspicious messages differently than normal spam:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>.dovecot.sieve </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">if </span>header :contains &amp;ldquo;Authentication-Results&amp;rdquo; &amp;ldquo;dkim<span class="o">=</span>fail&amp;rdquo; <span class="o">{</span> fileinto &amp;ldquo;DANGER&amp;rdquo;; stop; <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The possibilities are endless :)</p>
+
+<h3>Sources</h3>
+
+<ul>
+<li><a href="http://blog.tjitjing.com/index.php/2012/03/guide-to-install-opendkim-for-multiple-domains-with-postfix-and-debian.html">http://blog.tjitjing.com/index.php/2012/03/guide-to-install-opendkim-for-multiple-domains-with-postfix-and-debian.html</a></li>
+<li><a href="http://syslog.tv/2011/09/17/postfix-dk-dkim-spf/">http://syslog.tv/2011/09/17/postfix-dk-dkim-spf/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Setting secure, cloud-based backup system using git and box.com]]></title>
+    <link href="http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/"/>
+    <updated>2012-10-14T12:57:00+02:00</updated>
+    <id>http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com</id>
+    <content type="html"><![CDATA[<p>After giving up my <a href="http://gmail.com/">spying e-mail provider</a>, and moving
+everything to my own <a href="https://github.com/ajgon/DeeDee">DeeDee server</a>, I moved
+smoothly from one paranoia to another. Ok, my e-mail is not read anymore by
+anyone except me, but on the other hand it&rsquo;s on an ATOM machine staying in my
+room. Which unfortunatelly, is not fire, burglar, lightning and UFO protected.
+So idea of backups was born. Firstly, I was using an external drive, which I
+was keeping in the same room, most of the time even attached to the machine.
+But I thought, that it is still
+<a href="http://www.youtube.com/watch?v=U4oB28ksiIo#t=286s">not a best solution</a>. So I
+started swinging in the clouds.</p>
+
+<!--more-->
+
+
+<p>And immediately faced some problems:</p>
+
+<ul>
+<li>They are expensive, and free solutions have very limited capacity,</li>
+<li>They are external service, so distrust paranoia is getting back (in my case
+at least :))</li>
+<li>Most of them doesn&rsquo;t have any &ldquo;normal&rdquo; protocol to handle files, and they are
+basing on a web interface and they &ldquo;one and only true&rdquo; client</li>
+</ul>
+
+
+<p>All of those three problems are unacceptable and needed to be solved if I
+wanted to even think about clouds.</p>
+
+<p>So I did some research, and found <a href="https://www.box.com/">box.com</a> &ndash; in my
+opinion, the best solution out there. Why? Because it solves cases one and
+three for me. It offers 50GB of storage (ALOT more than I need, all my emails
+and server-related files are approx. 8GB summarized), and they are supporting
+WebDAV protocol. Which means that fuse and davfs comes to play. The second
+problem is actually pretty easy to solve as well &ndash; just use encryption
+(I use GPG).</p>
+
+<p>The next thing was snapshots. They had to be diff-based &ndash; that for sure. At the
+beginning I tried to use rsync. It was nightmare. Sure, it had this
+<code>compare-dest</code> option, and after many hours of VooDoo magic I was able to set
+it properly, but still I was unhappy with it. Mostly, because it didn&rsquo;t handle
+file removal very well (if some files were removed in a new snapshot, they
+simply weren&rsquo;t included, so I didn&rsquo;t have any information about that, so when I
+restore the backup, I will have all the files in a newest versions &ndash; removed as
+well). And then it hit me &ndash; why not use some VCS? After 0.2 seconds of
+wondering, I chose git, because I love it. The next question is &ndash;  how to put
+all of this together?</p>
+
+<h2>Setting davfs for box.com</h2>
+
+<p>This step is pretty simple, just install it, add your box.com credentials to
+<code>/etc/davfs2/secrets</code>, set <code>use_locks</code> to <code>0</code> and add proper line to
+<code>/etc/fstab</code>. Then just mount it. So:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#108;&amp;#x6f;&amp;#103;&amp;#105;&amp;#110;&amp;#64;&amp;#x65;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#109;&quot;</span>&gt;&amp;#108;&amp;#111;&amp;#x67;&amp;#x69;&amp;#110;&amp;#x40;&amp;#101;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
+</span><span class='line'>sed -i<span class="err">&#39;</span>&amp;lsquo; -r &amp;rsquo;s/#?<span class="se">\s</span>*use_locks<span class="se">\s</span>+0/use_locks 1/g&amp;rsquo; /etc/davfs2/davfs2.conf
+</span><span class='line'>mkdir /mnt/Box
+</span><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt; /mnt/Box davfs rw,noauto 0 0&amp;rdquo; &gt;&gt; /etc/fstab
+</span><span class='line'>mount /mnt/Box
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>If everything went smooth, you will have access to your box.com account via
+filesystem. Pretty neat.</p>
+
+<h2>Setting git-based backup</h2>
+
+<p>Firstly you need to set initial repository and backup files. Then encrypt them
+and copy to box.com. Here is how I do it:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /
+</span><span class='line'><span class="nb">export </span><span class="nv">MACHINE</span><span class="o">=</span>DeeDee
+</span><span class='line'>mkdir -p /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>
+</span><span class='line'>mkdir -p /mnt/Box/Backups/patches
+</span><span class='line'>ln -s /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span> /.git
+</span><span class='line'>git init
+</span><span class='line'>git add -A etc root home some/other/important/dirs
+</span><span class='line'>git commit -m &amp;ldquo;Initial&amp;rdquo;
+</span><span class='line'>git gc <span class="c"># compress repository</span>
+</span><span class='line'>tar -cf /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>/*
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#108;&amp;#116;&amp;#x6f;&amp;#58;&amp;#x6d;&amp;#x79;&amp;#46;&amp;#107;&amp;#x65;&amp;#121;&amp;#x40;&amp;#x65;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&quot;</span>&gt;&amp;#109;&amp;#121;&amp;#x2e;&amp;#x6b;&amp;#101;&amp;#121;&amp;#x40;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;box.com has maximum file limit so split files to lesser chunks&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;split &amp;mdash;bytes<span class="o">=</span>99m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar.
+</span><span class='line'>mv /home/Backup/DeeDee.<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.tar.?? /mnt/Box/Backups
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>If you have alot of files, some of them may not be copied in a first time &ndash; in
+this initial deploy, make sure that all the files are moved to box.com!</p>
+
+<p>After that all we need is a daily-snapshot deploy script</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">NOW</span><span class="o">=</span>&lt;code&gt;date -I&lt;/code&gt;
+</span><span class='line'><span class="nb">export </span><span class="nv">MACHINE</span><span class="o">=</span>DeeDee
+</span><span class='line'><span class="nb">cd</span> /
+</span><span class='line'>git add -A
+</span><span class='line'>git commit -m &amp;ldquo;<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>&amp;rdquo; -a
+</span><span class='line'>git format-patch -1 &amp;mdash;stdout &gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#108;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#105;&amp;#103;&amp;#x6f;&amp;#114;&amp;#x40;&amp;#114;&amp;#122;&amp;#x65;&amp;#103;&amp;#x6f;&amp;#99;&amp;#x6b;&amp;#x69;&amp;#46;&amp;#112;&amp;#108;&quot;</span>&gt;&amp;#105;&amp;#103;&amp;#x6f;&amp;#x72;&amp;#64;&amp;#114;&amp;#x7a;&amp;#x65;&amp;#x67;&amp;#111;&amp;#x63;&amp;#107;&amp;#105;&amp;#46;&amp;#x70;&amp;#x6c;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>split &amp;mdash;bytes<span class="o">=</span>50m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.
+</span><span class='line'>mv /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.?? /mnt/Box/Backups/patches
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now all you need to do is put this script to some file, and add it to cron:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>crontab -e </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>0 3 * * * /backup
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Restoring backup</h2>
+
+<p>This is pretty simple. First, fetch all the <code>*.initial.*</code> files to some
+directory, then merge them, decrypt and unpack.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p /home/Restore/.git
+</span><span class='line'><span class="nb">cd</span> /home/Restore/.git
+</span><span class='line'>cp /mnt/Box/Backups/&lt;em&gt;.initial.&lt;/em&gt; .
+</span><span class='line'>cat &lt;em&gt;.initial.&lt;/em&gt; &gt; Backup.initial.tar
+</span><span class='line'>tar -xf Backup.initial.tar
+</span><span class='line'>rm -rf Backup.initial.tar
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now you need to apply the patches:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /home/Restore
+</span><span class='line'>cp /mnt/Box/Backups/patches/&lt;em&gt; .
+</span><span class='line'><span class="k">for </span>i in &lt;/em&gt;.patch.aa; <span class="k">do </span>mv <span class="k">${</span><span class="nv">i</span><span class="k">}</span> &lt;code&gt;echo <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | sed -r <span class="s1">&#39;s/.aa$//&#39;</span>&lt;/code&gt;; <span class="k">done</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Don&amp;rsquo;t forget to concatenate splitted patches, so <span class="k">for </span>example:&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cat Backup.2012-10-14.patch.&lt;em&gt; &gt; Backup.2012-10.14.patch
+</span><span class='line'>git apply &lt;/em&gt;.patch
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And the last thing is simply to restore repo to it&rsquo;s current state:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git reset &amp;mdash;hard master
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And voilla, everything is back!</p>
+
+<h2>Conclusion</h2>
+
+<p>Is simple&hellip; I sincerely hope, that you will have better sleep with this
+solution applied. I have :). And if not, you can always extend it to another
+good-space, webdav supporting clouds. I didn&rsquo;t find anything as good as
+box.com, but if you do &ndash; please, let me know!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Adding a little bit of SpamAssassin into Postfix/Dovecot/Sieve soup]]></title>
+    <link href="http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/"/>
+    <updated>2012-07-21T12:16:00+02:00</updated>
+    <id>http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup</id>
+    <content type="html"><![CDATA[<p>I was always prefering &ldquo;stay in the shadows&rdquo; policy in terms of email address.
+I have two secondary emails (for spam I want to read, and for spam I want to be
+sent into oblivion i.e. for &ldquo;Register NOW to download this 2KB file&rdquo; sites). My
+primary e-mail was well guarded and given only to living people. Until one
+company decided to show it to the whole world by putting it into WHOIS database
+for my domain. Before I reacted, it was too late. And my little mail server
+needed one more extension.</p>
+
+<!--more-->
+
+
+<p>I wanted to integrate it somehow with my existing configuration &ndash; so, when
+message is parsed by spam filter, it needs to be filtered further by sieve.
+Thanks to that, I can have full control over spam and even categorize it (yeah,
+I&rsquo;m a picky bastard ;)). Thankfully
+<a href="http://spamassassin.apache.org/">SpamAssassin</a> can do this, so I didn&rsquo;t have
+to look further. I also decided to inlcude
+<a href="http://sourceforge.net/apps/trac/pyzor/">Pyzor</a>,
+<a href="http://razor.sourceforge.net/">Razor</a> and
+<a href="http://www.dcc-servers.net/dcc/">DCC</a>. No mercy!</p>
+
+<h2>Installing packets</h2>
+
+<p>But first &ndash; necessary packets. Thankfully, debian has everything out of box,
+except DCC.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install spamc spamassassin pyzor razor
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Next is DCC, which has to be build manually:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>groupadd dcc
+</span><span class='line'>useradd -g dcc -s /bin/false -d /var/dcc dcc
+</span><span class='line'>wget &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://www.dcc-servers.net/dcc/source/dcc-dccproc.tar.Z&quot;</span>&gt;http://www.dcc-servers.net/dcc/source/dcc-dccproc.tar.Z&lt;/a&gt;
+</span><span class='line'>tar xzvf dcc-dccproc.tar.Z
+</span><span class='line'><span class="nb">cd </span>dcc-dccproc-1.3.142
+</span><span class='line'>./configure &amp;mdash;with-uid<span class="o">=</span>dcc
+</span><span class='line'>make
+</span><span class='line'>make install
+</span><span class='line'>chown -R dcc:dcc /var/dcc
+</span><span class='line'>ln -s /var/dcc/libexec/dccifd /usr/local/bin/dccif
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Setting up SpamAssassin</h2>
+
+<p>The next step is to configure <code>spamd</code> to run as a daemon:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>groupdd spamd
+</span><span class='line'>useradd -g spamd -s /bin/false -d /var/lib/spamassassin spamd
+</span><span class='line'>mkdir -p /var/lib/spamassassin
+</span><span class='line'>chown spamd:spamd /var/lib/spamassassin -R
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/default/spamassassin </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Spamassassin home&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;SAHOME<span class="o">=</span>&amp;ldquo;/var/lib/spamassassin&amp;rdquo;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Where imap stores user emails&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;USERACCOUNTS<span class="o">=</span>&amp;ldquo;/home/vmail&amp;rdquo;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Change to one to <span class="nb">enable </span>spamd&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;ENABLED<span class="o">=</span>1&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Options&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;See man spamd <span class="k">for </span>possible options. The -d option is automatically added.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;SpamAssassin uses a preforking model, so be careful! You need to&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;make sure &amp;mdash;max-children is not <span class="nb">set </span>to anything higher than 5,&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;unless you know what you&amp;rsquo;re doing.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;For -A use the IP address of spamc client <span class="o">(</span>probably IP of primary interface<span class="o">)</span>&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;OPTIONS<span class="o">=</span>&amp;ldquo;&amp;mdash;create-prefs -x &amp;mdash;max-children 3 &amp;mdash;username spamd &amp;mdash;helper-home-dir <span class="k">${</span><span class="nv">SAHOME</span><span class="k">}</span> -s <span class="k">${</span><span class="nv">SAHOME</span><span class="k">}</span>/spamd.log &amp;mdash;virtual-config-dir<span class="o">=</span><span class="k">${</span><span class="nv">USERACCOUNTS</span><span class="k">}</span>/%l@%d/spamassassin -A 192.168.1.1&amp;rdquo;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">[</span>&amp;hellip;<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The <code>virtual-config-dir</code> allows us to have separate user preferences and bayes
+databases for each virtual user. The next thing is to edit
+<code>/etc/spamassassin/local.cf</code> file:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/spamassassin/local.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="o">[</span>&amp;hellip;<span class="o">]</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Save spam messages as a message/rfc822 MIME attachment instead of&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;modifying the original message <span class="o">(</span>0: off, 2: use text/plain instead<span class="o">)</span>&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;report_safe 0
+</span><span class='line'><span class="o">[</span>&amp;hellip;<span class="o">]</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;use_dcc 1
+</span><span class='line'>dcc_path /usr/local/bin/dccproc&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;use_pyzor 1
+</span><span class='line'>pyzor_path /usr/bin/pyzor&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;use_razor2 1
+</span><span class='line'>razor_config /etc/razor/razor-agent.conf
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Afterwards, edit <code>/etc/spamassassin/v310.pre</code> and check that the DCC, Razor and
+Pyzor plugins are enabled (DCC is disabled by default). After that, the only
+thing left is to update SA databases and start it:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sa-update &amp;mdash;no-gpg
+</span><span class='line'>/etc/init.d/spamassassin start
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Setting up postfix transport</h2>
+
+<p>From the postfix side all you have to do is change transport (I suggest to
+create a new one &ndash; then, when something goes wrong you can easily switch back
+to old working configuration) or <code>mailbox_command</code>. For transport, the magic
+line looks like this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>dovecot-spam   unix  &amp;ndash;       n       n       &amp;ndash;       &amp;ndash;       pipe&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;flags<span class="o">=</span>DRhu <span class="nv">user</span><span class="o">=</span>vmail:vmail <span class="nv">argv</span><span class="o">=</span>/usr/bin/spamc -u <span class="k">${</span><span class="nv">recipient</span><span class="k">}</span> -e /usr/lib/dovecot/deliver -d <span class="k">${</span><span class="nv">recipient</span><span class="k">}</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And this is the line I&rsquo;ve been looking for. SpamAssassin takes message, pushes
+it through his intestines, adds headers, and output is pushed further to
+<code>deliver</code> command. From that point, it can be taken by Sieve. To make this
+work, don&rsquo;t forget to change the transport!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">mailbox_transport</span> <span class="o">=</span> dovecot-spam
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Restart postfix:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/etc/init.d/postfix restart
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>And finally&hellip; Sieve</h2>
+
+<p>After all of that, all you have to do is configure Sieve. For example like that
+(<em>Junk</em> is a folder which Thunderbird traditionally uses for spam, you can
+change it of course):</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>.dovecot.sieve </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">if </span>header :contains &amp;ldquo;X-Spam-Flag&amp;rdquo; <span class="o">[</span>&amp;ldquo;YES&amp;rdquo;<span class="o">]</span> <span class="o">{</span> fileinto &amp;ldquo;Junk&amp;rdquo;; stop; <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>To test it, just send an email to protected account and look into the headers.
+You should see a SpamAssassin magic added there. To test filtering, use
+<a href="http://spamassassin.apache.org/gtube/">GTUBE</a> message format &ndash; your email
+should land in Junk.</p>
+
+<h2>Conclusion</h2>
+
+<p>I think this configuration will suit my needs. Probably it will get some
+adjustments over time (like intelligent filters in SA and so on), and &ndash; when I
+start to trust it fully &ndash; instead of moving into the Junk all spam will be
+deleted. But for now, everything works like a charm :) If you experience any
+problems, first look into <code>/var/lib/spamassassin/spamd.log</code> file &ndash; there is big
+chance, that you&rsquo;ll find your answers there.</p>
+
+<h3>Sources</h3>
+
+<ul>
+<li><a href="http://ailoo.net/2009/11/integrate-spamassassin-into-postfix-dovecot/">http://ailoo.net/2009/11/integrate-spamassassin-into-postfix-dovecot/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Setting server-side mail filtering with sieve and dovecot]]></title>
+    <link href="http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/"/>
+    <updated>2012-07-16T11:43:00+02:00</updated>
+    <id>http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot</id>
+    <content type="html"><![CDATA[<p>Leaving GMail was of the best decisions for my mail I made recently. But also a
+most problematic one. I needed to set all the MTA architecture myself. I tested
+many solutions out there and finally ended with postfix + dovecot
+configuration.  It appears that this is most stable and unproblematic one (at
+least for now).</p>
+
+<!--more-->
+
+
+<p>The next feature I really missed is Gmail Server-Side mail filtering. I&rsquo;ve got
+a bunch of machines that access my mail server (computers, phones etc.) and I
+receive lots emails from lists, friends and organizations every day. Setting
+filtering for all of that once, was a big pain. Setting it multiple times on
+all the machines, and then be consistent about it was enormous P.I.T.A. So I
+started looking for solution for that problem and found
+<a href="http://sieve.info/">Sieve</a> (and its
+<a href="http://wiki.dovecot.org/LDA/Sieve">dovecot plugin</a>).</p>
+
+<p>Ok, so how to do it? Firstly, as for dovecot 1.2.x, sieve was completely
+rewritten as a new plugin. It can be obtained from
+<a href="http://www.rename-it.nl/dovecot/1.2/">rename-it.nl website</a>. At the time of
+writing this post, there is no <code>*.deb</code> package in repositories, so I have to
+build it manually. I also had to install <code>dovecot-dev</code> package, because of
+sieve configurator, which needs a <code>dovecot-config</code> file.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>wget &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://www.rename-it.nl/dovecot/1.2/dovecot-1.2-sieve-0.1.19.tar.gz&quot;</span>&gt;http://www.rename-it.nl/dovecot/1.2/dovecot-1.2-sieve-0.1.19.tar.gz&lt;/a&gt;
+</span><span class='line'>tar -xzvf dovecot-1.2-sieve-0.1.19.tar.gz
+</span><span class='line'><span class="nb">cd </span>dovecot-1.2-sieve-0.1.19
+</span><span class='line'>./configure &amp;mdash;with-dovecot<span class="o">=</span>/usr/lib/dovecot/ &amp;mdash;prefix<span class="o">=</span>/usr
+</span><span class='line'>make
+</span><span class='line'>sudo make install
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>After that, it was a time to enable sieve plugin in dovecot.
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/dovecot/dovecot.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>protocol lda <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;...
+</span><span class='line'><span class="c"># Support for dynamically loadable plugins. mail_plugins is a space separated</span>
+</span><span class='line'><span class="c"># list of plugins to load.</span>
+</span><span class='line'><span class="nv">mail_plugins</span> <span class="o">=</span> sieve <span class="c"># ... other plugins like quota</span>
+</span><span class='line'><span class="c"># add those directives when you expect problems - huge time saver!</span>
+</span><span class='line'><span class="nv">debug</span> <span class="o">=</span> yes
+</span><span class='line'><span class="nv">log_path</span> <span class="o">=</span> /var/log/dovecot-lda.log
+</span><span class='line'><span class="nv">info_log_path</span> <span class="o">=</span> /var/log/dovecot-lda.log
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>There is a possibility to make some adjustments for plugin itself (filters
+paths and so on), but I didn&rsquo;t find it necessary. However, if you want to &ndash; you
+can check them on
+<a href="http://wiki.dovecot.org/LDA/Sieve/Dovecot">LDA/Sieve documentation page</a>.
+After that, just restart postfix and everything is set.</p>
+
+<p>The last step is setting all the filters properly. They should be stored in
+<code>~/.dovecot.sieve</code> (if you use <code>mailbox_command</code>) or in
+<code>/home/vmail/user@domain/.dovecot.sieve</code> (if you use <code>mailbox_transport</code>).
+Sieve uses it&rsquo;s own <a href="http://www.ietf.org/rfc/rfc5228.txt">pseudo-language</a> for
+filtering, but below is a part of my file which should provide a
+<a href="http://wiki.dovecot.org/LDA/Sieve/">good example</a> for start:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>.dovecot.sieve </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Require plugin <span class="k">for </span>moving messages <span class="o">(</span>fileinto<span class="o">)</span> and vacation responder <span class="o">(</span>vacation<span class="o">)</span>&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;require <span class="o">[</span>&amp;ldquo;fileinto&amp;rdquo;, &amp;ldquo;vacation&amp;rdquo;<span class="o">]</span>;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Move all mails with &amp;ldquo;List-Id&amp;rdquo; equal to &amp;ldquo;users-pl.lists.rootnode.net&amp;rdquo; to rzegocki_pl/lists IMAP directory&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;if header :contains &amp;ldquo;List-Id&amp;rdquo; &amp;ldquo;users-pl.lists.rootnode.net&amp;rdquo; <span class="o">{</span> fileinto &amp;ldquo;rzegocki_pl.lists&amp;rdquo;; stop; <span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;If messages are not from a list <span class="o">(</span>most of the lists sets mail header &amp;ldquo;Precedence&amp;rdquo; either to &amp;ldquo;list&amp;rdquo; or &amp;ldquo;bulk&amp;rdquo;<span class="o">)</span> <span class="k">then </span>send a vacation email&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;if not header :contains &amp;ldquo;Precedence&amp;rdquo; <span class="o">[</span>&amp;ldquo;bulk&amp;rdquo;,&amp;ldquo;list&amp;rdquo;<span class="o">]</span> <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;vacation :days 7 :addresses <span class="o">[</span><span class="s2">&quot;igor@email1.com&quot;</span>, <span class="s2">&quot;igor@email2.com&quot;</span><span class="o">]</span> :subject <span class="s2">&quot;Vacation 15.07 - 22.07&quot;</span> <span class="s2">&quot; ..... &quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Move all messages from my father to one directory&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;if anyof <span class="o">(</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;address :is <span class="s2">&quot;sender&quot;</span> <span class="s2">&quot;steven@email1.com&quot;</span>,
+</span><span class='line'>address :is <span class="s2">&quot;sender&quot;</span> <span class="s2">&quot;steven@email2.com&quot;</span>,
+</span><span class='line'>address :is <span class="s2">&quot;sender&quot;</span> <span class="s2">&quot;steven@email3.com&quot;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    fileinto <span class="s2">&quot;rzegocki_pl.private.steven&quot;</span>; stop;
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+It took me some time to set everything up (mostly because of lack of
+documentation and multiple domain problems), but the final effect is awesome,
+and confirms that own server is an really, really great idea :)</p>
+]]></content>
+  </entry>
+  
+</feed>
