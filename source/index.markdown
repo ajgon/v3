@@ -6,7 +6,7 @@ sharing: true
 footer: true
 ---
 
-Hell, my name is Igor Rzegocki and I do websites from both sides (frontend &
+Hello, my name is Igor Rzegocki and I do websites from both sides (frontend &
 backend). Currently I'm working for
 [XHTMLized agency](http://www.xhtmlized.com/) as a pround member of
 [X-Team](http://www.x-team.com/). I also own a small web agency called
