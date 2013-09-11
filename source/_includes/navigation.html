@@ -18,4 +18,7 @@
     {% if site.email %}
     <li><a href="mailto:{{ site.email }}" title="Email"><i class="icon-envelope-alt social-navbar"></i></a></li>
     {% endif %}
+    {% if site.gpg_key %}
+    <li><a href="{{ site.gpg_key }}" title="GPG Key"><i class="icon-key social-navbar"></i></a></li>
+    {% endif %}
 </ul>
