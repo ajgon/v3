@@ -437,3 +437,7 @@
 body {
     padding: 0;
 }
+
+li {
+  line-height: 26px;
+}

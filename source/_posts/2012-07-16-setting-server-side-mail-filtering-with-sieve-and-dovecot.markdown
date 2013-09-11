@@ -2,7 +2,7 @@
 layout: post
 title: "Setting server-side mail filtering with sieve and dovecot"
 date: 2012-07-16 11:43
-comments: true
+comments: false
 categories: Administration
 ---
 

@@ -2,7 +2,7 @@
 layout: page
 title: "Open source"
 subtitle: "My various projects and contributions"
-comments: true
+comments: false
 sharing: true
 footer: true
 ---

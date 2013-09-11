@@ -3,7 +3,7 @@
 # ----------------------- #
 
 url: http://ajgon.github.io
-title: "Ajgon's"
+title: "Igor Rzegocki Personal Homepage"
 subtitle: Geek mode on
 author: Igor Rzegocki
 simple_search: http://google.com/search
@@ -22,10 +22,10 @@ subscribe_email:
 email:
 
 navigation: [
-    {url: '/about-me', text: 'About me'},
+    {url: '/', text: 'About me'},
     {url: '/portfolio', text: 'Portfolio'},
     {url: '/open-source', text: 'Open source'},
-    {url: '/', text: 'Blog'}
+    {url: '/blog', text: 'Blog'}
 ]
 
 # ----------------------- #

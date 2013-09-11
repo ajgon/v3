@@ -2,7 +2,7 @@
 layout: post
 title: "Setting secure, cloud-based backup system using git and box.com"
 date: 2012-10-14 12:57
-comments: true
+comments: false
 categories: Administration
 ---
 

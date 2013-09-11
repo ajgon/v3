@@ -2,7 +2,7 @@
 layout: post
 title: "Setting development environment on your Mac"
 date: 2012-09-22 12:33
-comments: true
+comments: false
 categories: PHP
 ---
 
@@ -121,7 +121,7 @@ address=/.dev/127.0.0.1
 Last thing left, is setting a nameserver to 127.0.0.1 in your Network prefpane,
 as shown below.
 
-![dnsmasq configuration](http://rzegocki.pl/blog/images/uploads/dnsmasq.png)
+![dnsmasq configuration](/images/upload/dnsmasq.png)
 
 From now on all *.dev domains will be translated to `127.0.0.1` and from there
 all `wp.dev` and `php.dev` domains will be handled by nginx. Good stuff.

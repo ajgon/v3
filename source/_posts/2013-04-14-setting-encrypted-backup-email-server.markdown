@@ -2,7 +2,7 @@
 layout: post
 title: "Setting encrypted backup Email server"
 date: 2013-04-14 13:34
-comments: true
+comments: false
 categories: Administration
 ---
 

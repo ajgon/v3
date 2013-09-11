@@ -2,7 +2,7 @@
 layout: post
 title: "Add more complexity to your Emails - use DKIM and SPF"
 date: 2012-10-27 13:15
-comments: true
+comments: false
 categories: Administration
 ---
 
@@ -10,8 +10,8 @@ The next thing my paranoid me couldn't stand of is that my emails can be easily
 spoofed. Yeah, I know I'm not a very famous person, so probability of such
 thing happening is similar to zero, but hey - tell this to my Paranoid me. :)
 I also sign every mail I could (they can be easily verified using
-[my public key](http://rzegocki.pl/public-key.txt)), but still - DKIM seems to
-be a fine solution. And besides, I love to play with new things. So after many
+[my public key](/public-key.txt)), but still - DKIM seems to be a fine
+solution. And besides, I love to play with new things. So after many
 experiments with [dkim-milter](http://sourceforge.net/projects/dkim-milter/),
 [DKIMProxy](http://sourceforge.net/projects/dkimproxy/) and
 [opendkim](http://www.opendkim.org/) I finally decided to use the last one.

@@ -2,7 +2,7 @@
 layout: post
 title: "Adding a little bit of SpamAssassin into Postfix/Dovecot/Sieve soup"
 date: 2012-07-21 12:16
-comments: true
+comments: false
 categories: Administration
 ---
 
