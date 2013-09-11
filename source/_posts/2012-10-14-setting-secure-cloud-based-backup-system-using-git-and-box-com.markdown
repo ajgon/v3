@@ -100,7 +100,7 @@ cd /
 git add -A
 git commit -m "${NOW}" -a
 git format-patch -1 --stdout > /home/Backup/${MACHINE}.${NOW}.patch
-gpg -e -r igor@rzegocki.pl /home/Backup/${MACHINE}.${NOW}.patch
+gpg -e -r your@key.email /home/Backup/${MACHINE}.${NOW}.patch
 split --bytes=50m /home/Backup/${MACHINE}.${NOW}.patch.gpg /home/Backup/${MACHINE}.${NOW}.patch.
 mv /home/Backup/${MACHINE}.${NOW}.patch.?? /mnt/Box/Backups/patches
 {% endcodeblock %}
