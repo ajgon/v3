@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://ajgon.github.io
+title: "Ajgon's"
+subtitle: Geek mode on
+author: Igor Rzegocki
 simple_search: http://google.com/search
 description:
 
@@ -20,6 +20,13 @@ subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
 email:
+
+navigation: [
+    {url: '/about-me', text: 'About me'},
+    {url: '/portfolio', text: 'Portfolio'},
+    {url: '/open-source', text: 'Open source'},
+    {url: '/', text: 'Blog'}
+]
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -63,13 +70,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-github_user:
-github_repo_count: 0
+github_user: ajgon
+github_repo_count: 24
 github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
+twitter_user: ajgon
 twitter_tweet_button: true
 
 # Google +1
