@@ -1,7 +1,7 @@
 <li class="item <% if (item.promoted) { %>promoted<% } %>" data-date="<%= item.date %>" data-client="<%= item.client ? item.client : '~' %>" data-year="<%= item.date.replace(/-[0-9\-]*/, '') %>" data-specs="<%= item.specs.join(',') %>">
     <div class="card">
         <div class="front">
-            <img src="images/portfolio/<% if (!item.promoted) { %>s-<% } %><%= item.id %>.jpg" alt="">
+            <img src="/images/portfolio/<% if (!item.promoted) { %>s-<% } %><%= item.id %>.jpg" alt="">
             <time class="released"><%= moment(item.date, 'YYYY-MM-DD').format('MMM YYYY') %></time>
         </div>
         <div class="back">
