@@ -7,6 +7,9 @@ layout: default
   <header>
     <div class="jumbotron">
       {% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}
+      {% if page.subtitle %}
+        <h3 class="tagline">{{ page.subtitle }}</h3>
+      {% endif %}
     </div>
     {% if page.date %}<p class="meta">{% include post/date.html %}{{ time }}</p>{% endif %}
   </header>
