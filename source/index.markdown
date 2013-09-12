@@ -30,6 +30,26 @@ backend). Currently I'm working for
 * **[Respectance Inc.](http://www.respectance.com/)** (15.10.2006 - 28.02.2009)<br>
   Front-End & PHP (<abbr title="Zend Framework">ZF</abbr>) developer
 
+## Notable projects
+
+* **[The X-Factor USA](http://www.thexfactorusa.com/)** (2013)<br>
+  Lead Back-End developer, JavaScript services integration
+  ([Gigya](http://www.gigya.com/), [Livefyre](http://www.livefyre.com/), [CrowdTwist](http://www.crowdtwist.com/))
+* **[So You Thing You Can Dance](http://www.fox.com/dance/)** (2013)<br>
+  Back-End developer, JavaScript developer
+* **[American Idol](http://www.americanidol.com/)** (2013)<br>
+  Back-End developer, JavaScript developer
+* **[FOX.com](http://www.fox.com/)** (2012-2013)<br>
+  Support
+* **[Niebo Kopernika](http://niebokopernika.pl/)** (2011)<br>
+  Lead Front-End developer, Back-End improvements
+* **[Stalexport Autostrada A4](http://www.autostrada-a4.pl/driver)** (2010)<br>
+  HTML & CSS development
+* **[Schiphol](http://www.schiphol.nl/)** (2009)<br>
+  HTML & CSS development
+* **[Respectance](http://www.respectance.com/)** (2008)<br>
+  Lead Front-End developer, Back-End improvements
+
 ## Academic Record
 
 * [AGH University of Science and Technology in Cracow](http://www.agh.edu.pl/en) (2003-2008)
