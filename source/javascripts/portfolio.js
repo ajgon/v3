@@ -47,7 +47,11 @@
                     $this.find('.back').addClass('back-animating');
                 })
                 .on('mouseleave', '.item', function () {
-                    $(this).removeClass('hovered').find('.front, .back').removeClass('paused');
+                    var frontback = $(this).removeClass('hovered').find('.front, .back');
+                    frontback.removeClass('paused');
+                    if (!Modernizr.testAllProps('animationName')) {
+                        frontback.removeClass('front-animating').removeClass('back-animating');
+                    }
                 })
                 .on('animationend webkitAnimationEnd oanimationend MSAnimationEnd', '.front, .back', function () {
                     var $this = $(this);
@@ -101,6 +105,7 @@
     };
     /*jslint unparam: false*/
 
+    window.Portfolio = Portfolio;
     Portfolio.init();
 
 })(jQuery);
