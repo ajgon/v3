@@ -49,7 +49,7 @@
                 .on('mouseleave', '.item', function () {
                     var frontback = $(this).removeClass('hovered').find('.front, .back');
                     frontback.removeClass('paused');
-                    if (!Modernizr.testProp('animationName')) {
+                    if (!Modernizr.testAllProps('animationName')) {
                         frontback.removeClass('front-animating').removeClass('back-animating');
                     }
                 })
