@@ -105,6 +105,7 @@
     };
     /*jslint unparam: false*/
 
+    window.Portfolio = Portfolio;
     Portfolio.init();
 
 })(jQuery);
