@@ -57,6 +57,8 @@
                     var $this = $(this);
                     $this.removeClass('front-animating');
                     $this.removeClass('back-animating');
+                    $this.find('.front').css('z-index', 5);
+                    $this.find('.back').css('z-index', 10);
                 })
                 .on('animationiteration webkitAnimationIteration oanimationiteration MSAnimationIteration', '.hovered .front, .hovered .back', function () {
                     $(this).addClass('paused');

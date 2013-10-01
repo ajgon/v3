@@ -172,7 +172,7 @@
 
 .portfolio .item .back {
     z-index: 0;
-    -webkit-transform: rotateY(-180deg);
+    -webkit-transform: rotateY(-180deg) translateZ(0) translate3d(0,0,0);
     -moz-transform: rotateY(-180deg);
     -o-transform: rotateY(-180deg);
     -ms-transform: rotateY(-180deg);
@@ -182,7 +182,7 @@
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     backface-visibility: hidden;
- }
+}
 
 .portfolio .item .front-animating,
 .portfolio .item .back-animating {
@@ -212,6 +212,7 @@
     -ms-animation-name: rotate-front;
     -o-animation-name: rotate-front;
     animation-name: rotate-front;
+    -webkit-transition: z-index 0s .25s linear;
 }
 
 .portfolio .item:hover .back,
@@ -223,6 +224,7 @@
     -ms-animation-name: rotate-back;
     -o-animation-name: rotate-back;
     animation-name: rotate-back;
+    -webkit-transition: z-index 0s .25s linear;
 }
 
 .portfolio .back .card-title {
@@ -341,10 +343,12 @@
  from {
    -webkit-transform: rotateY(-180deg);
    transform: rotateY(-180deg);
+   z-index: 0;
  }
  to {
    -webkit-transform: rotateY(0deg);
    transform: rotateY(0deg);
+   z-index: 10;
  }
 
 }
@@ -395,10 +399,12 @@
  from {
    -webkit-transform: rotateY(0deg);
    transform: rotateY(0deg);
+   z-index: 0;
  }
  to {
    -webkit-transform: rotateY(180deg);
    transform: rotateY(180deg);
+   z-index: 10;
  }
 
 }
