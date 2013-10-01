@@ -415,6 +415,10 @@
 
 }
 
+#portfolio {
+    margin: 0 -20px;
+}
+
 #portfolio .options {
     float: right;
 }
@@ -441,10 +445,23 @@
     margin-left: 0;
 }
 
-body {
-    padding: 0;
-}
-
 li {
   line-height: 26px;
+}
+
+.navbar-inverse .nav > li > a > span {
+    display: inline;
+}
+
+.navbar-inverse .nav > li > a > i {
+    display: none;
+}
+
+@media (min-width: 980px) {
+    .navbar-inverse .nav > li > a > span {
+        display: none;
+    }
+    .navbar-inverse .nav > li > a > i {
+        display: inline;
+    }
 }
