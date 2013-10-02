@@ -35,7 +35,7 @@ backend). Currently I'm working for
 * **[The X-Factor USA](http://www.thexfactorusa.com/)** (2013)<br>
   Lead Back-End developer, JavaScript services integration
   ([Gigya](http://www.gigya.com/), [Livefyre](http://www.livefyre.com/), [CrowdTwist](http://www.crowdtwist.com/))
-* **[So You Thing You Can Dance](http://www.fox.com/dance/)** (2013)<br>
+* **[So You Think You Can Dance](http://www.fox.com/dance/)** (2013)<br>
   Back-End developer, JavaScript developer
 * **[American Idol](http://www.americanidol.com/)** (2013)<br>
   Back-End developer, JavaScript developer
