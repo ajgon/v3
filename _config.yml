@@ -106,4 +106,7 @@ google_analytics_tracking_id:
 # Facebook Like
 facebook_like: false
 
+# LinkedIn
+linkedin_user: ajgon
+
 gpg_key: /public-key.txt
