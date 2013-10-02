@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Add more complexity to your Emails - use DKIM and SPF - Igor Rzegocki Personal Homepage</title>
+  <meta name="author" content="Igor Rzegocki">
+
+   
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Igor Rzegocki Personal Homepage" type="application/atom+xml">
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/bootstrap-collapse.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/html5shiv.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">About me</a></li>
+    
+        <li ><a href="/portfolio">Portfolio</a></li>
+    
+        <li ><a href="/open-source">Open source</a></li>
+    
+        <li ><a href="/blog">Blog</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/ajgon" title="Github Profile"><i class="icon-github-sign social-navbar"></i> <span>GitHub</span></a></li>
+    
+    
+    
+    <li><a href="http://twitter.com/ajgon" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i> <span>Twitter</span></a></li>
+    
+    
+    
+    
+    <li><a href="mailto:igor@rzegocki.pl" title="Email"><i class="icon-envelope-alt social-navbar"></i> <span>E-mail</span></a></li>
+    
+    
+    <li><a href="/public-key.txt" title="GPG Key"><i class="icon-key social-navbar"></i> <span>GPG Key</span></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Add More Complexity to Your Emails - Use DKIM and SPF
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2012-10-27T13:15:00+02:00" pubdate data-updated="true">Oct 27<span>th</span>, 2012</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>The next thing my paranoid me couldn&rsquo;t stand of is that my emails can be easily
+spoofed. Yeah, I know I&rsquo;m not a very famous person, so probability of such
+thing happening is similar to zero, but hey &ndash; tell this to my Paranoid me. :)
+I also sign every mail I could (they can be easily verified using
+<a href="/public-key.txt">my public key</a>), but still &ndash; DKIM seems to be a fine
+solution. And besides, I love to play with new things. So after many
+experiments with <a href="http://sourceforge.net/projects/dkim-milter/">dkim-milter</a>,
+<a href="http://sourceforge.net/projects/dkimproxy/">DKIMProxy</a> and
+<a href="http://www.opendkim.org/">opendkim</a> I finally decided to use the last one.
+Mostly because it&rsquo;s easiest to configure and is still maintained.</p>
+
+<!--more-->
+
+
+<h2>Installing and configuring opendkim</h2>
+
+<p>You will be suprised how simple it is. :) Firstly you need to install a proper
+debian packages:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install opendkim libmail-dkim-perl
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The second one is a dkim support for spamassassin. I&rsquo;ll cover that later. Next,
+you need to edit your <code>/etc/opendkim.conf</code> file:</p>
+
+<figure class='code'><figcaption><span>/etc/opendkim.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>SysLog             yes
+</span><span class='line'>Umask              002
+</span><span class='line'>
+</span><span class='line'>KeyTable           /etc/mail/dkim/KeyTable
+</span><span class='line'>SigningTable       /etc/mail/dkim/SigningTable
+</span><span class='line'>ExternalIgnoreList /etc/mail/dkim/TrustedHosts
+</span><span class='line'>InternalHosts      /etc/mail/dkim/TrustedHosts
+</span><span class='line'>
+</span><span class='line'>Canonicalization   relaxed/simple
+</span><span class='line'>Mode               sv
+</span><span class='line'>X-Header           yes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Mode sv</code> directive tells opendkim to sign but also verify messages, while
+<code>X-Header</code> adds <code>X-Dkim</code> header (which contains information about the DKIM
+daemon you are using). Next we need to tell opendkim which port it will be
+using, so in <code>/etc/default/opendkim</code> uncomment:</p>
+
+<figure class='code'><figcaption><span>/etc/default/opendkim </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">SOCKET</span><span class="o">=</span><span class="s2">&quot;inet:12345@localhost&quot;</span> <span class="c"># listen on loopback on port 12345</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we have to populate those extra files we defined. <code>TrustedHosts</code> is the
+easiest one, it&rsquo;s just the list of hosts and domains which are allowed to use
+DKIM. So in most cases:</p>
+
+<figure class='code'><figcaption><span>/etc/mail/dkim/TrustedHosts </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>localhost
+</span><span class='line'>127.0.0.1
+</span><span class='line'>192.168.1.1
+</span><span class='line'>1.2.3.4 <span class="c"># external IP</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, we need to create a key and DNS TXT record pair for each domain we want
+to be signed. I suggest to use strong key (<code>-b</code> parameter), to avoid
+<a href="http://www.wired.com/threatlevel/2012/10/dkim-vulnerability-widespread">some company&rsquo;s failure</a>.
+To do this:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p /etc/mail/dkim/keys/mydomain.com
+</span><span class='line'><span class="nb">cd</span> /etc/mail/dkim/keys/mydomain.com
+</span><span class='line'>opendkim-genkey -r -b 2048 -d mydomain.com -s mail
+</span><span class='line'>chown opendkim:opendkim mail.private
+</span><span class='line'>chmod 600 mail.private
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will create two files: <code>mail.private</code> &ndash; which contains a private RSA key,
+and <code>mail.txt</code> which contains a contents for DNS TXT record. So let&rsquo;s make use
+of them! First keys &ndash; they need to be fined in <code>KeyTable</code> and <code>SingingTable</code>
+files.</p>
+
+<figure class='code'><figcaption><span>/etc/mail/dkim/KeyTable </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mail._domainkey.mydomain.com mydomain.com:mail:/etc/mail/dkim/keys/mydomain.com/mail.private
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>/etc/mail/dkim/SigningTable </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mydomain.com mail._domainkey.mydomain.com
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The last thing we need to do is to add a DNS TXT record for
+<code>mail._domainkey.mydomain.com</code> domain containing contents provided by
+<code>opendkim-genkey</code>. For example for irgon.com it looks like this:</p>
+
+<figure class='code'><figcaption><span>DNS TXT record </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mail._domainkey.irgon.com descriptive text <span class="s2">&quot;v=DKIM1\; g=*\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsfIThdXoizR6sop0gifPwPkT45I/KnTTNKDS4BHWtoU6as62c/3BRQuKqDAIacheZzWbfEPq/M2YvoNrVhx1laltg7aeUhZlcVOtz415lIy8M8oUVTCDxewBKsTEQD5M4Roaadoj7vzpA1JMcOEv36TizFq/KB5GL46pVNyOMJ+Mg&quot;</span> <span class="s2">&quot;97F+EQQeiOFsn/T+tNuxWky3l4Qky3S8U34wYmRSr+sVLu4U31QtocwL4uJ7ofVNdVk0baYo7s1HYnM3CGEKK+zdHTR/AoNiquvVX1lLX9s85bade4cNuRaINjzDyM4fAglLgSHZEtRcRlYqdMEpQcplI1OaSxIFS4DpFL3RwIDAQAB&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that settles DKIM. All we have left is starting it:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/etc/init.d/opendkim start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Connecting opendkim to postfix</h2>
+
+<p>This is really simple part.</p>
+
+<figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># DKIM</span>
+</span><span class='line'><span class="nv">milter_default_action</span> <span class="o">=</span> accept
+</span><span class='line'><span class="nv">milter_protocol</span> <span class="o">=</span> 6
+</span><span class='line'><span class="nv">smtpd_milters</span> <span class="o">=</span> inet:localhost:12345
+</span><span class='line'><span class="nv">non_smtpd_milters</span> <span class="o">=</span> inet:localhost:12345
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>then. reload it and you are set.</p>
+
+<h2>Installing SPF</h2>
+
+<p>Ok, now THAT is simple. Just install package:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install postfix-policyd-spf-python
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and add service:</p>
+
+<figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>policy-spf  unix  -  n  n  -  -  spawn <span class="nv">user</span><span class="o">=</span>nobody <span class="nv">argv</span><span class="o">=</span>/usr/bin/policyd-spf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add spf timeout to <code>/etc/postfix/main.cf</code> and adjust
+<code>smtpd_recipient_restrictions</code> to include
+<code>check_policy_service unix:private/policy-spf</code>, so in my file it looks like
+this:</p>
+
+<figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="o">[</span>...<span class="o">]</span>
+</span><span class='line'><span class="nv">smtpd_recipient_restrictions</span> <span class="o">=</span> reject_unauth_pipelining,
+</span><span class='line'>                               permit_sasl_authenticated,
+</span><span class='line'>                               permit_mynetworks,
+</span><span class='line'>                               reject_non_fqdn_recipient,
+</span><span class='line'>                               reject_unknown_recipient_domain,
+</span><span class='line'>                               reject_unauth_destination,
+</span><span class='line'>                               reject_unknown_sender_domain,
+</span><span class='line'>                               check_policy_service unix:private/policy-spf
+</span><span class='line'><span class="o">[</span>...<span class="o">]</span>
+</span><span class='line'>spf-policyd_time_limit <span class="o">=</span> 3600s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Last but not least is updating a DNS record. This is simple and similar to DKIM &ndash;
+just ad TXT record to your TLD containing <code>v=spf1 a mx ip4:&lt;your ip&gt;</code>, for
+example my looks like this:</p>
+
+<figure class='code'><figcaption><span>DNS TXT record </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>irgon.com descriptive text <span class="s2">&quot;v=spf1 a mx ip4:213.134.188.213&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Don&rsquo;t forget to restart your Postfix when you&rsquo;re done!</p>
+
+<h2>Testing</h2>
+
+<p>To test if everything works fine, just send yourself an email and check it
+headers. You should see something like:</p>
+
+<figure class='code'><figcaption><span>Mail header </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>X-Dkim: OpenDKIM Filter v2.0.1 myexample.com 0224020B8
+</span><span class='line'>Dkim-Signature: <span class="nv">v</span><span class="o">=</span>1; <span class="nv">a</span><span class="o">=</span>rsa-sha256; <span class="nv">c</span><span class="o">=</span>relaxed/simple; <span class="nv">d</span><span class="o">=</span>myexample.com; <span class="nv">s</span><span class="o">=</span>mail; <span class="nv">t</span><span class="o">=</span>1351357546; <span class="nv">bh</span><span class="o">=</span>Rskt6Q/nZKmxgXkWUYP6cCBSDJhtkVT0PSrUEVGVgp4<span class="o">=</span>; <span class="nv">h</span><span class="o">=</span>From:Content-Type:Content-Transfer-Encoding:Subject:Message-Id: Date:To:Mime-Version; <span class="nv">b</span><span class="o">=</span>phPQdG6HYaders4Xv0TsK2mT+PFYVk/brOFpnmCjCZtvbeGJ+XwrNk4Tnc9xGELtAglLOVplSvMV9nTK6xonta1qLTtnLYPsY4o/WPfyZYDgHmp6X9ZYP4otAHYK3jC00PbKGNqhXeD3bCc7CBV/aVGMQX4Bt0TjAAgndeYCI9VnvR2zH0iTEjlAT2OXrh2JV+wrK5UOXae8gRPT28F2Mg325YOiDwD1T5bgFtfc9mh2s/NRcy7lyDiPcb3CNV+nMXKyq/47o22LlALv5g5+OBBZACQYpYtgalM54InQDPoL/udvKtI/YYaiByFLwqeYFh2LXX6et 9dAiNCRLL+EoA<span class="o">==</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Which means that singing is alive and kicking. To test verification, just send
+yourself an email from DKIM-using provider (like Yahoo or Gmail) and check for
+following header:</p>
+
+<figure class='code'><figcaption><span>Mail header </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>Authentication-Results: myexample.com; <span class="nv">dkim</span><span class="o">=</span>pass <span class="o">(</span>2048-bit key; insecure key<span class="o">)</span> header.i<span class="o">=</span>@gmail.com; dkim-adsp<span class="o">=</span>pass
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Which means, that verfication is working. As the last final test, send email to
+`<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#97;&#x75;&#x74;&#x6f;&#x72;&#x65;&#115;&#x70;&#111;&#110;&#x64;&#43;&#x64;&#x6b;&#105;&#x6d;&#x40;&#x64;&#107;&#x2e;&#x65;&#108;&#x61;&#110;&#x64;&#115;&#121;&#115;&#46;&#99;&#x6f;&#109;&#x7a;&#46;">&#97;&#117;&#116;&#111;&#x72;&#101;&#x73;&#x70;&#111;&#110;&#100;&#43;&#x64;&#x6b;&#105;&#x6d;&#64;&#x64;&#x6b;&#x2e;&#x65;&#108;&#x61;&#x6e;&#100;&#115;&#x79;&#x73;&#46;&#x63;&#111;&#109;&#x7a;&#46;</a> This is automated service, which checks
+your DKIM headers for you and sends back the results. If you get DKIM Signature
+validation: passz in the body, then it means, that everything is working
+properly.</p>
+
+<h2>Final polishing</h2>
+
+<p>By default spamassassin has DKIM filters enabled. To ensure, look for
+<code>loadplugin Mail::SpamAssassin::Plugin::DKIM</code> in your
+<code>/etc/spamassassin/v312.pre</code> file. When it&rsquo;s enabled you should see values like
+<code>DKIM_VALID</code> or <code>T_DKIM_INVALID</code> in <code>X-Spam-Status</code> header. Normally,
+spamassassin puts a very little weight to that rules, but you can easily
+increase it by adding:</p>
+
+<figure class='code'><figcaption><span>/etc/mail/spamassassin/local.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>score T_DKIM_INVALID 10
+</span><span class='line'>score DKIM_ADSP_CUSTOM_MED 10
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can also add sieve filter based on <code>Authentication-Results</code> if you want to
+treat those suspicious messages differently than normal spam:</p>
+
+<figure class='code'><figcaption><span>.dovecot.sieve </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">if </span>header :contains <span class="s2">&quot;Authentication-Results&quot;</span> <span class="s2">&quot;dkim=fail&quot;</span> <span class="o">{</span> fileinto <span class="s2">&quot;DANGER&quot;</span>; stop; <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The possibilities are endless :)</p>
+
+<h3>Sources</h3>
+
+<ul>
+<li><a href="http://blog.tjitjing.com/index.php/2012/03/guide-to-install-opendkim-for-multiple-domains-with-postfix-and-debian.html">http://blog.tjitjing.com/index.php/2012/03/guide-to-install-opendkim-for-multiple-domains-with-postfix-and-debian.html</a></li>
+<li><a href="http://syslog.tv/2011/09/17/postfix-dk-dkim-spf/">http://syslog.tv/2011/09/17/postfix-dk-dkim-spf/</a></li>
+</ul>
+
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/blog/categories/Administration/"><span class="badge">Administration</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/" title="Previous Post: Setting secure, cloud-based backup system using git and box.com">&laquo; Setting secure, cloud-based backup system using git and box.com</a>
+          
+          
+            <a class="basic-alignment right" href="/blog/2013/04/14/setting-encrypted-backup-email-server/" title="Next Post: Setting encrypted backup Email server">Setting encrypted backup Email server &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2013 - Igor Rzegocki -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>. Old version of the site, available <a href="/v1">here</a>.
+</p>
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

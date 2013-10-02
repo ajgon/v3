@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PHP | Igor Rzegocki Personal Homepage]]></title>
+  <link href="http://www.rzegocki.pl/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://www.rzegocki.pl/"/>
+  <updated>2013-10-02T16:26:10+02:00</updated>
+  <id>http://www.rzegocki.pl/</id>
+  <author>
+    <name><![CDATA[Igor Rzegocki]]></name>
+    <email><![CDATA[igor@rzegocki.pl]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Setting development environment on your Mac]]></title>
+    <link href="http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
+    <updated>2012-09-22T12:33:00+02:00</updated>
+    <id>http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac</id>
+    <content type="html"><![CDATA[<p>Recently I bought an
+<a href="http://www.anandtech.com/show/4253/the-crucial-m4-micron-c400-ssd-review">awesome piece of hardware</a>
+to my MacBook Pro. Unfortunatelly
+<a href="http://www.ifixit.com/Guide/Installing-MacBook-Pro-13-Inch-Unibody-Early-2011-Hard-Drive-Replacement/5119/1">to install it</a>,
+I had to remove my old HDD and all system files with it as well. So for that
+occasion I made myself double gift (Christmas are earlier this year ;)) and
+also bought a <a href="http://www.apple.com/osx/">new OS</a>. After smooth installation,
+<a href="http://blog.alutam.com/2012/04/01/optimizing-macos-x-lion-for-ssd/">some tweaks</a>
+and <a href="http://mobilityupdate.com/mac/crucal-m4-macbook-pro-2011/">huge performance boost</a>
+I started setting my developer environment once again &ndash; nice and clean.</p>
+
+<!--more-->
+
+
+<h2>Installing developer &ldquo;must-have&rdquo; applications</h2>
+
+<p>Firstly, two most important things are a terminal emulator &ndash; in my case, it is
+<a href="http://www.iterm2.com/#/section/home">iTerm2</a>, and
+<a href="https://developer.apple.com/technologies/tools/">XCode</a> with
+<a href="http://stackoverflow.com/questions/9329243/xcode-4-4-command-line-tools">command line tools</a>.
+Next thing is of course package manager. After alot of nasty fighting and bad
+experiences with <a href="http://www.macports.org/">macports</a> I switched to
+<a href="http://mxcl.github.com/homebrew/">Homebrew</a> and I love it. To install it,
+simply type:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As user </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>ruby &amp;lt;<span class="o">(</span>curl -fsSkL raw.github.com/mxcl/homebrew/go<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>After installing it, i suggest to type <code>brew doctor</code> and follow the
+instructions if something unexpected occurs. However, in clean
+Mountain Lion+XCode+command line tools installation I didn&rsquo;t get any warnings,
+so you shouldn&rsquo;t as well.</p>
+
+<p>Next important thing is <a href="http://git-scm.com/">git</a>. Even if you don&rsquo;t plan to
+use it (but I strongly recommend this tool), install it, because a lot of
+software depends on it these days. Especially if you are a Ruby developer.
+So just type:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As user </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install git
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>and you&rsquo;re set. Another thing, which I really like is
+<a href="http://www.zsh.org/">Z Shell</a> with it&rsquo;s excellent extension
+<a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>. Words can&rsquo;t describe
+how awesome it is, so watch
+<a href="https://www.youtube.com/watch?v=m07MiM6rmMc">this video</a>, and then type:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As user </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -L &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh&quot;</span>&gt;https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh&lt;/a&gt; | sh
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Installing dnsmasq and nginx</h2>
+
+<p>The next step is installing <a href="http://nginx.org/">nginx</a>, which is a great
+alternative to <a href="http://www.apache.org/">apache</a>.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As user </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install nginx
+</span><span class='line'>sudo ln -s /usr/local/etc/nginx /etc/nginx
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>As for configuration, take look at my
+<a href="https://github.com/ajgon/DeeDee/tree/master/etc/nginx">DeeDee project nginx configuration files</a>
+&ndash; they are really good starting point for configuring your nginx. However, if
+you are lazy, just take and copy <code>wordpress</code> and <code>php</code> files from <code>extra/lang</code>
+directory (on DeeDee github) to <code>/usr/local/etc/nginx</code> (this is where your
+nginx configuration files lives) and add following section at the bottom
+(before the last closing bracket) of the <code>nginx.conf</code> file:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/usr/local/etc/nginx/nginx.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>server <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;server_name ~^<span class="o">(</span>www.<span class="o">)</span>?<span class="o">(</span>?&amp;lt;project&amp;gt;<span class="o">[</span>^.<span class="o">]</span>+<span class="o">)</span>.php.dev;
+</span><span class='line'><span class="c"># This is the path, where your projects lives.</span>
+</span><span class='line'><span class="c"># $project is domain part but as well directory.</span>
+</span><span class='line'><span class="c"># So something.php.dev will take files from /Users/yourname/Projects/something/public</span>
+</span><span class='line'>root /Users/yourname/Projects/<span class="nv">$project</span>/public;
+</span><span class='line'>error_log logs/php.dev.error_log info;
+</span><span class='line'>index index.html index.php;
+</span><span class='line'>include php;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;server <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;server_name ~^<span class="o">(</span>www.<span class="o">)</span>?<span class="o">(</span>?&amp;lt;project&amp;gt;<span class="o">[</span>^.<span class="o">]</span>+<span class="o">)</span>.wp.dev;
+</span><span class='line'><span class="c"># This is the path, where your projects lives.</span>
+</span><span class='line'><span class="c"># $project is domain part but as well directory.</span>
+</span><span class='line'><span class="c"># So something.wp.dev will take files from /Users/yourname/Projects/something/public</span>
+</span><span class='line'>root /Users/yourname/Projects/<span class="nv">$project</span>/public;
+</span><span class='line'>error_log logs/wp.dev.error_log info;
+</span><span class='line'>index index.html index.php;
+</span><span class='line'>include php;
+</span><span class='line'>include wordpress;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now type <code>sudo /usr/local/sbin/nginx -t</code> &ndash; if eveyrhing is okay, you should see
+a proper message.</p>
+
+<p>Next thing we need to do is to make those wp.dev and php.dev domains work. To
+do this, install <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As user </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install dnsmasq
+</span><span class='line'>cp <span class="k">$(</span>brew &amp;mdash;prefix dnsmasq<span class="k">)</span>/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
+</span><span class='line'>sudo cp <span class="k">$(</span>brew &amp;mdash;prefix dnsmasq<span class="k">)</span>/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now edit newly created <code>dnsmasq.conf</code> file and add:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/usr/local/etc/dnsmasq.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">address</span><span class="o">=</span>/.dev/127.0.0.1
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Last thing left, is setting a nameserver to 127.0.0.1 in your Network prefpane,
+as shown below.</p>
+
+<p><img src="/images/upload/dnsmasq.png" alt="dnsmasq configuration" /></p>
+
+<p>From now on all *.dev domains will be translated to <code>127.0.0.1</code> and from there
+all <code>wp.dev</code> and <code>php.dev</code> domains will be handled by nginx. Good stuff.</p>
+
+<h2>Installing PHP-FPM and MySQL</h2>
+
+<p>Unlike apache, nginx doesn&rsquo;t have a native PHP module, so we have to help
+ourselves with FastCGI extension. Thankfully there is a great wrapper for
+PHPcgi called PHP-FPM. Not only it sets all the hard work for us, but it also
+watches PHP for unexpected crashes (well.. yeah, it&rsquo;s PHP after all) and
+restarts it immediately &ndash; so it saves our time. Unfortunately, brew doesn&rsquo;t
+contain PHP recipes out of box, so we need
+<a href="https://github.com/josegonzalez/homebrew-php">a little help</a>. To install PHP:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As user </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew tap homebrew/dupes
+</span><span class='line'>brew tap josegonzalez/homebrew-php
+</span><span class='line'>brew install php54 &amp;mdash;with-mysql &amp;mdash;with-fpm &amp;mdash;with-intl <span class="c"># you can add &amp;mdash;with-pgsql if you are using it</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Installing MySQL is a little bit complicated:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As user </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install mysql
+</span><span class='line'><span class="nb">unset </span>TMPDIR
+</span><span class='line'>mysql_install_db &amp;mdash;verbose &amp;mdash;user<span class="o">=</span>&lt;code&gt;whoami&lt;/code&gt; &amp;mdash;basedir<span class="o">=</span>&amp;ldquo;<span class="k">$(</span>brew &amp;mdash;prefix mysql<span class="k">)</span>&amp;rdquo; &amp;mdash;datadir<span class="o">=</span>/usr/local/var/mysql &amp;mdash;tmpdir<span class="o">=</span>/tmp
+</span><span class='line'>mysql.server start
+</span><span class='line'>/usr/local/opt/mysql/bin/mysqladmin -u root password &amp;lsquo;&amp;rsquo;
+</span><span class='line'>/usr/local/opt/mysql/bin/mysqladmin -u root -h localhost password &amp;lsquo;&amp;rsquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Putting everything together</h2>
+
+<p>As you may noticed, all this stuff won&rsquo;t start automatically. I think it&rsquo;s a
+good approach, because when I use my mac for normal stuff, I don&rsquo;t want any
+unnecessary resources consumed. So to tie all of this together, I have a simple
+script which will launch or disable all the services on demand. Just create
+(and make executable) <code>/usr/local/bin/dev&lt;</code> file with following contents:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/usr/local/bin/dev </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;!/bin/bash&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;if <span class="o">[</span><span class="nv">$# </span>-lt 1 <span class="o">]</span>; <span class="k">then</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo <span class="s2">&quot;Usage: $0 on|off&quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;else&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;if <span class="o">[</span> <span class="nv">$1</span> <span class="o">=</span> <span class="s1">&#39;on&#39;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'>    <span class="k">$(</span>brew --prefix php54<span class="k">)</span>/sbin/php-fpm --fpm-config /usr/local/etc/php/5.4/php-fpm.conf 2&amp;gt; /dev/null &amp;amp;
+</span><span class='line'>    sudo /usr/local/sbin/nginx
+</span><span class='line'>    mysql.server start &amp;gt; /dev/null
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">    </span>killall php-fpm 2&amp;gt; /dev/null
+</span><span class='line'>    sudo killall nginx 2&amp;gt; /dev/null
+</span><span class='line'>    mysql.server stop 2&amp;gt; /dev/null
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;fi
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now when you need to enter &ldquo;development mode&rdquo; simply type <code>dev on</code> and to quit
+<code>dev off</code>.</p>
+
+<h2>Conclusion</h2>
+
+<p>Well, that&rsquo;s all! I hope you will enjoy this simple environment as much as
+I do :).</p>
+]]></content>
+  </entry>
+  
+</feed>
