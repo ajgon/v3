@@ -19,6 +19,7 @@ footer: true
 
 ### Python
 * [pigit](https://github.com/ajgon/pigit) - A git parsing library
+* [store-mailgate](https://github.com/ajgon/store-mailgate) - A simple postfix mailgate to export desired emails to files on disc
 
 ### Ruby
 * [vBulletin Rails](https://github.com/ajgon/vbulletin_rails) - Rails vBulletin support
