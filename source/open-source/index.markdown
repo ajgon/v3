@@ -27,7 +27,7 @@ footer: true
 
 ### Various
 * [Alfred2 Data URI](https://github.com/ajgon/alfred2-datauri) - Simple Alfred2 file extension to create Data URI schemes
-* [DeeDee](https://github.com/ajgon/DeeDee) - Set of configuration files and scripts which should greatly help to set your Debian server from scratch.
+* [DeeDee](https://github.com/ajgon/DeeDee) - Set of configuration files and scripts which should greatly help to set Debian server from scratch
 
 ## Contributions/Forks
 

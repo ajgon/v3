@@ -21,12 +21,12 @@ backend). Currently I'm working for
 
 ## Work Experience
 
-* **[XHTMLized](http://www.xhtmlized.com/)** (01.11.2011 - Present day)<br>
+* **[XHTMLized](http://www.xhtmlized.com/)/[X-Team](http://www.x-team.com/)** (01.11.2011 - Present day)<br>
   Ruby (<abbr title="Ruby on Rails">RoR</abbr>) & PHP (<abbr title="WordPress">WP</abbr>) developer
 * **[WordWatch Inc.](http://www.wordwatch.com/)** (01.11.2010 - 31.10.2011)<br>
   Front-End & Ruby developer
-* **[IIZT Poland](http://www.iizt.com/)** (01.03.2009 - 01.11.2010)<br>
-  Front-End & PHP (<abbr title="Zend Framework">ZF</abbr>, <abbr title="WP">WordPress</abbr>) & Ruby (<abbr title="Ruby on Rails">RoR</abbr>) developer
+* **[IIZT Poland](http://www.iizt.com/)** (01.03.2009 - 31.10.2010)<br>
+  Front-End & PHP (<abbr title="Zend Framework">ZF</abbr>, <abbr title="WordPress">WP</abbr>) & Ruby (<abbr title="Ruby on Rails">RoR</abbr>) developer
 * **[Respectance Inc.](http://www.respectance.com/)** (15.10.2006 - 28.02.2009)<br>
   Front-End & PHP (<abbr title="Zend Framework">ZF</abbr>) developer
 
@@ -43,6 +43,8 @@ backend). Currently I'm working for
   Support
 * **[Niebo Kopernika](http://niebokopernika.pl/)** (2011)<br>
   Lead Front-End developer, Back-End improvements
+* **[WordWatch](http://wordwatch.com/)** (2011)<br>
+  Lead Front-End developer, Back-End developer
 * **[Stalexport Autostrada A4](http://www.autostrada-a4.pl/driver)** (2010)<br>
   HTML & CSS development
 * **[Schiphol](http://www.schiphol.nl/)** (2009)<br>
