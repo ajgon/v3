@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Administration | Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/blog/categories/administration/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2013-10-21T10:30:04+02:00</updated>
+  <updated>2013-10-28T16:52:43+01:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -12,6 +12,239 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Adding Email server autoconfig and autodiscover]]></title>
+    <link href="http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/"/>
+    <updated>2013-10-28T14:57:00+01:00</updated>
+    <id>http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover</id>
+    <content type="html"><![CDATA[<p>One of the nicest, yet badly documented features in new MUAs is email servers autodiscovering. When you type your e-mail address in configuration window, modern MUA is trying to determine what IMAP/POP3 servers are, and how to connect to them. To do so, they assume, that your email contains a server domain name. A nice assumption, but often not relevant (google apps is a good example here). Thankfully, there is also another way &ndash; asking an original server on a specially configured domain what those parameters are.</p>
+
+<!-- more -->
+
+
+<p>In a perfect world, there would one standard for that &ndash; in our world however, there are two: <code>autoconfig</code> (Mozilla favored) and <code>autodiscover</code> (Microsoft promoted). So we have to to set them together &ndash; thankfully both are based on simple XML files, so it&rsquo;s not a big deal.</p>
+
+<h2>autoconfig (Mozilla Thunderbird)</h2>
+
+<p>This one is (im my opinion) is more clean and advanced. To use it, just make your webserver to return below XML file on <code>autoconfig.</code> subdomain. So (for example) if you have email <code>myname@mydomain.com</code> &ndash; <code>autoconfig.mydomain.com</code> should return:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>autoconfig.xml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="ni">&amp;lt;</span>?xml version=<span class="ni">&amp;ldquo;</span>1.0<span class="ni">&amp;rdquo;</span> encoding=<span class="ni">&amp;ldquo;</span>UTF-8<span class="ni">&amp;rdquo;</span>?&gt;
+</span><span class='line'><span class="nt">&lt;clientConfig</span> <span class="na">version=</span><span class="s">&quot;1.1&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>emailProvider id=&quot;mydomain.com&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>domain<span class="ni">&amp;gt;</span>mydomain.com<span class="ni">&amp;lt;</span>/domain<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>displayName<span class="ni">&amp;gt;</span>Mail<span class="ni">&amp;lt;</span>/displayName<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>displayShortName<span class="ni">&amp;gt;</span>Mail<span class="ni">&amp;lt;</span>/displayShortName<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>incomingServer type=&quot;pop3&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>hostname<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/hostname<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>port<span class="ni">&amp;gt;</span>995<span class="ni">&amp;lt;</span>/port<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>socketType<span class="ni">&amp;gt;</span>SSL<span class="ni">&amp;lt;</span>/socketType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>authentication<span class="ni">&amp;gt;</span>password-cleartext<span class="ni">&amp;lt;</span>/authentication<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>username<span class="ni">&amp;gt;</span>%EMAILADDRESS%<span class="ni">&amp;lt;</span>/username<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>pop3<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>leaveMessagesOnServer<span class="ni">&amp;gt;</span>true<span class="ni">&amp;lt;</span>/leaveMessagesOnServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>downloadOnBiff<span class="ni">&amp;gt;</span>true<span class="ni">&amp;lt;</span>/downloadOnBiff<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>daysToLeaveMessagesOnServer<span class="ni">&amp;gt;</span>10<span class="ni">&amp;lt;</span>/daysToLeaveMessagesOnServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/pop3<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/incomingServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>incomingServer type=&quot;imap&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>hostname<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/hostname<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>port<span class="ni">&amp;gt;</span>993<span class="ni">&amp;lt;</span>/port<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>socketType<span class="ni">&amp;gt;</span>SSL<span class="ni">&amp;lt;</span>/socketType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>authentication<span class="ni">&amp;gt;</span>password-cleartext<span class="ni">&amp;lt;</span>/authentication<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>username<span class="ni">&amp;gt;</span>%EMAILADDRESS%<span class="ni">&amp;lt;</span>/username<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/incomingServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>outgoingServer type=&quot;smtp&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>hostname<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/hostname<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>port<span class="ni">&amp;gt;</span>587<span class="ni">&amp;lt;</span>/port<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>socketType<span class="ni">&amp;gt;</span>STARTTLS<span class="ni">&amp;lt;</span>/socketType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>authentication<span class="ni">&amp;gt;</span>password-cleartext<span class="ni">&amp;lt;</span>/authentication<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>username<span class="ni">&amp;gt;</span>%EMAILADDRESS%<span class="ni">&amp;lt;</span>/username<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/outgoingServer<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>/emailProvider<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;&lt;/clientConfig&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>If you have an email server on a different domain than your email account, simply add redirect to your httpd server. For example in nginx:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/nginx.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>server <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;server_name autoconfig.myotherdomain.com;
+</span><span class='line'>rewrite ^.* https://mydomain.com/config-v1.1.xml permanent;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And that&rsquo;s it! From now on, your email will be automatically discovered by Thunderbird.</p>
+
+<h2>autodiscover (Microsoft Outlook)</h2>
+
+<p>Procedure is very similar here. You just have to set <code>autodiscover.</code> domain, and XML file is slightly different. So, for example <code>autodiscover.mydomain.com</code> should return:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>autodiscover.xml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="ni">&amp;lt;</span>?xml version=<span class="ni">&amp;ldquo;</span>1.0<span class="ni">&amp;rdquo;</span> encoding=<span class="ni">&amp;ldquo;</span>UTF-8<span class="ni">&amp;rdquo;</span>?&gt;
+</span><span class='line'><span class="nt">&lt;Autodiscover</span> <span class="na">xmlns=</span><span class="s">&quot;http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>Response xmlns=&quot;http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>Account<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>AccountType<span class="ni">&amp;gt;</span>email<span class="ni">&amp;lt;</span>/AccountType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Action<span class="ni">&amp;gt;</span>settings<span class="ni">&amp;lt;</span>/Action<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Type<span class="ni">&amp;gt;</span>POP3<span class="ni">&amp;lt;</span>/Type<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Server<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/Server<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Port<span class="ni">&amp;gt;</span>995<span class="ni">&amp;lt;</span>/Port<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>DomainRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/DomainRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SPA<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SPA<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SSL<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/SSL<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>AuthRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/AuthRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Type<span class="ni">&amp;gt;</span>IMAP<span class="ni">&amp;lt;</span>/Type<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Server<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/Server<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Port<span class="ni">&amp;gt;</span>993<span class="ni">&amp;lt;</span>/Port<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>DomainRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/DomainRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SPA<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SPA<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SSL<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/SSL<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>AuthRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/AuthRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Type<span class="ni">&amp;gt;</span>SMTP<span class="ni">&amp;lt;</span>/Type<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Server<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/Server<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Port<span class="ni">&amp;gt;</span>587<span class="ni">&amp;lt;</span>/Port<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>DomainRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/DomainRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SPA<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SPA<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SSL<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/SSL<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>AuthRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/AuthRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>UsePOPAuth<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/UsePOPAuth<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SMTPLast<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SMTPLast<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/Account<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>/Response<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;&lt;/Autodiscover&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And again, if your email domain differs from server domain, add proper redirect:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/nginx.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>server <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;server_name autodiscover.myotherdomain.com;
+</span><span class='line'>rewrite ^.* https://mydomain.com/autodiscover.xml permanent;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And that&rsquo;s it! Enjoy your new, shiny, auto-configuring E-mail!</p>
+
+<h3>Sources</h3>
+
+<ul>
+<li><a href="bugtracker.ispconfig.org/index.php?do=details&amp;task_id=2152">bugtracker.ispconfig.org/index.php?do=details&amp;task_id=2152</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Setting encrypted backup Email server]]></title>
@@ -82,7 +315,7 @@ confirmation &ndash; and eventually fail):</p>
 </span><span class='line'>chown -R gpgmap /var/gpg
 </span><span class='line'>chmod 700 /var/gpg/.gnupg
 </span><span class='line'>sudo -u gpgmap /usr/bin/gpg &amp;mdash;gen-key &amp;mdash;homedir<span class="o">=</span>/var/gpg/.gnupg
-</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#121;&amp;#111;&amp;#x75;&amp;#114;&amp;#64;&amp;#107;&amp;#101;&amp;#x79;&amp;#x2e;&amp;#101;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;&quot;</span>&gt;&amp;#121;&amp;#111;&amp;#117;&amp;#x72;&amp;#x40;&amp;#107;&amp;#x65;&amp;#121;&amp;#46;&amp;#x65;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt; trust quit
+</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#121;&amp;#x6f;&amp;#x75;&amp;#114;&amp;#64;&amp;#107;&amp;#x65;&amp;#x79;&amp;#x2e;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&quot;</span>&gt;&amp;#x79;&amp;#x6f;&amp;#117;&amp;#114;&amp;#64;&amp;#107;&amp;#101;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt; trust quit
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting gpg-mailgate</h2>
@@ -142,7 +375,7 @@ config file should look similar to this:</p>
 </span><span class='line'><span class="na">port</span> <span class="o">=</span> <span class="s">10028&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[keymap]</span>
-</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#x65;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#46;&amp;#x77;&amp;#x68;&amp;#x69;&amp;#99;&amp;#104;&amp;#x2e;&amp;#x77;&amp;#105;&amp;#108;&amp;#108;&amp;#46;&amp;#114;&amp;#x65;&amp;#99;&amp;#x65;&amp;#x69;&amp;#118;&amp;#101;&amp;#x2e;&amp;#x65;&amp;#110;&amp;#99;&amp;#114;&amp;#121;&amp;#112;&amp;#116;&amp;#101;&amp;#100;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6e;&amp;#116;&amp;#101;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#x7a;&amp;#x6f;&amp;#x68;&amp;#x6f;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#x65;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#119;&amp;#104;&amp;#105;&amp;#x63;&amp;#104;&amp;#46;&amp;#x77;&amp;#x69;&amp;#108;&amp;#108;&amp;#46;&amp;#114;&amp;#101;&amp;#99;&amp;#x65;&amp;#x69;&amp;#x76;&amp;#101;&amp;#x2e;&amp;#x65;&amp;#110;&amp;#99;&amp;#x72;&amp;#121;&amp;#112;&amp;#116;&amp;#101;&amp;#100;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6e;&amp;#x74;&amp;#x65;&amp;#110;&amp;#x74;&amp;#x40;&amp;#x7a;&amp;#111;&amp;#104;&amp;#x6f;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt; = 123456789ABCDEF</span>
+</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#101;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#46;&amp;#x77;&amp;#x68;&amp;#105;&amp;#99;&amp;#104;&amp;#x2e;&amp;#119;&amp;#105;&amp;#108;&amp;#108;&amp;#46;&amp;#x72;&amp;#x65;&amp;#99;&amp;#101;&amp;#x69;&amp;#118;&amp;#101;&amp;#46;&amp;#101;&amp;#x6e;&amp;#x63;&amp;#x72;&amp;#x79;&amp;#x70;&amp;#116;&amp;#x65;&amp;#x64;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6e;&amp;#x74;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#122;&amp;#x6f;&amp;#x68;&amp;#111;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#x6d;&quot;&gt;&amp;#101;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#x2e;&amp;#x77;&amp;#104;&amp;#x69;&amp;#x63;&amp;#x68;&amp;#x2e;&amp;#119;&amp;#105;&amp;#x6c;&amp;#108;&amp;#x2e;&amp;#114;&amp;#x65;&amp;#99;&amp;#101;&amp;#105;&amp;#x76;&amp;#101;&amp;#x2e;&amp;#101;&amp;#110;&amp;#99;&amp;#114;&amp;#x79;&amp;#x70;&amp;#116;&amp;#x65;&amp;#100;&amp;#x2e;&amp;#99;&amp;#111;&amp;#110;&amp;#116;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#122;&amp;#x6f;&amp;#x68;&amp;#111;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt; = 123456789ABCDEF</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting postfix</h2>
@@ -175,7 +408,7 @@ configuration will present as follows:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/header_checks </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#101;&#109;&#97;&#105;&#108;&#46;&#119;&#x68;&#x69;&#99;&#104;&#46;&#x77;&#105;&#x6c;&#x6c;&#x2e;&#114;&#x65;&#99;&#101;&#x69;&#x76;&#x65;&#46;&#101;&#x6e;&#99;&#114;&#121;&#112;&#x74;&#101;&#x64;&#x2e;&#99;&#x6f;&#110;&#x74;&#101;&#110;&#x74;&#64;&#x7a;&#x6f;&#104;&#111;&#46;&#99;&#x6f;&#109;">&#101;&#109;&#97;&#x69;&#x6c;&#46;&#119;&#x68;&#x69;&#99;&#104;&#46;&#119;&#x69;&#x6c;&#x6c;&#46;&#x72;&#101;&#x63;&#x65;&#105;&#x76;&#x65;&#x2e;&#x65;&#x6e;&#99;&#x72;&#x79;&#112;&#116;&#x65;&#100;&#x2e;&#99;&#x6f;&#110;&#116;&#101;&#110;&#116;&#64;&#x7a;&#x6f;&#x68;&#111;&#x2e;&#x63;&#111;&#109;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#101;&#109;&#97;&#x69;&#108;&#46;&#x77;&#x68;&#105;&#x63;&#104;&#x2e;&#119;&#x69;&#108;&#108;&#x2e;&#114;&#x65;&#x63;&#101;&#x69;&#118;&#x65;&#46;&#x65;&#x6e;&#99;&#x72;&#x79;&#x70;&#x74;&#x65;&#100;&#46;&#99;&#111;&#110;&#x74;&#101;&#x6e;&#x74;&#x40;&#122;&#x6f;&#104;&#111;&#46;&#99;&#111;&#109;">&#101;&#x6d;&#97;&#105;&#x6c;&#46;&#x77;&#x68;&#x69;&#x63;&#x68;&#x2e;&#119;&#x69;&#x6c;&#108;&#x2e;&#x72;&#101;&#x63;&#x65;&#x69;&#x76;&#x65;&#46;&#x65;&#x6e;&#x63;&#x72;&#x79;&#x70;&#x74;&#101;&#x64;&#x2e;&#99;&#x6f;&#x6e;&#x74;&#x65;&#110;&#116;&#64;&#122;&#x6f;&#x68;&#x6f;&#46;&#x63;&#x6f;&#109;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -482,7 +715,7 @@ following header:</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#97;&#x75;&#116;&#111;&#x72;&#x65;&#x73;&#112;&#111;&#110;&#100;&#43;&#100;&#x6b;&#105;&#109;&#64;&#x64;&#x6b;&#46;&#101;&#108;&#97;&#x6e;&#x64;&#x73;&#x79;&#115;&#x2e;&#99;&#x6f;&#x6d;&#x7a;&#x2e;">&#x61;&#117;&#x74;&#111;&#x72;&#x65;&#115;&#x70;&#x6f;&#110;&#100;&#x2b;&#100;&#107;&#105;&#109;&#64;&#100;&#107;&#x2e;&#x65;&#x6c;&#97;&#110;&#100;&#x73;&#x79;&#x73;&#46;&#99;&#x6f;&#x6d;&#x7a;&#46;</a> This is automated service, which checks
+`<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#97;&#x75;&#116;&#x6f;&#114;&#101;&#115;&#112;&#111;&#110;&#x64;&#43;&#x64;&#x6b;&#105;&#x6d;&#x40;&#100;&#107;&#46;&#101;&#x6c;&#x61;&#110;&#x64;&#115;&#x79;&#115;&#x2e;&#x63;&#x6f;&#x6d;&#122;&#x2e;">&#97;&#x75;&#x74;&#111;&#x72;&#101;&#115;&#112;&#111;&#x6e;&#x64;&#43;&#100;&#107;&#105;&#x6d;&#x40;&#x64;&#107;&#46;&#x65;&#108;&#97;&#x6e;&#100;&#x73;&#121;&#x73;&#46;&#x63;&#111;&#109;&#122;&#46;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
@@ -587,7 +820,7 @@ all of this together?</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#108;&amp;#x6f;&amp;#x67;&amp;#105;&amp;#x6e;&amp;#x40;&amp;#x65;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#x6d;&quot;</span>&gt;&amp;#x6c;&amp;#111;&amp;#x67;&amp;#x69;&amp;#x6e;&amp;#64;&amp;#101;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#108;&amp;#111;&amp;#x67;&amp;#105;&amp;#x6e;&amp;#64;&amp;#x65;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#108;&amp;#x6f;&amp;#x67;&amp;#105;&amp;#110;&amp;#x40;&amp;#x65;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
 </span><span class='line'>sed -i<span class="err">&#39;</span>&amp;lsquo; -r &amp;rsquo;s/#?<span class="se">\s</span>*use_locks<span class="se">\s</span>+0/use_locks 1/g&amp;rsquo; /etc/davfs2/davfs2.conf
 </span><span class='line'>mkdir /mnt/Box
 </span><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt; /mnt/Box davfs rw,noauto 0 0&amp;rdquo; &gt;&gt; /etc/fstab
@@ -629,7 +862,7 @@ and copy to box.com. Here is how I do it:</p>
 </span><span class='line'>git commit -m &amp;ldquo;Initial&amp;rdquo;
 </span><span class='line'>git gc <span class="c"># compress repository</span>
 </span><span class='line'>tar -cf /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>/*
-</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#x6d;&amp;#121;&amp;#x2e;&amp;#x6b;&amp;#x65;&amp;#121;&amp;#x40;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#x6d;&quot;</span>&gt;&amp;#109;&amp;#x79;&amp;#46;&amp;#107;&amp;#101;&amp;#x79;&amp;#64;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#116;&amp;#x6f;&amp;#58;&amp;#109;&amp;#x79;&amp;#x2e;&amp;#107;&amp;#101;&amp;#121;&amp;#64;&amp;#x65;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#111;&amp;#109;&quot;</span>&gt;&amp;#109;&amp;#121;&amp;#46;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#x40;&amp;#x65;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;box.com has maximum file limit so split files to lesser chunks&lt;/h1&gt;
 </span><span class='line'>
@@ -658,7 +891,7 @@ this initial deploy, make sure that all the files are moved to box.com!</p>
 </span><span class='line'>git add -A
 </span><span class='line'>git commit -m &amp;ldquo;<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>&amp;rdquo; -a
 </span><span class='line'>git format-patch -1 &amp;mdash;stdout &gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
-</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#x79;&amp;#111;&amp;#117;&amp;#114;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#x2e;&amp;#101;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&quot;</span>&gt;&amp;#121;&amp;#x6f;&amp;#x75;&amp;#x72;&amp;#64;&amp;#x6b;&amp;#x65;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#121;&amp;#111;&amp;#117;&amp;#x72;&amp;#x40;&amp;#107;&amp;#101;&amp;#x79;&amp;#46;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&quot;</span>&gt;&amp;#121;&amp;#111;&amp;#x75;&amp;#x72;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#x2e;&amp;#101;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
 </span><span class='line'>split &amp;mdash;bytes<span class="o">=</span>50m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.
 </span><span class='line'>mv /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.?? /mnt/Box/Backups/patches
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
@@ -987,164 +1220,6 @@ chance, that you&rsquo;ll find your answers there.</p>
 <li><a href="http://ailoo.net/2009/11/integrate-spamassassin-into-postfix-dovecot/">http://ailoo.net/2009/11/integrate-spamassassin-into-postfix-dovecot/</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Setting server-side mail filtering with sieve and dovecot]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/"/>
-    <updated>2012-07-16T11:43:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot</id>
-    <content type="html"><![CDATA[<p>Leaving GMail was of the best decisions for my mail I made recently. But also a
-most problematic one. I needed to set all the MTA architecture myself. I tested
-many solutions out there and finally ended with postfix + dovecot
-configuration.  It appears that this is most stable and unproblematic one (at
-least for now).</p>
-
-<!--more-->
-
-
-<p>The next feature I really missed is Gmail Server-Side mail filtering. I&rsquo;ve got
-a bunch of machines that access my mail server (computers, phones etc.) and I
-receive lots emails from lists, friends and organizations every day. Setting
-filtering for all of that once, was a big pain. Setting it multiple times on
-all the machines, and then be consistent about it was enormous P.I.T.A. So I
-started looking for solution for that problem and found
-<a href="http://sieve.info/">Sieve</a> (and its
-<a href="http://wiki.dovecot.org/LDA/Sieve">dovecot plugin</a>).</p>
-
-<p>Ok, so how to do it? Firstly, as for dovecot 1.2.x, sieve was completely
-rewritten as a new plugin. It can be obtained from
-<a href="http://www.rename-it.nl/dovecot/1.2/">rename-it.nl website</a>. At the time of
-writing this post, there is no <code>*.deb</code> package in repositories, so I have to
-build it manually. I also had to install <code>dovecot-dev</code> package, because of
-sieve configurator, which needs a <code>dovecot-config</code> file.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>wget &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://www.rename-it.nl/dovecot/1.2/dovecot-1.2-sieve-0.1.19.tar.gz&quot;</span>&gt;http://www.rename-it.nl/dovecot/1.2/dovecot-1.2-sieve-0.1.19.tar.gz&lt;/a&gt;
-</span><span class='line'>tar -xzvf dovecot-1.2-sieve-0.1.19.tar.gz
-</span><span class='line'><span class="nb">cd </span>dovecot-1.2-sieve-0.1.19
-</span><span class='line'>./configure &amp;mdash;with-dovecot<span class="o">=</span>/usr/lib/dovecot/ &amp;mdash;prefix<span class="o">=</span>/usr
-</span><span class='line'>make
-</span><span class='line'>sudo make install
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>After that, it was a time to enable sieve plugin in dovecot.
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/dovecot/dovecot.conf </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>protocol lda <span class="o">{</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;...
-</span><span class='line'><span class="c"># Support for dynamically loadable plugins. mail_plugins is a space separated</span>
-</span><span class='line'><span class="c"># list of plugins to load.</span>
-</span><span class='line'><span class="nv">mail_plugins</span> <span class="o">=</span> sieve <span class="c"># ... other plugins like quota</span>
-</span><span class='line'><span class="c"># add those directives when you expect problems - huge time saver!</span>
-</span><span class='line'><span class="nv">debug</span> <span class="o">=</span> yes
-</span><span class='line'><span class="nv">log_path</span> <span class="o">=</span> /var/log/dovecot-lda.log
-</span><span class='line'><span class="nv">info_log_path</span> <span class="o">=</span> /var/log/dovecot-lda.log
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>There is a possibility to make some adjustments for plugin itself (filters
-paths and so on), but I didn&rsquo;t find it necessary. However, if you want to &ndash; you
-can check them on
-<a href="http://wiki.dovecot.org/LDA/Sieve/Dovecot">LDA/Sieve documentation page</a>.
-After that, just restart postfix and everything is set.</p>
-
-<p>The last step is setting all the filters properly. They should be stored in
-<code>~/.dovecot.sieve</code> (if you use <code>mailbox_command</code>) or in
-<code>/home/vmail/user@domain/.dovecot.sieve</code> (if you use <code>mailbox_transport</code>).
-Sieve uses it&rsquo;s own <a href="http://www.ietf.org/rfc/rfc5228.txt">pseudo-language</a> for
-filtering, but below is a part of my file which should provide a
-<a href="http://wiki.dovecot.org/LDA/Sieve/">good example</a> for start:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>.dovecot.sieve </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Require plugin <span class="k">for </span>moving messages <span class="o">(</span>fileinto<span class="o">)</span> and vacation responder <span class="o">(</span>vacation<span class="o">)</span>&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;require <span class="o">[</span>&amp;ldquo;fileinto&amp;rdquo;, &amp;ldquo;vacation&amp;rdquo;<span class="o">]</span>;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Move all mails with &amp;ldquo;List-Id&amp;rdquo; equal to &amp;ldquo;users-pl.lists.rootnode.net&amp;rdquo; to rzegocki_pl/lists IMAP directory&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;if header :contains &amp;ldquo;List-Id&amp;rdquo; &amp;ldquo;users-pl.lists.rootnode.net&amp;rdquo; <span class="o">{</span> fileinto &amp;ldquo;rzegocki_pl.lists&amp;rdquo;; stop; <span class="o">}</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;If messages are not from a list <span class="o">(</span>most of the lists sets mail header &amp;ldquo;Precedence&amp;rdquo; either to &amp;ldquo;list&amp;rdquo; or &amp;ldquo;bulk&amp;rdquo;<span class="o">)</span> <span class="k">then </span>send a vacation email&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;if not header :contains &amp;ldquo;Precedence&amp;rdquo; <span class="o">[</span>&amp;ldquo;bulk&amp;rdquo;,&amp;ldquo;list&amp;rdquo;<span class="o">]</span> <span class="o">{</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;vacation :days 7 :addresses <span class="o">[</span><span class="s2">&quot;igor@email1.com&quot;</span>, <span class="s2">&quot;igor@email2.com&quot;</span><span class="o">]</span> :subject <span class="s2">&quot;Vacation 15.07 - 22.07&quot;</span> <span class="s2">&quot; ..... &quot;</span>
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="o">}</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Move all messages from my father to one directory&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;if anyof <span class="o">(</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;address :is <span class="s2">&quot;sender&quot;</span> <span class="s2">&quot;steven@email1.com&quot;</span>,
-</span><span class='line'>address :is <span class="s2">&quot;sender&quot;</span> <span class="s2">&quot;steven@email2.com&quot;</span>,
-</span><span class='line'>address :is <span class="s2">&quot;sender&quot;</span> <span class="s2">&quot;steven@email3.com&quot;</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    fileinto <span class="s2">&quot;rzegocki_pl.private.steven&quot;</span>; stop;
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-It took me some time to set everything up (mostly because of lack of
-documentation and multiple domain problems), but the final effect is awesome,
-and confirms that own server is an really, really great idea :)</p>
 ]]></content>
   </entry>
   
