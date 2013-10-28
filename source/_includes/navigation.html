@@ -1,5 +1,8 @@
 {% include custom/navigation.html %}
 <ul class="nav pull-right">
+    {% if site.photos_blog %}
+    <li><a href="{{ site.photos_blog }}" title="Photos"><i class="icon-camera social-navbar"></i> <span>Photoblog</span></a></li>
+    {% endif %}
     {% if site.github_user %}
     <li><a href="http://github.com/{{ site.github_user }}" title="Github Profile"><i class="icon-github-sign social-navbar"></i> <span>GitHub</span></a></li>
     {% endif %}
