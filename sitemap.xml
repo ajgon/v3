@@ -4,68 +4,68 @@
         <loc>
             http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/
         </loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/
         </loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/
         </loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/
         </loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/
         </loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server/</loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/
         </loc>
-        <lastmod>2013-10-28T18:51:30+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/public-key.txt</loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/robots.txt</loc>
-        <lastmod>2013-10-03T00:40:03+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/open-source/</loc>
-        <lastmod>2013-10-17T22:26:21+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/</loc>
-        <lastmod>2013-10-17T22:10:08+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/portfolio/</loc>
-        <lastmod>2013-10-28T18:51:30+01:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>http://www.rzegocki.pl/blog/archives/</loc>
-        <lastmod>2013-10-28T18:51:30+01:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
     <url>
         <loc>http://www.rzegocki.pl/blog/</loc>
-        <lastmod>2013-10-28T18:51:30+01:00</lastmod>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/</loc>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/open-source/</loc>
+        <lastmod>2013-10-31T21:55:50+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/portfolio/</loc>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/public-key.txt</loc>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/robots.txt</loc>
+        <lastmod>2013-10-28T16:49:53+01:00</lastmod>
     </url>
 </urlset>
