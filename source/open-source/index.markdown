@@ -27,6 +27,7 @@ footer: true
 
 ### Various
 * [Alfred2 Data URI](https://github.com/ajgon/alfred2-datauri) - Simple Alfred2 file extension to create Data URI schemes
+* [Alfred2 HTML Entity Lookup](https://github.com/ajgon/alfred2-html-entity-lookup) - Alfred 2 version of Remy's Sharp [excellent tool](http://leftlogic.com/projects/entity-lookup/).
 * [DeeDee](https://github.com/ajgon/DeeDee) - Set of configuration files and scripts which should greatly help to set Debian server from scratch
 
 ## Contributions/Forks
