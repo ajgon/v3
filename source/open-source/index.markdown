@@ -14,6 +14,7 @@ footer: true
 * [PixelPerfect](https://github.com/ajgon/pixelperfect) - All-in-one browser-independent pixelperfect solution
 
 ### PHP
+* [AjgonLintPackBundle](https://github.com/ajgon/lint-pack) - Symfony2 Bundle with various linters for app/console command
 * [FeedApi](https://github.com/ajgon/feed-api) - Free, open source version of Fever-compatible API
 * [Wordpress Plugins](https://github.com/ajgon/wp-plugins)
 
