@@ -14,9 +14,9 @@ backend). Currently I'm working for
 
 ## Summary
 
-* More than 5 years of experience in Front-end development (HTML/CSS/JS)
-* More than 3 years of experience in PHP software development (WordPress/Zend Framework/Propel/Smarty)
-* More than 3 years of experience in Ruby and RoR
+* More than 8 years of experience in Front-end development (HTML/CSS/JS)
+* More than 6 years of experience in PHP software development (WordPress/Zend Framework/Propel/Smarty)
+* More than 5 years of experience in Ruby and RoR
 * 2 years of experience as Linux admin (but long time ago, needs refresh :))
 
 ## Work Experience
@@ -68,8 +68,8 @@ backend). Currently I'm working for
 ### Supported by Experience
 
 * HTML5 + CSS3 + Responsive
-* JavaScript + jQuery
-* PHP + WordPress
+* JavaScript + jQuery + angular.js
+* PHP + WordPress + Symfony2
 * Ruby + Ruby on Rails
 * MySQL
 * git & SVN
