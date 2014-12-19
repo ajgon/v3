@@ -17,12 +17,12 @@
     left: 50%;
     margin-top: -33px;
     margin-left: -33px;
-    background: url(/images/ajax-loader.gif) top left no-repeat;
+    background: url(../images/ajax-loader.gif) top left no-repeat;
     z-index: 100;
 }
 
 #detail {
-    background: url(/images/detail-bg.png) top left repeat-y;
+    background: url(../images/detail-bg.png) top left repeat-y;
     width: 582px;
     position: fixed;
     left: 50%;
@@ -52,7 +52,7 @@
 
 #detail span.top,
 #detail span.bottom {
-    background: url(/images/detail-top.png) top left no-repeat;
+    background: url(../images/detail-top.png) top left no-repeat;
     width: 612px;
     height: 12px;
     display: block;
@@ -62,14 +62,14 @@
 }
 
 #detail span.bottom {
-    background-image: url(/images/detail-bottom.png);
+    background-image: url(../images/detail-bottom.png);
     top: auto;
     bottom: -12px;
 }
 
 #close {
     padding: 5px 0px 5px 20px;
-    background: url(/images/close.gif) no-repeat;
+    background: url(../images/close.gif) no-repeat;
     background-position: center left;
     color: #f0f0f0;
     background-color: inherit;
@@ -139,6 +139,6 @@ div.info div.right {
 }
 
 #thumb, #icon, #preview {
-    background: url(/images/ajax-loader.gif) no-repeat;
+    background: url(../images/ajax-loader.gif) no-repeat;
     background-position: center center;
 }

@@ -3,10 +3,10 @@
   new Element('h2').appendText('Sydney Death Notices | smh.com.au').injectInside($('detail'));
   rightColumn = new Element('div').setProperty('class', 'right-column').injectInside($('detail'));
     new Element('div').setProperties({'id': 'icon', 'class': 'preview'}).injectInside(rightColumn);
-      new Element('img').setProperties({'alt': 'Logo of project smh', 'src': '/images/portfolio/smh_logo.png'}).injectInside($('icon'));
+      new Element('img').setProperties({'alt': 'Logo of project smh', 'src': 'images/portfolio/smh_logo.png'}).injectInside($('icon'));
     new Element('div').setProperties({'id': 'preview', 'class': 'preview'}).injectInside(rightColumn);
-      new Element('img').setProperties({'id': 'bigpreview', 'alt': 'Slice of project smh', 'src': '/images/portfolio/smh.png'}).injectInside($('preview'));
-  new Element('img').setProperties({'id': 'thumb', 'alt': 'Sample page of project smh', 'src': '/images/portfolio/smh_view.png'}).injectInside($('detail'));
+      new Element('img').setProperties({'id': 'bigpreview', 'alt': 'Slice of project smh', 'src': 'images/portfolio/smh.png'}).injectInside($('preview'));
+  new Element('img').setProperties({'id': 'thumb', 'alt': 'Sample page of project smh', 'src': 'images/portfolio/smh_view.png'}).injectInside($('detail'));
   info = new Element('div').setProperty('class', 'info').injectInside($('detail'));
     left = new Element('div').setProperty('class', 'left').injectInside(info);
       new Element('h3').appendText('Where?').injectInside(left);

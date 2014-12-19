@@ -3,10 +3,10 @@
   new Element('h2').appendText('Respectance 2.0 - share your memories').injectInside($('detail'));
   rightColumn = new Element('div').setProperty('class', 'right-column').injectInside($('detail'));
     new Element('div').setProperties({'id': 'icon', 'class': 'preview'}).injectInside(rightColumn);
-      new Element('img').setProperties({'alt': 'Logo of project respectance20', 'src': '/images/portfolio/respectance20_logo.png'}).injectInside($('icon'));
+      new Element('img').setProperties({'alt': 'Logo of project respectance20', 'src': 'images/portfolio/respectance20_logo.png'}).injectInside($('icon'));
     new Element('div').setProperties({'id': 'preview', 'class': 'preview'}).injectInside(rightColumn);
-      new Element('img').setProperties({'id': 'bigpreview', 'alt': 'Slice of project respectance20', 'src': '/images/portfolio/respectance20.png'}).injectInside($('preview'));
-  new Element('img').setProperties({'id': 'thumb', 'alt': 'Sample page of project respectance20', 'src': '/images/portfolio/respectance20_view.png'}).injectInside($('detail'));
+      new Element('img').setProperties({'id': 'bigpreview', 'alt': 'Slice of project respectance20', 'src': 'images/portfolio/respectance20.png'}).injectInside($('preview'));
+  new Element('img').setProperties({'id': 'thumb', 'alt': 'Sample page of project respectance20', 'src': 'images/portfolio/respectance20_view.png'}).injectInside($('detail'));
   info = new Element('div').setProperty('class', 'info').injectInside($('detail'));
     left = new Element('div').setProperty('class', 'left').injectInside(info);
       new Element('h3').appendText('Where?').injectInside(left);
