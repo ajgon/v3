@@ -1,4 +1,4 @@
-rzegocki.pl - version 2
+rzegocki.pl - version 1
 =======================
 
-Second version of rzegocki.pl website - kept for legacy.
+First version of rzegocki.pl website - kept for legacy.
