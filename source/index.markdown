@@ -32,6 +32,8 @@ backend). Currently I'm working for
 
 ## Notable projects
 
+* **[MPIRICA Health, Inc.](https://www.mpirica.com/)** (2014)<br>
+  Lead Back-End developer, JavaScript developer
 * **[The X-Factor USA](http://www.thexfactorusa.com/)** (2013)<br>
   Lead Back-End developer, JavaScript services integration
   ([Gigya](http://www.gigya.com/), [Livefyre](http://www.livefyre.com/), [CrowdTwist](http://www.crowdtwist.com/))
