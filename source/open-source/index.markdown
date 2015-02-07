@@ -19,7 +19,7 @@ footer: true
 * [Wordpress Plugins](https://github.com/ajgon/wp-plugins)
 
 ### Python
-* [pigit](https://github.com/ajgon/pigit) - A git parsing library
+* [pigit](https://github.com/ajgon/archives/tree/master/pigit) - A git parsing library
 * [store-mailgate](https://github.com/ajgon/store-mailgate) - A simple postfix mailgate to export desired emails to files on disc
 
 ### Ruby
@@ -40,6 +40,7 @@ footer: true
 * [Ruby JSLint](https://github.com/geraud/jslint/commit/8c2a50aded4cd2ec2d53dcdc4aba6064073be624)
 * [jQuery Timepicker](https://github.com/trentrichardson/jQuery-Timepicker-Addon/commit/5fb74078e265d0a8d5beed3daffb09a01dca2cc0)
 * [jQuery Numeric](https://github.com/SamWM/jQuery-Plugins/commit/d0b8625f375153e7afc463caa65b5d155579e4d9)
+* [jQuery Idle](https://github.com/kidh0/jquery.idle/commit/995c908f00d5de0b458e26d9902c3cbe9b01c8d9)
 
 ### Python
 * [gpg-mailgate](https://github.com/ajgon/gpg-mailgate)
