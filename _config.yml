@@ -25,6 +25,7 @@ navigation: [
     {url: '/', text: 'About me'},
     {url: '/portfolio', text: 'Portfolio'},
     {url: '/open-source', text: 'Open source'},
+    {url: '/papers', text: 'Papers'},
     {url: '/blog', text: 'Blog'}
 ]
 
