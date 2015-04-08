@@ -7,22 +7,22 @@ footer: true
 ---
 
 Hello, my name is Igor Rzegocki and I do websites from both sides (frontend &
-backend). Currently I'm working for
-[XHTMLized agency](http://www.xhtmlized.com/) as a pround member of
-[X-Team](http://www.x-team.com/). I also own a small web agency called
+backend). Currently I'm working for [XHTMLized agency](http://www.xhtmlized.com/). I also own a small web agency called
 [IRGON SYSTEM](http://www.irgon.com/).
 
 ## Summary
 
-* More than 8 years of experience in Front-end development (HTML/CSS/JS)
-* More than 6 years of experience in PHP software development (WordPress/Zend Framework/Propel/Smarty)
-* More than 5 years of experience in Ruby and RoR
+* More than 10 years of experience in Front-end development (HTML/CSS/JS)
+* More than 8 years of experience in PHP software development (WordPress/Zend Framework/Propel/Smarty)
+* More than 6 years of experience in Ruby and RoR
 * 2 years of experience as Linux admin (but long time ago, needs refresh :))
 
 ## Work Experience
 
-* **[XHTMLized](http://www.xhtmlized.com/)/[X-Team](http://www.x-team.com/)** (01.11.2011 - Present day)<br>
-  Ruby (<abbr title="Ruby on Rails">RoR</abbr>) & PHP (<abbr title="WordPress">WP</abbr>) developer
+* **[XHTMLized](http://www.xhtmlized.com/)** (01.11.2011 - Present day)<br>
+  Ruby (<abbr title="Ruby on Rails">RoR</abbr>) & JavaScript developer
+* **[X-Team](http://www.x-team.com/)** (01.11.2011 - 31.03.2014)<br>
+  PHP (<abbr title="WordPress">WP</abbr>) developer
 * **[WordWatch Inc.](http://www.wordwatch.com/)** (01.11.2010 - 31.10.2011)<br>
   Front-End & Ruby developer
 * **[IIZT Poland](http://www.iizt.com/)** (01.03.2009 - 31.10.2010)<br>
@@ -32,7 +32,7 @@ backend). Currently I'm working for
 
 ## Notable projects
 
-* **[MPIRICA Health, Inc.](https://www.mpirica.com/)** (2014)<br>
+* **[MPIRICA Health, Inc.](https://www.mpirica.com/)** (2014 - Present day)<br>
   Lead Back-End developer, JavaScript developer
 * **[The X-Factor USA](http://www.thexfactorusa.com/)** (2013)<br>
   Lead Back-End developer, JavaScript services integration
