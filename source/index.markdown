@@ -73,13 +73,13 @@ backend). Currently I'm working for [XHTMLized agency](http://www.xhtmlized.com/
 * JavaScript + jQuery + angular.js
 * PHP + WordPress + Symfony2
 * Ruby + Ruby on Rails
-* MySQL
+* MySQL + PostgreSQL
 * git & SVN
 
 ### Hobby
 * Linux administration
+* Amazon Web Services
 * Python
-* PostgreSQL
 * LaTeX
 * Quake III Arena
 
