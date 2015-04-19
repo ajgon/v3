@@ -4,7 +4,7 @@
   <title><![CDATA[Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-04-08T08:15:07+02:00</updated>
+  <updated>2015-04-19T22:44:29+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -12,6 +12,355 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Installing custom linux on Raspberry&nbsp;Pi&nbsp;2]]></title>
+    <link href="http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/"/>
+    <updated>2015-04-19T20:00:00+02:00</updated>
+    <id>http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2</id>
+    <content type="html"><![CDATA[<p>Few days ago, <a href="http://www.rzegocki.pl/images/upload/rpi.jpg">I gave myself a present</a>, which (at the very beginning) I was planning to power
+up with <a href="https://osmc.tv/">OSMC</a> and use it as HTPC. However, in a meantime I had to switch my apartment, and put
+my worn ATOM server offline for couple of hours &ndash; necessity I didn&rsquo;t like very much. This, and the fact that my server
+got very noisy (I suspected power supply fan) convinced me to start looking for something new. And then I thought &ndash;
+&ldquo;Hey! I&rsquo;ve got this awesome, little fella &ndash; I can attach Ethernet to it (or WiFi Dongle and LTE Hotspot from my phone)
+to it and never worry about noise or being offline again!&rdquo;. And I did, however installing custom Debian distribution,
+wasn&rsquo;t as trivial task as I expected&hellip;</p>
+
+<!-- more -->
+
+
+<h2>At the outset</h2>
+
+<p>In theory, when following this guide, you don&rsquo;t need a monitor and keyboard to set up fully functional RPI2 Server.
+However they are very helpful, when something doesn&rsquo;t go as planned :&ndash;). This is especially truthful, when you are
+trying to set up WiFi networking and you are using some non-standard chipset WiFi dongle.</p>
+
+<h2>Setting up Vagrant</h2>
+
+<p>I strongly recommend, to use some kind of virtual machine, for this setup. This will save you from polluting your
+global system with packages, which you probably won&rsquo;t need anymore. The easiest solution is to use
+<a href="https://www.vagrantup.com/">Vagrant</a> with <a href="https://www.virtualbox.org/">VirtualBox</a> since they are both
+multi-platform and easy to set&nbsp;up.</p>
+
+<figure class='code'><figcaption><span>Setting up vagrant </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>vagrant init ubuntu/trusty64
+</span><span class='line'>vagrant up
+</span><span class='line'>vagrant ssh
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>In vagrant </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo -s <span class="c"># Change user to root</span>
+</span><span class='line'><span class="nb">cd</span> /vagrant <span class="c"># Use a shared folder, all files created here will be visible outside of VM</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you do this, all code examples below (unless stated differently) will reflect to Vagrant root environment.</p>
+
+<h2>Preparing SDCard Filesystem</h2>
+
+<p>First of all, we need a properly partitioned image file, which later on we will copy to the SD card. Raspberry PI
+doesn&rsquo;t come with any kind of BIOS or low level boot-up system &ndash; everything is loaded directly from SD Card. Moreover
+RPI expects a FAT partition with firmware files at the very beginning of the SD Disk. But first things first &ndash; let&rsquo;s
+install all the necessary packages:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get install -y git binfmt-support qemu qemu-user-static debootstrap kpartx lvm2 dosfstools
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we can setup the initial partitioning.</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>rpi.img <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>512
+</span><span class='line'>losetup -f --show rpi.img <span class="c"># returns loop device used later, usually /dev/loop0</span>
+</span><span class='line'>fdisk /dev/loop0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We need to create two partitions. As I mentioned, the first one needs to be FAT16 partition (type <code>e</code>), the second one
+a Linux one (type <code>83</code>). So, to do this in fdisk invoke:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>n <span class="c"># Create new partition</span>
+</span><span class='line'>p <span class="c"># Set it as primary...</span>
+</span><span class='line'>1 <span class="c"># ...and first</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># Start it from the beginning</span>
+</span><span class='line'>+64M <span class="c"># And make it 64 Megabytes large (it is enough for the firmware)</span>
+</span><span class='line'>t <span class="c"># Set partition type</span>
+</span><span class='line'>e <span class="c"># to FAT16</span>
+</span><span class='line'>n <span class="c"># Create new partition again</span>
+</span><span class='line'>p <span class="c"># Set it as primary...</span>
+</span><span class='line'>2 <span class="c"># ...and second</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># Start when old partition ends...</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># ...and use all available space</span>
+</span><span class='line'>w <span class="c"># Write all changes to the image</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next step is mounting those partitions as virtual devices and make filesystems on them:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>losetup -d /dev/loop0
+</span><span class='line'>kpartx -va rpi.img <span class="c"># This will create two /dev/mapper devices, usually loop0p1 and loop0p2</span>
+</span><span class='line'>mkfs.fat /dev/mapper/loop0p1
+</span><span class='line'>mkfs.ext4 /dev/mapper/loop0p2
+</span><span class='line'>mkdir boot root
+</span><span class='line'>mount /dev/mapper/loop0p1 boot
+</span><span class='line'>mount /dev/mapper/loop0p2 root
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Installing and configuring Debian</h2>
+
+<p>After that, we have two directories: <code>boot</code> which will contain all RPI Firmware, and <code>root</code> which will contain our
+desired distro (Debian). Now, it&rsquo;s just a typical Debian bootstrapping. Since Raspberry&nbsp;Pi&nbsp;2 finally
+supports ARMv7, we can safely use Debian <code>armhf</code> architecture, and have all goodies like hardware floating points,
+out of the box.</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>debootstrap --arch armhf --foreign wheezy root http://ftp.debian.org/debian/
+</span><span class='line'>cp /usr/bin/qemu-arm-static root/usr/bin/ <span class="c"># needed for syscall emulation</span>
+</span><span class='line'><span class="nv">LANG</span><span class="o">=</span>C chroot root /debootstrap/debootstrap --second-stage
+</span><span class='line'>chroot root /bin/bash -c <span class="s2">&quot;echo \&quot;root:raspberry\&quot; | chpasswd&quot;</span> <span class="c"># This will set root password to &#39;raspberry&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next we need to set a minimal set of configuration files, to actually boot our disto.</p>
+
+<p><em>Note: In code headers, I used absolute paths in relation to your RPI root directory, so if you want to set up
+<code>/etc/fstab</code> you need to edit <code>root/etc/fstab</code> (if you followed this guide).</em></p>
+
+<p>First is <code>/etc/fstab</code> which is used to mount initial partitions (boot and proc system).</p>
+
+<figure class='code'><figcaption><span>Raspberry &#47;etc/fstab </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>proc            /proc           proc    defaults        0       0
+</span><span class='line'>/dev/mmcblk0p1  /boot           vfat    defaults        0       0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next is hostname.</p>
+
+<figure class='code'><figcaption><span>Raspberry &#47;etc/hostname </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>raspberrypi2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We also need to set up urls for Debian repositories, so we can download and manage system packages.</p>
+
+<figure class='code'><figcaption><span>Raspberry &#47;etc/apt/sources.list </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>deb http://ftp.debian.org/debian/ wheezy main contrib non-free
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Installing Raspberry&nbsp;Pi firmware</h2>
+
+<p>You can do it manually, but I strongly recommend to use <a href="https://github.com/Hexxeh/rpi-update">Hexxeh excellent tool</a>.</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p root/lib/modules
+</span><span class='line'>curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
+</span><span class='line'>chmod +x /usr/bin/rpi-update
+</span><span class='line'><span class="nv">SKIP_BACKUP</span><span class="o">=</span>1 <span class="nv">UPDATE_SELF</span><span class="o">=</span>0 <span class="nv">BOOT_PATH</span><span class="o">=</span>boot <span class="nv">ROOT_PATH</span><span class="o">=</span>root rpi-update
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait&quot;</span> &gt; boot/cmdline.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that&rsquo;s it! At this point, if you have a monitor, you can flash your SD Card, plug it in to your Raspberry, and see
+if your Debian boots up. If you also have a keyboard, you should be able to log in to it as well, and do the following
+steps from there. Otherwise, keep using your <code>rpi.img</code>.</p>
+
+<h2>Chrooting</h2>
+
+<p><em>You can skip this step, if you already booted up your system and configuring it from there.</em></p>
+
+<p>Beforehand we need to mount <code>/dev</code> and <code>/proc</code> filesystems, to create a fully functional chrooted environment.</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mount -t proc proc root/proc
+</span><span class='line'>mount --rbind /dev root/dev
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, all is left is to simply type:</p>
+
+<figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>chroot root /bin/bash
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Setting up necessary configuration</h2>
+
+<p>At first, disable installation of recommended packages &ndash; for example, most of the time, we don&rsquo;t want &frac34; of Xserver
+while installing vim.</p>
+
+<figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;APT::Install-Recommends &quot;0&quot;;&#39;</span> &gt; /etc/apt/apt.conf.d/00norecommends
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next we need to setup a minimal dose of packages, which are necessary to use our distro &mdash; <code>locales</code> for
+basic UTF8 language support, and <code>openssh-server</code> to allow us to actually sign in to the machine.</p>
+
+<figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'><span class="nv">LANG</span><span class="o">=</span>C apt-get install locales
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;en_US.UTF-8 UTF-8&quot;</span> &gt;&gt; /etc/locale.gen
+</span><span class='line'>locale-gen
+</span><span class='line'>apt-get install openssh-server openssh-blacklist openssh-blacklist-extra
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Configuring network</h2>
+
+<p>Easiest case scenario is Ethernet with DHCP. Keep in mind, that if you don&rsquo;t plan to use ethernet at all (only WiFi),
+you should skip this step, as it will slow down boot up of Pi significantly (the machine will try to establish ethernet
+connection for over 60s). Otherwise, all you need to do is add following lines to <code>/etc/network/interfaces</code>:</p>
+
+<figure class='code'><figcaption><span>Raspberry &#47;etc/network/interfaces </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>auto lo
+</span><span class='line'>iface lo inet loopback
+</span><span class='line'>
+</span><span class='line'>auto eth0
+</span><span class='line'>iface eth0 inet dhcp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that&rsquo;s it. It&rsquo;s getting more complicated if you want to configure a WiFi network as well.</p>
+
+<h3>Configuring Wi-Fi</h3>
+
+<p>In my case, I used a <a href="http://www.element14.com/community/docs/DOC-48541?ICID=rpiaccsy-access-products#">WiPi</a> WiFi
+adapter. If you have a different one, you need to use a <a href="https://packages.debian.org/source/wheezy/firmware-nonfree">proper firmware</a>
+instead of the one which I used.</p>
+
+<p>At first, you need to install all necessary dependencies&hellip;</p>
+
+<figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install firmware-ralink <span class="c"># Use your firmware driver here</span>
+</span><span class='line'>apt-get install wireless-tools wpasupplicant
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip; and configure a network interface:</p>
+
+<figure class='code'><figcaption><span>Raspberry &#47;etc/network/interfaces </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Add those lines at the end of the file</span>
+</span><span class='line'>
+</span><span class='line'>auto wlan0
+</span><span class='line'>iface wlan0 inet dhcp
+</span><span class='line'>wpa-ssid &lt;name of your WiFi network&gt;
+</span><span class='line'>wpa-psk &lt;password to your WiFi network&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Flashing</h2>
+
+<p>It&rsquo;s good idea, to do the cleanup after finishing the image.</p>
+
+<figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get autoremove --purge
+</span><span class='line'>apt-get clean</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can exit the chroot (and VM if you used it), and flash your SDCard. In OSX you can do this by:</p>
+
+<figure class='code'><figcaption><span>OSX Shell </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>diskutil list <span class="c"># Check for you SDCard disk number</span>
+</span><span class='line'>diskutil umountDisk /dev/diskX <span class="c"># Where X is a disc number</span>
+</span><span class='line'>sudo dd <span class="k">if</span><span class="o">=</span>rpi.img <span class="nv">of</span><span class="o">=</span>/dev/diskX
+</span><span class='line'>diskutil eject /dev/diskX
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Linux it&rsquo;s as simple as typing:</p>
+
+<figure class='code'><figcaption><span>Linux </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo dd <span class="k">if</span><span class="o">=</span>rpi.img <span class="nv">of</span><span class="o">=</span>/dev/sdX <span class="c"># Where X is a disk letter</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it. Don&rsquo;t
+forget to change your root password (or disable root login at all) and to secure your system.</p>
+
+<p>Happy hacking!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[25 awesome tools every developer should have]]></title>
@@ -892,7 +1241,7 @@ following header:</p>
 
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x61;&#117;&#x74;&#111;&#114;&#x65;&#115;&#x70;&#111;&#110;&#100;&#x2b;&#100;&#x6b;&#105;&#109;&#x40;&#100;&#107;&#46;&#x65;&#108;&#97;&#x6e;&#100;&#x73;&#121;&#x73;&#x2e;&#x63;&#111;&#109;&#122;&#46;">&#97;&#117;&#x74;&#x6f;&#x72;&#x65;&#x73;&#112;&#111;&#110;&#x64;&#43;&#100;&#107;&#105;&#109;&#64;&#x64;&#107;&#46;&#101;&#108;&#97;&#110;&#x64;&#x73;&#121;&#115;&#x2e;&#99;&#111;&#109;&#122;&#x2e;</a> This is automated service, which checks
+`<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x61;&#117;&#x74;&#x6f;&#x72;&#x65;&#115;&#x70;&#x6f;&#x6e;&#100;&#x2b;&#x64;&#x6b;&#105;&#109;&#64;&#x64;&#107;&#x2e;&#x65;&#108;&#97;&#110;&#100;&#x73;&#x79;&#115;&#46;&#99;&#111;&#x6d;&#122;&#x2e;">&#97;&#x75;&#116;&#x6f;&#114;&#x65;&#115;&#x70;&#111;&#x6e;&#100;&#43;&#x64;&#107;&#105;&#109;&#x40;&#x64;&#107;&#x2e;&#101;&#108;&#x61;&#x6e;&#100;&#x73;&#x79;&#115;&#x2e;&#x63;&#x6f;&#x6d;&#122;&#x2e;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
