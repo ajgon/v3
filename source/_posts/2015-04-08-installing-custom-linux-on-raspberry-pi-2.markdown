@@ -10,8 +10,9 @@ Few days ago, [I gave myself a present](/images/upload/rpi.jpg), which (at the v
 up with [OSMC](https://osmc.tv/) and use it as HTPC. However, in a meantime I had to switch my apartment, and put
 my worn ATOM server offline for couple of hours - necessity I didn't like very much. This, and the fact that my server
 got very noisy (I suspected power supply fan) convinced me to start looking for something new. And then I thought -
-"Hey! I've got this awesome, little fella - I can attach WiFi AP and LTE to it and never worry about noise or being
-offline again!". And I did, however installing custom Debian distribution on it, wasn't as trival task as I expected...
+"Hey! I've got this awesome, little fella - I can attach Ethernet to it (or WiFi Dongle and LTE Hotspot from my phone)
+to it and never worry about noise or being offline again!". And I did, however installing custom Debian distribution,
+wasn't as trivial task as I expected...
 
 <!-- more -->
 
@@ -19,14 +20,14 @@ offline again!". And I did, however installing custom Debian distribution on it,
 
 In theory, when following this guide, you don't need a monitor and keyboard to set up fully functional RPI2 Server.
 However they are very helpful, when something doesn't go as planned :-). This is especially truthful, when you are
-trying to set up WiFi networking and you are using some non-standard chipset WiFi AP.
+trying to set up WiFi networking and you are using some non-standard chipset WiFi dongle.
 
 ## Setting up Vagrant
 
-I strongly recommend, to use some kind of virutal machine, for this setup. This will save you from polluting your
+I strongly recommend, to use some kind of virtual machine, for this setup. This will save you from polluting your
 global system with packages, which you probably won't need anymore. The easiest solution is to use
 [Vagrant](https://www.vagrantup.com/) with [VirtualBox](https://www.virtualbox.org/) since they are both
-multiplatform and easy to set&nbsp;up.
+multi-platform and easy to set&nbsp;up.
 
 {% codeblock Setting up vagrant lang:sh %}
 vagrant init ubuntu/trusty64
@@ -61,7 +62,7 @@ losetup -f --show rpi.img # returns loop device used later, usually /dev/loop0
 fdisk /dev/loop0
 {% endcodeblock %}
 
-We need to create two partitions. As I metioned, the first one needs to be FAT16 partition (type `e`), the second one
+We need to create two partitions. As I mentioned, the first one needs to be FAT16 partition (type `e`), the second one
 a Linux one (type `83`). So, to do this in fdisk invoke:
 
 {% codeblock As root lang:sh %}
@@ -95,8 +96,8 @@ mount /dev/mapper/loop0p2 root
 ## Installing and configuring Debian
 
 After that, we have two directories: `boot` which will contain all RPI Firmware, and `root` which will contain our
-desired distro (Debian). Now, it's just a typical debian bootstrapping. Since Raspberry&nbsp;Pi&nbsp;2 finally
-supportts ARMv7, we can safely use debian `armhf` architecture, and have all goodies like hardware floating points,
+desired distro (Debian). Now, it's just a typical Debian bootstrapping. Since Raspberry&nbsp;Pi&nbsp;2 finally
+supports ARMv7, we can safely use Debian `armhf` architecture, and have all goodies like hardware floating points,
 out of the box.
 
 {% codeblock As root lang:sh %}
@@ -124,7 +125,7 @@ Next is hostname.
 raspberrypi2
 {% endcodeblock %}
 
-We also need to set up urls for debian repositories, so we can download and manage system packages.
+We also need to set up urls for Debian repositories, so we can download and manage system packages.
 
 {% codeblock Raspberry &#47;etc/apt/sources.list lang:sh %}
 deb http://ftp.debian.org/debian/ wheezy main contrib non-free
@@ -150,7 +151,7 @@ steps from there. Otherwise, keep using your `rpi.img`.
 
 *You can skip this step, if you already booted up your system and configuring it from there.*
 
-Beforehead we need to mount `/dev` and `/proc` filesystems, to create a fully functionial chrooted environment.
+Beforehand we need to mount `/dev` and `/proc` filesystems, to create a fully functional chrooted environment.
 
 {% codeblock As root lang:sh %}
 mount -t proc proc root/proc
@@ -205,7 +206,7 @@ In my case, I used a [WiPi](http://www.element14.com/community/docs/DOC-48541?IC
 adapter. If you have a different one, you need to use a [proper firmware](https://packages.debian.org/source/wheezy/firmware-nonfree)
 instead of the one which I used.
 
-At first, you need to install all necessary dependecies...
+At first, you need to install all necessary dependencies...
 
 {% codeblock As Raspberry root lang:sh %}
 apt-get install firmware-ralink # Use your firmware driver here
@@ -247,7 +248,8 @@ In Linux it's as simple as typing:
 sudo dd if=rpi.img of=/dev/sdX # Where X is a disk letter
 {% endcodeblock %}
 
-Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it.
+Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it. Don't
+forget to change your root password (or disable root login at all) and to secure your system.
 
-Have fun!
+Happy hacking!
 
