@@ -455,8 +455,53 @@ instead of the one which I used.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it. Don&rsquo;t
-forget to change your root password (or disable root login at all) and to secure your system.</p>
+<h2>Finishing up</h2>
+
+<p>Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it.
+If you haven&rsquo;t use monitor and keyboard, you might end not knowing which IP address SSH to. The easiest solution for
+this problem is use <code>nmap</code> to detect all open hosts in your subnet, then check which one responds to <code>root</code> user
+with <code>raspberry</code> password.</p>
+
+<figure class='code'><figcaption><span>In terminal </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>nmap -p22 -oG - --open 192.168.0.0/24 | grep Host | awk <span class="s1">&#39;{print $2}&#39;</span> | sort | uniq
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Don&rsquo;t forget to change your root password (or disable root login at all) and to secure your system after you sign in!
+The next thing, you might notice is, that your Linux partition is pretty small (512MB). This is due to fact, that
+the original image was created as small as possible, to reduce flashing time. Thankfully, you can expand it pretty
+easily.</p>
+
+<figure class='code'><figcaption><span>As raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>fdisk /dev/mmcblk0
+</span><span class='line'><span class="c"># In fdisk</span>
+</span><span class='line'>d <span class="c"># Delete partition...</span>
+</span><span class='line'>2 <span class="c"># ... the linux partition (don&#39;t worry, you won&#39;t lose your data)</span>
+</span><span class='line'>n <span class="c"># Create ...</span>
+</span><span class='line'>p <span class="c"># ... primary partition ...</span>
+</span><span class='line'>2 <span class="c"># number 2</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># Start from the beginning of the free space (as the previous did) ...</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># ... but end up filling all available space</span>
+</span><span class='line'>w <span class="c"># write changes</span>
+</span><span class='line'><span class="c"># In shell</span>
+</span><span class='line'>reboot <span class="c"># to make new partition visible for the system</span>
+</span><span class='line'>resize2fs /dev/mmcblk0p2 <span class="c"># Resize filesystem to fill up whole partition space</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Happy hacking!</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-04-19T22:44:29+02:00</updated>
+  <updated>2015-04-20T16:32:55+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -355,8 +355,53 @@ instead of the one which I used.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it. Don&rsquo;t
-forget to change your root password (or disable root login at all) and to secure your system.</p>
+<h2>Finishing up</h2>
+
+<p>Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it.
+If you haven&rsquo;t use monitor and keyboard, you might end not knowing which IP address SSH to. The easiest solution for
+this problem is use <code>nmap</code> to detect all open hosts in your subnet, then check which one responds to <code>root</code> user
+with <code>raspberry</code> password.</p>
+
+<figure class='code'><figcaption><span>In terminal </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>nmap -p22 -oG - --open 192.168.0.0/24 | grep Host | awk <span class="s1">&#39;{print $2}&#39;</span> | sort | uniq
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Don&rsquo;t forget to change your root password (or disable root login at all) and to secure your system after you sign in!
+The next thing, you might notice is, that your Linux partition is pretty small (512MB). This is due to fact, that
+the original image was created as small as possible, to reduce flashing time. Thankfully, you can expand it pretty
+easily.</p>
+
+<figure class='code'><figcaption><span>As raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>fdisk /dev/mmcblk0
+</span><span class='line'><span class="c"># In fdisk</span>
+</span><span class='line'>d <span class="c"># Delete partition...</span>
+</span><span class='line'>2 <span class="c"># ... the linux partition (don&#39;t worry, you won&#39;t lose your data)</span>
+</span><span class='line'>n <span class="c"># Create ...</span>
+</span><span class='line'>p <span class="c"># ... primary partition ...</span>
+</span><span class='line'>2 <span class="c"># number 2</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># Start from the beginning of the free space (as the previous did) ...</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># ... but end up filling all available space</span>
+</span><span class='line'>w <span class="c"># write changes</span>
+</span><span class='line'><span class="c"># In shell</span>
+</span><span class='line'>reboot <span class="c"># to make new partition visible for the system</span>
+</span><span class='line'>resize2fs /dev/mmcblk0p2 <span class="c"># Resize filesystem to fill up whole partition space</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Happy hacking!</p>
 ]]></content>
@@ -1241,7 +1286,7 @@ following header:</p>
 
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x61;&#117;&#x74;&#x6f;&#x72;&#x65;&#115;&#x70;&#x6f;&#x6e;&#100;&#x2b;&#x64;&#x6b;&#105;&#109;&#64;&#x64;&#107;&#x2e;&#x65;&#108;&#97;&#110;&#100;&#x73;&#x79;&#115;&#46;&#99;&#111;&#x6d;&#122;&#x2e;">&#97;&#x75;&#116;&#x6f;&#114;&#x65;&#115;&#x70;&#111;&#x6e;&#100;&#43;&#x64;&#107;&#105;&#109;&#x40;&#x64;&#107;&#x2e;&#101;&#108;&#x61;&#x6e;&#100;&#x73;&#x79;&#115;&#x2e;&#x63;&#x6f;&#x6d;&#122;&#x2e;</a> This is automated service, which checks
+`<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x61;&#x75;&#116;&#111;&#x72;&#x65;&#x73;&#112;&#x6f;&#x6e;&#x64;&#x2b;&#x64;&#x6b;&#x69;&#109;&#x40;&#x64;&#107;&#46;&#101;&#108;&#x61;&#x6e;&#100;&#x73;&#x79;&#x73;&#x2e;&#99;&#x6f;&#109;&#122;&#x2e;">&#97;&#x75;&#116;&#x6f;&#114;&#x65;&#115;&#x70;&#111;&#110;&#x64;&#x2b;&#100;&#107;&#105;&#109;&#x40;&#100;&#x6b;&#46;&#x65;&#x6c;&#x61;&#x6e;&#100;&#115;&#x79;&#x73;&#46;&#x63;&#111;&#109;&#x7a;&#x2e;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
