@@ -248,8 +248,37 @@ In Linux it's as simple as typing:
 sudo dd if=rpi.img of=/dev/sdX # Where X is a disk letter
 {% endcodeblock %}
 
-Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it. Don't
-forget to change your root password (or disable root login at all) and to secure your system.
+## Finishing up
+
+Put your card into your Raspberry and boot it up! If everything goes well, you should be able to SSH to it.
+If you haven't use monitor and keyboard, you might end not knowing which IP address SSH to. The easiest solution for
+this problem is use `nmap` to detect all open hosts in your subnet, then check which one responds to `root` user
+with `raspberry` password.
+
+{% codeblock In terminal lang:sh %}
+nmap -p22 -oG - --open 192.168.0.0/24 | grep Host | awk '{print $2}' | sort | uniq
+{% endcodeblock %}
+
+Don't forget to change your root password (or disable root login at all) and to secure your system after you sign in!
+The next thing, you might notice is, that your Linux partition is pretty small (512MB). This is due to fact, that
+the original image was created as small as possible, to reduce flashing time. Thankfully, you can expand it pretty
+easily.
+
+{% codeblock As raspberry root lang:sh %}
+fdisk /dev/mmcblk0
+# In fdisk
+d # Delete partition...
+2 # ... the linux partition (don't worry, you won't lose your data)
+n # Create ...
+p # ... primary partition ...
+2 # number 2
+[enter] # Start from the beginning of the free space (as the previous did) ...
+[enter] # ... but end up filling all available space
+w # write changes
+# In shell
+reboot # to make new partition visible for the system
+resize2fs /dev/mmcblk0p2 # Resize filesystem to fill up whole partition space
+{% endcodeblock %}
 
 Happy hacking!
 
