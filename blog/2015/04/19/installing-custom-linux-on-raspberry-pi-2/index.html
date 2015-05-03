@@ -244,6 +244,9 @@ a Linux one (type <code>83</code>). So, to do this in fdisk invoke:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>If you have problems with partitioning the file using <code>kpartx</code>, try to move it outside from <code>/vagrant</code> dir to
+some place in virtual filesystem (homedir is fine), follow this guide, and then copy <code>.img</code> file back to <code>/vagrant</code>.</p>
+
 <h2>Installing and configuring Debian</h2>
 
 <p>After that, we have two directories: <code>boot</code> which will contain all RPI Firmware, and <code>root</code> which will contain our
