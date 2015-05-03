@@ -93,6 +93,9 @@ mount /dev/mapper/loop0p1 boot
 mount /dev/mapper/loop0p2 root
 {% endcodeblock %}
 
+If you have problems with partitioning the file using `kpartx`, try to move it outside from `/vagrant` dir to
+some place in virtual filesystem (homedir is fine), follow this guide, and then copy `.img` file back to `/vagrant`.
+
 ## Installing and configuring Debian
 
 After that, we have two directories: `boot` which will contain all RPI Firmware, and `root` which will contain our
