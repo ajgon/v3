@@ -185,7 +185,7 @@ install all the necessary packages:</p>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>rpi.img <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>768
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>rpi.img <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>512
 </span><span class='line'>losetup -f --show rpi.img <span class="c"># returns loop device used later, usually /dev/loop0</span>
 </span><span class='line'>fdisk /dev/loop0
 </span></code></pre></td></tr></table></div></figure>
@@ -311,7 +311,7 @@ out of the box.</p>
 </span><span class='line'>curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
 </span><span class='line'>chmod +x /usr/bin/rpi-update
 </span><span class='line'><span class="nv">SKIP_BACKUP</span><span class="o">=</span>1 <span class="nv">UPDATE_SELF</span><span class="o">=</span>0 <span class="nv">BOOT_PATH</span><span class="o">=</span>boot <span class="nv">ROOT_PATH</span><span class="o">=</span>root rpi-update
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait&quot;</span> &gt; boot/cmdline.txt
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait&quot;</span> &gt; boot/cmdline.txt
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -472,7 +472,7 @@ with <code>raspberry</code> password.</p>
 
 
 <p>Don&rsquo;t forget to change your root password (or disable root login at all) and to secure your system after you sign in!
-The next thing, you might notice is, that your Linux partition is pretty small (768MB). This is due to fact, that
+The next thing, you might notice is, that your Linux partition is pretty small (512MB). This is due to fact, that
 the original image was created as small as possible, to reduce flashing time. Thankfully, you can expand it pretty
 easily.</p>
 
@@ -507,14 +507,6 @@ easily.</p>
 
 
 <p>Happy hacking!</p>
-
-<h2>[May 04 update] Debian Jessie</h2>
-
-<p>Few days ago, <a href="https://www.debian.org/News/2015/20150426">Debian Jessie came out</a>. I checked this guide against it, and
-everything should work out of the box. All you need to do is change <code>wheezy</code> to <code>jessie</code> in debootstrap phase and in
-<code>/etc/apt/sources.list</code> file. Also, the new <code>/etc/network/interfaces.d</code> format was introduced, so instead putting all
-of your newtork conf in one file, you can split it to separate files and them put in this directory (i.e.
-<code>/etc/network/interfaces.d/lo</code>, <code>etc/network/interfaces.d/wifi</code> etc.)</p>
 
     </div>
   </div>
