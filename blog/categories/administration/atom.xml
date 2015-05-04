@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Administration | Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/blog/categories/administration/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-05-04T20:04:46+02:00</updated>
+  <updated>2015-05-04T20:06:46+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -42,16 +42,21 @@ global system with packages, which you probably won&rsquo;t need anymore. The ea
 <a href="https://www.vagrantup.com/">Vagrant</a> with <a href="https://www.virtualbox.org/">VirtualBox</a> since they are both
 multi-platform and easy to set&nbsp;up.</p>
 
-<p>{% codeblock Setting up vagrant lang:sh %}
-vagrant init ubuntu/trusty64
-vagrant up
-vagrant ssh
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Setting up vagrant </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>vagrant init ubuntu/trusty64
+</span><span class='line'>vagrant up
+</span><span class='line'>vagrant ssh
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>{% codeblock In vagrant lang:sh %}
-sudo -s # Change user to root
-cd /vagrant # Use a shared folder, all files created here will be visible outside of VM
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>In vagrant </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo -s <span class="c"># Change user to root</span>
+</span><span class='line'><span class="nb">cd</span> /vagrant <span class="c"># Use a shared folder, all files created here will be visible outside of VM</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>If you do this, all code examples below (unless stated differently) will reflect to Vagrant root environment.</p>
 
@@ -62,49 +67,74 @@ doesn&rsquo;t come with any kind of BIOS or low level boot-up system &ndash; eve
 RPI expects a FAT partition with firmware files at the very beginning of the SD Disk. But first things first &ndash; let&rsquo;s
 install all the necessary packages:</p>
 
-<p>{% codeblock As root lang:sh %}
-apt-get update
-apt-get install -y git binfmt-support qemu qemu-user-static debootstrap kpartx lvm2 dosfstools
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get install -y git binfmt-support qemu qemu-user-static debootstrap kpartx lvm2 dosfstools
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now we can setup the initial partitioning.</p>
 
-<p>{% codeblock As root lang:sh %}
-dd if=/dev/zero of=rpi.img bs=1M count=512
-losetup -f &mdash;show rpi.img # returns loop device used later, usually /dev/loop0
-fdisk /dev/loop0
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>rpi.img <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>768
+</span><span class='line'>losetup -f &amp;mdash;show rpi.img <span class="c"># returns loop device used later, usually /dev/loop0</span>
+</span><span class='line'>fdisk /dev/loop0
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>We need to create two partitions. As I mentioned, the first one needs to be FAT16 partition (type <code>e</code>), the second one
 a Linux one (type <code>83</code>). So, to do this in fdisk invoke:</p>
 
-<p>{% codeblock As root lang:sh %}
-n # Create new partition
-p # Set it as primary&hellip;
-1 # &hellip;and first
-[enter] # Start it from the beginning
-+64M # And make it 64 Megabytes large (it is enough for the firmware)
-t # Set partition type
-e # to FAT16
-n # Create new partition again
-p # Set it as primary&hellip;
-2 # &hellip;and second
-[enter] # Start when old partition ends&hellip;
-[enter] # &hellip;and use all available space
-w # Write all changes to the image
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>n <span class="c"># Create new partition</span>
+</span><span class='line'>p <span class="c"># Set it as primary&amp;hellip;</span>
+</span><span class='line'>1 <span class="c"># &amp;hellip;and first</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># Start it from the beginning</span>
+</span><span class='line'>+64M <span class="c"># And make it 64 Megabytes large (it is enough for the firmware)</span>
+</span><span class='line'>t <span class="c"># Set partition type</span>
+</span><span class='line'>e <span class="c"># to FAT16</span>
+</span><span class='line'>n <span class="c"># Create new partition again</span>
+</span><span class='line'>p <span class="c"># Set it as primary&amp;hellip;</span>
+</span><span class='line'>2 <span class="c"># &amp;hellip;and second</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># Start when old partition ends&amp;hellip;</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># &amp;hellip;and use all available space</span>
+</span><span class='line'>w <span class="c"># Write all changes to the image</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Next step is mounting those partitions as virtual devices and make filesystems on them:</p>
 
-<p>{% codeblock As root lang:sh %}
-losetup -d /dev/loop0
-kpartx -va rpi.img # This will create two /dev/mapper devices, usually loop0p1 and loop0p2
-mkfs.fat /dev/mapper/loop0p1
-mkfs.ext4 /dev/mapper/loop0p2
-mkdir boot root
-mount /dev/mapper/loop0p1 boot
-mount /dev/mapper/loop0p2 root
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>losetup -d /dev/loop0
+</span><span class='line'>kpartx -va rpi.img <span class="c"># This will create two /dev/mapper devices, usually loop0p1 and loop0p2</span>
+</span><span class='line'>mkfs.fat /dev/mapper/loop0p1
+</span><span class='line'>mkfs.ext4 /dev/mapper/loop0p2
+</span><span class='line'>mkdir boot root
+</span><span class='line'>mount /dev/mapper/loop0p1 boot
+</span><span class='line'>mount /dev/mapper/loop0p2 root
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>If you have problems with partitioning the file using <code>kpartx</code>, try to move it outside from <code>/vagrant</code> dir to
 some place in virtual filesystem (homedir is fine), follow this guide, and then copy <code>.img</code> file back to <code>/vagrant</code>.</p>
@@ -116,12 +146,16 @@ desired distro (Debian). Now, it&rsquo;s just a typical Debian bootstrapping. Si
 supports ARMv7, we can safely use Debian <code>armhf</code> architecture, and have all goodies like hardware floating points,
 out of the box.</p>
 
-<p>{% codeblock As root lang:sh %}
-debootstrap &mdash;arch armhf &mdash;foreign wheezy root <a href="http://ftp.debian.org/debian/">http://ftp.debian.org/debian/</a>
-cp /usr/bin/qemu-arm-static root/usr/bin/ # needed for syscall emulation
-LANG=C chroot root /debootstrap/debootstrap &mdash;second-stage
-chroot root /bin/bash -c &ldquo;echo \"root:raspberry\&rdquo; | chpasswd" # This will set root password to &lsquo;raspberry&rsquo;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>debootstrap &amp;mdash;arch armhf &amp;mdash;foreign wheezy root &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://ftp.debian.org/debian/&quot;</span>&gt;http://ftp.debian.org/debian/&lt;/a&gt;
+</span><span class='line'>cp /usr/bin/qemu-arm-static root/usr/bin/ <span class="c"># needed for syscall emulation</span>
+</span><span class='line'><span class="nv">LANG</span><span class="o">=</span>C chroot root /debootstrap/debootstrap &amp;mdash;second-stage
+</span><span class='line'>chroot root /bin/bash -c &amp;ldquo;echo <span class="se">\&quot;</span>root:raspberry<span class="se">\&amp;</span>rdquo; | chpasswd<span class="err">&quot;</span> <span class="c"># This will set root password to &amp;lsquo;raspberry&amp;rsquo;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Next we need to set a minimal set of configuration files, to actually boot our disto.</p>
 
@@ -130,34 +164,43 @@ chroot root /bin/bash -c &ldquo;echo \"root:raspberry\&rdquo; | chpasswd" # This
 
 <p>First is <code>/etc/fstab</code> which is used to mount initial partitions (boot and proc system).</p>
 
-<p>{% codeblock Raspberry &#47;etc/fstab lang:sh %}
-proc            /proc           proc    defaults        0       0
-/dev/mmcblk0p1  /boot           vfat    defaults        0       0
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspberry &#47;etc/fstab </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>proc            /proc           proc    defaults        0       0
+</span><span class='line'>/dev/mmcblk0p1  /boot           vfat    defaults        0       0
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Next is hostname.</p>
 
-<p>{% codeblock Raspberry &#47;etc/hostname lang:sh %}
-raspberrypi2
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspberry &#47;etc/hostname </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>raspberrypi2
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>We also need to set up urls for Debian repositories, so we can download and manage system packages.</p>
 
-<p>{% codeblock Raspberry &#47;etc/apt/sources.list lang:sh %}
-deb <a href="http://ftp.debian.org/debian/">http://ftp.debian.org/debian/</a> wheezy main contrib non-free
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspberry &#47;etc/apt/sources.list </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>deb &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://ftp.debian.org/debian/&quot;</span>&gt;http://ftp.debian.org/debian/&lt;/a&gt; wheezy main contrib non-free
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Installing Raspberry&nbsp;Pi firmware</h2>
 
 <p>You can do it manually, but I strongly recommend to use <a href="https://github.com/Hexxeh/rpi-update">Hexxeh excellent tool</a>.</p>
 
-<p>{% codeblock As root lang:sh %}
-mkdir -p root/lib/modules
-curl -L &mdash;output /usr/bin/rpi-update <a href="https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update">https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update</a>
-chmod +x /usr/bin/rpi-update
-SKIP_BACKUP=1 UPDATE_SELF=0 BOOT_PATH=boot ROOT_PATH=root rpi-update
-echo &ldquo;dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait&rdquo; > boot/cmdline.txt
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p root/lib/modules
+</span><span class='line'>curl -L &amp;mdash;output /usr/bin/rpi-update &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update&quot;</span>&gt;https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update&lt;/a&gt;
+</span><span class='line'>chmod +x /usr/bin/rpi-update
+</span><span class='line'><span class="nv">SKIP_BACKUP</span><span class="o">=</span>1 <span class="nv">UPDATE_SELF</span><span class="o">=</span>0 <span class="nv">BOOT_PATH</span><span class="o">=</span>boot <span class="nv">ROOT_PATH</span><span class="o">=</span>root rpi-update
+</span><span class='line'><span class="nb">echo</span> &amp;ldquo;dwc_otg.lpm_enable<span class="o">=</span>0 <span class="nv">console</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">kgdboc</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">console</span><span class="o">=</span>tty1 <span class="nv">root</span><span class="o">=</span>/dev/mmcblk0p2 <span class="nv">rootfstype</span><span class="o">=</span>ext4 rw rootwait&amp;rdquo; &gt; boot/cmdline.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And that&rsquo;s it! At this point, if you have a monitor, you can flash your SD Card, plug it in to your Raspberry, and see
 if your Debian boots up. If you also have a keyboard, you should be able to log in to it as well, and do the following
@@ -169,44 +212,53 @@ steps from there. Otherwise, keep using your <code>rpi.img</code>.</p>
 
 <p>Beforehand we need to mount <code>/dev</code> and <code>/proc</code> filesystems, to create a fully functional chrooted environment.</p>
 
-<p>{% codeblock As root lang:sh %}
-mount -t proc proc root/proc
-mount &mdash;rbind /dev root/dev
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mount -t proc proc root/proc
+</span><span class='line'>mount &amp;mdash;rbind /dev root/dev
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Then, all is left is to simply type:</p>
 
-<p>{% codeblock As root lang:sh %}
-chroot root /bin/bash
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>chroot root /bin/bash
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting up necessary configuration</h2>
 
 <p>At first, disable installation of recommended packages &ndash; for example, most of the time, we don&rsquo;t want &frac34; of Xserver
 while installing vim.</p>
 
-<p>{% codeblock As Raspberry root lang:sh %}
-echo &lsquo;APT::Install-Recommends &ldquo;0&rdquo;;&rsquo; > /etc/apt/apt.conf.d/00norecommends
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;lsquo;APT::Install-Recommends &amp;ldquo;0&amp;rdquo;;&amp;rsquo; &gt; /etc/apt/apt.conf.d/00norecommends
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Next we need to setup a minimal dose of packages, which are necessary to use our distro &mdash; <code>locales</code> for
 basic UTF8 language support, and <code>openssh-server</code> to allow us to actually sign in to the machine.</p>
 
-<p>{% codeblock As Raspberry root lang:sh %}
-apt-get update
-LANG=C apt-get install locales
-echo &ldquo;en_US.UTF-8 UTF-8&rdquo; >> /etc/locale.gen
-locale-gen
-apt-get install openssh-server openssh-blacklist openssh-blacklist-extra sudo
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'><span class="nv">LANG</span><span class="o">=</span>C apt-get install locales
+</span><span class='line'><span class="nb">echo</span> &amp;ldquo;en_US.UTF-8 UTF-8&amp;rdquo; &gt;&gt; /etc/locale.gen
+</span><span class='line'>locale-gen
+</span><span class='line'>apt-get install openssh-server openssh-blacklist openssh-blacklist-extra sudo
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Also you need to set some basic DNS servers, otherwise you won&rsquo;t be able to resolve any domain names. OpenDNS seems
 to be a good choice, <a href="https://developers.google.com/speed/public-dns/faq#privacy">Google DNS is definitely not</a>.</p>
 
-<p>{% codeblock Raspberry /etc/resolv.conf %}
-nameserver 208.67.222.222
-nameserver 208.67.220.220
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspberry</span><a href='/etc/resolv.conf'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nameserver 208.67.222.222
+</span><span class='line'>nameserver 208.67.220.220</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Configuring network</h2>
 
@@ -214,13 +266,18 @@ nameserver 208.67.220.220
 you should skip this step, as it will slow down boot up of Pi significantly (the machine will try to establish ethernet
 connection for over 60s). Otherwise, all you need to do is add following lines to <code>/etc/network/interfaces</code>:</p>
 
-<p>{% codeblock Raspberry &#47;etc/network/interfaces lang:sh %}
-auto lo
-iface lo inet loopback</p>
-
-<p>auto eth0
-iface eth0 inet dhcp
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspberry &#47;etc/network/interfaces </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>auto lo
+</span><span class='line'>iface lo inet loopback&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;auto eth0
+</span><span class='line'>iface eth0 inet dhcp
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And that&rsquo;s it. It&rsquo;s getting more complicated if you want to configure a WiFi network as well.</p>
 
@@ -232,46 +289,63 @@ instead of the one which I used.</p>
 
 <p>At first, you need to install all necessary dependencies&hellip;</p>
 
-<p>{% codeblock As Raspberry root lang:sh %}
-apt-get install firmware-ralink # Use your firmware driver here
-apt-get install wireless-tools wpasupplicant
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install firmware-ralink <span class="c"># Use your firmware driver here</span>
+</span><span class='line'>apt-get install wireless-tools wpasupplicant
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>&hellip; and configure a network interface:</p>
 
-<p>{% codeblock Raspberry &#47;etc/network/interfaces lang:sh %}</p>
-
-<h1>Add those lines at the end of the file</h1>
-
-<p>auto wlan0
-iface wlan0 inet dhcp
-wpa-ssid <name of your WiFi network>
-wpa-psk <password to your WiFi network>
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspberry &#47;etc/network/interfaces </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Add those lines at the end of the file&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;auto wlan0
+</span><span class='line'>iface wlan0 inet dhcp
+</span><span class='line'>wpa-ssid &lt;name of your WiFi network&gt;
+</span><span class='line'>wpa-psk &lt;password to your WiFi network&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Flashing</h2>
 
 <p>It&rsquo;s good idea, to do the cleanup after finishing the image.</p>
 
-<p>{% codeblock As Raspberry root %}
-apt-get autoremove &mdash;purge
-apt-get clean
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get autoremove &mdash;purge
+</span><span class='line'>apt-get clean</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now you can exit the chroot (and VM if you used it), and flash your SDCard. In OSX you can do this by:</p>
 
-<p>{% codeblock OSX Shell lang:sh %}
-diskutil list # Check for you SDCard disk number
-diskutil umountDisk /dev/diskX # Where X is a disc number
-sudo dd if=rpi.img of=/dev/diskX
-diskutil eject /dev/diskX
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>OSX Shell </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>diskutil list <span class="c"># Check for you SDCard disk number</span>
+</span><span class='line'>diskutil umountDisk /dev/diskX <span class="c"># Where X is a disc number</span>
+</span><span class='line'>sudo dd <span class="k">if</span><span class="o">=</span>rpi.img <span class="nv">of</span><span class="o">=</span>/dev/diskX
+</span><span class='line'>diskutil eject /dev/diskX
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>In Linux it&rsquo;s as simple as typing:</p>
 
-<p>{% codeblock Linux lang:sh %}
-sudo dd if=rpi.img of=/dev/sdX # Where X is a disk letter
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Linux </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo dd <span class="k">if</span><span class="o">=</span>rpi.img <span class="nv">of</span><span class="o">=</span>/dev/sdX <span class="c"># Where X is a disk letter</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Finishing up</h2>
 
@@ -280,36 +354,62 @@ If you haven&rsquo;t use monitor and keyboard, you might end not knowing which I
 this problem is use <code>nmap</code> to detect all open hosts in your subnet, then check which one responds to <code>root</code> user
 with <code>raspberry</code> password.</p>
 
-<p>{% codeblock In terminal lang:sh %}
-nmap -p22 -oG &ndash; &mdash;open 192.168.0.0/24 | grep Host | awk &lsquo;{print $2}&rsquo; | sort | uniq
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>In terminal </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>nmap -p22 -oG &amp;ndash; &amp;mdash;open 192.168.0.0/24 | grep Host | awk &amp;lsquo;<span class="o">{</span>print <span class="nv">$2</span><span class="o">}</span>&amp;rsquo; | sort | uniq
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Don&rsquo;t forget to change your root password (or disable root login at all) and to secure your system after you sign in!
-The next thing, you might notice is, that your Linux partition is pretty small (512MB). This is due to fact, that
+The next thing, you might notice is, that your Linux partition is pretty small (768MB). This is due to fact, that
 the original image was created as small as possible, to reduce flashing time. Thankfully, you can expand it pretty
 easily.</p>
 
-<p>{% codeblock As raspberry root lang:sh %}
-fdisk /dev/mmcblk0</p>
-
-<h1>In fdisk</h1>
-
-<p>d # Delete partition&hellip;
-2 # &hellip; the linux partition (don&rsquo;t worry, you won&rsquo;t lose your data)
-n # Create &hellip;
-p # &hellip; primary partition &hellip;
-2 # number 2
-[enter] # Start from the beginning of the free space (as the previous did) &hellip;
-[enter] # &hellip; but end up filling all available space
-w # write changes</p>
-
-<h1>In shell</h1>
-
-<p>reboot # to make new partition visible for the system
-resize2fs /dev/mmcblk0p2 # Resize filesystem to fill up whole partition space
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>fdisk /dev/mmcblk0&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;In fdisk&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;d <span class="c"># Delete partition&amp;hellip;</span>
+</span><span class='line'>2 <span class="c"># &amp;hellip; the linux partition (don&amp;rsquo;t worry, you won&amp;rsquo;t lose your data)</span>
+</span><span class='line'>n <span class="c"># Create &amp;hellip;</span>
+</span><span class='line'>p <span class="c"># &amp;hellip; primary partition &amp;hellip;</span>
+</span><span class='line'>2 <span class="c"># number 2</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># Start from the beginning of the free space (as the previous did) &amp;hellip;</span>
+</span><span class='line'><span class="o">[</span>enter<span class="o">]</span> <span class="c"># &amp;hellip; but end up filling all available space</span>
+</span><span class='line'>w <span class="c"># write changes&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;In shell&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;reboot <span class="c"># to make new partition visible for the system</span>
+</span><span class='line'>resize2fs /dev/mmcblk0p2 <span class="c"># Resize filesystem to fill up whole partition space</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Happy hacking!</p>
+
+<h2>[May 04 update] Debian Jessie</h2>
+
+<p>Few days ago, <a href="https://www.debian.org/News/2015/20150426">Debian Jessie came out</a>. I checked this guide against it, and
+everything should work out of the box. All you need to do is change <code>wheezy</code> to <code>jessie</code> in debootstrap phase and in
+<code>/etc/apt/sources.list</code> file. Also, the new <code>/etc/network/interfaces.d</code> format was introduced, so instead putting all
+of your newtork conf in one file, you can split it to separate files and them put in this directory (i.e.
+<code>/etc/network/interfaces.d/lo</code>, <code>etc/network/interfaces.d/wifi</code> etc.)</p>
 ]]></content>
   </entry>
   
@@ -329,57 +429,101 @@ resize2fs /dev/mmcblk0p2 # Resize filesystem to fill up whole partition space
 
 <p>This one is (im my opinion) is more clean and advanced. To use it, just make your webserver to return below XML file on <code>autoconfig.</code> subdomain. So (for example) if you have email <code>myname@mydomain.com</code> &ndash; <code>autoconfig.mydomain.com</code> should return:</p>
 
-<p>{% codeblock autoconfig.xml lang:xml %}
-&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-<clientConfig version="1.1"></p>
-
-<pre><code>&lt;emailProvider id="mydomain.com"&gt;
-    &lt;domain&gt;mydomain.com&lt;/domain&gt;
-    &lt;displayName&gt;Mail&lt;/displayName&gt;
-    &lt;displayShortName&gt;Mail&lt;/displayShortName&gt;
-    &lt;incomingServer type="pop3"&gt;
-        &lt;hostname&gt;mail.mydomain.com&lt;/hostname&gt;
-        &lt;port&gt;995&lt;/port&gt;
-        &lt;socketType&gt;SSL&lt;/socketType&gt;
-        &lt;authentication&gt;password-cleartext&lt;/authentication&gt;
-        &lt;username&gt;%EMAILADDRESS%&lt;/username&gt;
-        &lt;pop3&gt;
-            &lt;leaveMessagesOnServer&gt;true&lt;/leaveMessagesOnServer&gt;
-            &lt;downloadOnBiff&gt;true&lt;/downloadOnBiff&gt;
-            &lt;daysToLeaveMessagesOnServer&gt;10&lt;/daysToLeaveMessagesOnServer&gt;
-        &lt;/pop3&gt;
-    &lt;/incomingServer&gt;
-    &lt;incomingServer type="imap"&gt;
-        &lt;hostname&gt;mail.mydomain.com&lt;/hostname&gt;
-        &lt;port&gt;993&lt;/port&gt;
-        &lt;socketType&gt;SSL&lt;/socketType&gt;
-        &lt;authentication&gt;password-cleartext&lt;/authentication&gt;
-        &lt;username&gt;%EMAILADDRESS%&lt;/username&gt;
-    &lt;/incomingServer&gt;
-    &lt;outgoingServer type="smtp"&gt;
-        &lt;hostname&gt;mail.mydomain.com&lt;/hostname&gt;
-        &lt;port&gt;587&lt;/port&gt;
-        &lt;socketType&gt;STARTTLS&lt;/socketType&gt;
-        &lt;authentication&gt;password-cleartext&lt;/authentication&gt;
-        &lt;username&gt;%EMAILADDRESS%&lt;/username&gt;
-    &lt;/outgoingServer&gt;
-&lt;/emailProvider&gt;
-</code></pre>
-
-<p></clientConfig>
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>autoconfig.xml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="ni">&amp;lt;</span>?xml version=<span class="ni">&amp;ldquo;</span>1.0<span class="ni">&amp;rdquo;</span> encoding=<span class="ni">&amp;ldquo;</span>UTF-8<span class="ni">&amp;rdquo;</span>?&gt;
+</span><span class='line'><span class="nt">&lt;clientConfig</span> <span class="na">version=</span><span class="s">&quot;1.1&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>emailProvider id=&quot;mydomain.com&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>domain<span class="ni">&amp;gt;</span>mydomain.com<span class="ni">&amp;lt;</span>/domain<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>displayName<span class="ni">&amp;gt;</span>Mail<span class="ni">&amp;lt;</span>/displayName<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>displayShortName<span class="ni">&amp;gt;</span>Mail<span class="ni">&amp;lt;</span>/displayShortName<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>incomingServer type=&quot;pop3&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>hostname<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/hostname<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>port<span class="ni">&amp;gt;</span>995<span class="ni">&amp;lt;</span>/port<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>socketType<span class="ni">&amp;gt;</span>SSL<span class="ni">&amp;lt;</span>/socketType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>authentication<span class="ni">&amp;gt;</span>password-cleartext<span class="ni">&amp;lt;</span>/authentication<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>username<span class="ni">&amp;gt;</span>%EMAILADDRESS%<span class="ni">&amp;lt;</span>/username<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>pop3<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>leaveMessagesOnServer<span class="ni">&amp;gt;</span>true<span class="ni">&amp;lt;</span>/leaveMessagesOnServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>downloadOnBiff<span class="ni">&amp;gt;</span>true<span class="ni">&amp;lt;</span>/downloadOnBiff<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>daysToLeaveMessagesOnServer<span class="ni">&amp;gt;</span>10<span class="ni">&amp;lt;</span>/daysToLeaveMessagesOnServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/pop3<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/incomingServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>incomingServer type=&quot;imap&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>hostname<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/hostname<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>port<span class="ni">&amp;gt;</span>993<span class="ni">&amp;lt;</span>/port<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>socketType<span class="ni">&amp;gt;</span>SSL<span class="ni">&amp;lt;</span>/socketType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>authentication<span class="ni">&amp;gt;</span>password-cleartext<span class="ni">&amp;lt;</span>/authentication<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>username<span class="ni">&amp;gt;</span>%EMAILADDRESS%<span class="ni">&amp;lt;</span>/username<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/incomingServer<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>outgoingServer type=&quot;smtp&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>hostname<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/hostname<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>port<span class="ni">&amp;gt;</span>587<span class="ni">&amp;lt;</span>/port<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>socketType<span class="ni">&amp;gt;</span>STARTTLS<span class="ni">&amp;lt;</span>/socketType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>authentication<span class="ni">&amp;gt;</span>password-cleartext<span class="ni">&amp;lt;</span>/authentication<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>username<span class="ni">&amp;gt;</span>%EMAILADDRESS%<span class="ni">&amp;lt;</span>/username<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/outgoingServer<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>/emailProvider<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;&lt;/clientConfig&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>If you have an email server on a different domain than your email account, simply add redirect to your httpd server. For example in nginx:</p>
 
-<p>{% codeblock /etc/nginx.conf lang:sh %}
-server {</p>
-
-<pre><code>server_name autoconfig.myotherdomain.com;
-rewrite ^.* https://mydomain.com/config-v1.1.xml permanent;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/nginx.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>server <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;server_name autoconfig.myotherdomain.com;
+</span><span class='line'>rewrite ^.* https://mydomain.com/config-v1.1.xml permanent;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And that&rsquo;s it! From now on, your email will be automatically discovered by Thunderbird.</p>
 
@@ -387,61 +531,109 @@ rewrite ^.* https://mydomain.com/config-v1.1.xml permanent;
 
 <p>Procedure is very similar here. You just have to set <code>autodiscover.</code> domain, and XML file is slightly different. So, for example <code>autodiscover.mydomain.com</code> should return:</p>
 
-<p>{% codeblock autodiscover.xml lang:xml %}
-&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006"></p>
-
-<pre><code>&lt;Response xmlns="http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a"&gt;
-    &lt;Account&gt;
-        &lt;AccountType&gt;email&lt;/AccountType&gt;
-        &lt;Action&gt;settings&lt;/Action&gt;
-        &lt;Protocol&gt;
-            &lt;Type&gt;POP3&lt;/Type&gt;
-            &lt;Server&gt;mail.mydomain.com&lt;/Server&gt;
-            &lt;Port&gt;995&lt;/Port&gt;
-            &lt;DomainRequired&gt;on&lt;/DomainRequired&gt;
-            &lt;SPA&gt;off&lt;/SPA&gt;
-            &lt;SSL&gt;on&lt;/SSL&gt;
-            &lt;AuthRequired&gt;on&lt;/AuthRequired&gt;
-        &lt;/Protocol&gt;
-        &lt;Protocol&gt;
-            &lt;Type&gt;IMAP&lt;/Type&gt;
-            &lt;Server&gt;mail.mydomain.com&lt;/Server&gt;
-            &lt;Port&gt;993&lt;/Port&gt;
-            &lt;DomainRequired&gt;on&lt;/DomainRequired&gt;
-            &lt;SPA&gt;off&lt;/SPA&gt;
-            &lt;SSL&gt;on&lt;/SSL&gt;
-            &lt;AuthRequired&gt;on&lt;/AuthRequired&gt;
-        &lt;/Protocol&gt;
-        &lt;Protocol&gt;
-            &lt;Type&gt;SMTP&lt;/Type&gt;
-            &lt;Server&gt;mail.mydomain.com&lt;/Server&gt;
-            &lt;Port&gt;587&lt;/Port&gt;
-            &lt;DomainRequired&gt;on&lt;/DomainRequired&gt;
-            &lt;SPA&gt;off&lt;/SPA&gt;
-            &lt;SSL&gt;on&lt;/SSL&gt;
-            &lt;AuthRequired&gt;on&lt;/AuthRequired&gt;
-            &lt;UsePOPAuth&gt;off&lt;/UsePOPAuth&gt;
-            &lt;SMTPLast&gt;off&lt;/SMTPLast&gt;
-        &lt;/Protocol&gt;
-    &lt;/Account&gt;
-&lt;/Response&gt;
-</code></pre>
-
-<p></Autodiscover>
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>autodiscover.xml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="ni">&amp;lt;</span>?xml version=<span class="ni">&amp;ldquo;</span>1.0<span class="ni">&amp;rdquo;</span> encoding=<span class="ni">&amp;ldquo;</span>UTF-8<span class="ni">&amp;rdquo;</span>?&gt;
+</span><span class='line'><span class="nt">&lt;Autodiscover</span> <span class="na">xmlns=</span><span class="s">&quot;http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>Response xmlns=&quot;http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&quot;<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>Account<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>AccountType<span class="ni">&amp;gt;</span>email<span class="ni">&amp;lt;</span>/AccountType<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Action<span class="ni">&amp;gt;</span>settings<span class="ni">&amp;lt;</span>/Action<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Type<span class="ni">&amp;gt;</span>POP3<span class="ni">&amp;lt;</span>/Type<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Server<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/Server<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Port<span class="ni">&amp;gt;</span>995<span class="ni">&amp;lt;</span>/Port<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>DomainRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/DomainRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SPA<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SPA<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SSL<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/SSL<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>AuthRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/AuthRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Type<span class="ni">&amp;gt;</span>IMAP<span class="ni">&amp;lt;</span>/Type<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Server<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/Server<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Port<span class="ni">&amp;gt;</span>993<span class="ni">&amp;lt;</span>/Port<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>DomainRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/DomainRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SPA<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SPA<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SSL<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/SSL<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>AuthRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/AuthRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Type<span class="ni">&amp;gt;</span>SMTP<span class="ni">&amp;lt;</span>/Type<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Server<span class="ni">&amp;gt;</span>mail.mydomain.com<span class="ni">&amp;lt;</span>/Server<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>Port<span class="ni">&amp;gt;</span>587<span class="ni">&amp;lt;</span>/Port<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>DomainRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/DomainRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SPA<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SPA<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SSL<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/SSL<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>AuthRequired<span class="ni">&amp;gt;</span>on<span class="ni">&amp;lt;</span>/AuthRequired<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>UsePOPAuth<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/UsePOPAuth<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>SMTPLast<span class="ni">&amp;gt;</span>off<span class="ni">&amp;lt;</span>/SMTPLast<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/Protocol<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/Account<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>/Response<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;&lt;/Autodiscover&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And again, if your email domain differs from server domain, add proper redirect:</p>
 
-<p>{% codeblock /etc/nginx.conf lang:sh %}
-server {</p>
-
-<pre><code>server_name autodiscover.myotherdomain.com;
-rewrite ^.* https://mydomain.com/autodiscover.xml permanent;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/nginx.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>server <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;server_name autodiscover.myotherdomain.com;
+</span><span class='line'>rewrite ^.* https://mydomain.com/autodiscover.xml permanent;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And that&rsquo;s it! Enjoy your new, shiny, auto-configuring E-mail!</p>
 
@@ -502,35 +694,48 @@ installed.</p>
 
 <p>Install GPG:</p>
 
-<p>{% codeblock As root lang:sh %}
-apt-get install gpg
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install gpg
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Create a gpg user and give him the key (don&rsquo;t forget to disable the password,
 and set trust to ultimate &ndash; otherwise tour scripts will stop to ask about
 confirmation &ndash; and eventually fail):</p>
 
-<p>{% codeblock As root lang:sh %}
-useradd -s /bin/false -d /var/gpg -M gpgmap
-mkdir -p /var/gpg/.gnupg
-chown -R gpgmap /var/gpg
-chmod 700 /var/gpg/.gnupg
-sudo -u gpgmap /usr/bin/gpg &mdash;gen-key &mdash;homedir=/var/gpg/.gnupg
-sudo -u gpgmap gpg &mdash;edit-key <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#121;&#111;&#117;&#x72;&#64;&#107;&#x65;&#121;&#x2e;&#x65;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#121;&#111;&#117;&#114;&#64;&#107;&#x65;&#x79;&#x2e;&#x65;&#x6d;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a> trust quit
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>useradd -s /bin/false -d /var/gpg -M gpgmap
+</span><span class='line'>mkdir -p /var/gpg/.gnupg
+</span><span class='line'>chown -R gpgmap /var/gpg
+</span><span class='line'>chmod 700 /var/gpg/.gnupg
+</span><span class='line'>sudo -u gpgmap /usr/bin/gpg &amp;mdash;gen-key &amp;mdash;homedir<span class="o">=</span>/var/gpg/.gnupg
+</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#121;&amp;#111;&amp;#117;&amp;#x72;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#46;&amp;#101;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&quot;</span>&gt;&amp;#121;&amp;#111;&amp;#117;&amp;#114;&amp;#x40;&amp;#107;&amp;#x65;&amp;#x79;&amp;#x2e;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt; trust quit
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting gpg-mailgate</h2>
 
 <p>Install GnuPG Python library, and gpg-mailgate itself:</p>
 
-<p>{% codeblock As root lang:sh %}
-cd /root
-git clone <a href="https://github.com/ajgon/gpg-mailgate.git">https://github.com/ajgon/gpg-mailgate.git</a>
-cd gpg-mailgate
-cp -R GnuPG /usr/lib/python2.6
-cp gpg-mailgate.py /usr/local/bin/gpg-mailgate.py
-cp gpg-mailgate.conf.sample /etc/gpg-mailgate.conf
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /root
+</span><span class='line'>git clone &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/ajgon/gpg-mailgate.git&quot;</span>&gt;https://github.com/ajgon/gpg-mailgate.git&lt;/a&gt;
+</span><span class='line'><span class="nb">cd </span>gpg-mailgate
+</span><span class='line'>cp -R GnuPG /usr/lib/python2.6
+</span><span class='line'>cp gpg-mailgate.py /usr/local/bin/gpg-mailgate.py
+</span><span class='line'>cp gpg-mailgate.conf.sample /etc/gpg-mailgate.conf
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Config file is pretty explanatory &ndash; what you have to change is &ldquo;domains&rdquo;
 parameter (put only domains, which you want to receive encrypted messages),
@@ -538,24 +743,40 @@ keyhome (set to <code>/var/gpg/.gnupg</code>) and keymap (map all the emails whi
 receive encrypted content there &ndash; follow the hint in file). So all in all your
 config file should look similar to this:</p>
 
-<p>{% codeblock /etc/gpg-mailgate.conf lang:ini %}
-[default]
-add_header = yes
-domains = zoho.com</p>
-
-<p>[gpg]
-keyhome = /var/gpg/.gnupg</p>
-
-<p>[logging]
-file = /tmp/gpg-mailgate.log</p>
-
-<p>[relay]
-host = 127.0.0.1
-port = 10028</p>
-
-<p>[keymap]
-<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x65;&#109;&#97;&#x69;&#x6c;&#x2e;&#x77;&#104;&#x69;&#99;&#104;&#x2e;&#x77;&#x69;&#108;&#x6c;&#x2e;&#x72;&#101;&#x63;&#x65;&#x69;&#118;&#101;&#46;&#101;&#x6e;&#x63;&#x72;&#121;&#112;&#116;&#101;&#100;&#x2e;&#99;&#x6f;&#x6e;&#116;&#x65;&#x6e;&#116;&#64;&#122;&#111;&#x68;&#x6f;&#x2e;&#99;&#x6f;&#109;">&#x65;&#109;&#97;&#x69;&#x6c;&#46;&#119;&#104;&#x69;&#99;&#104;&#46;&#x77;&#105;&#x6c;&#x6c;&#46;&#114;&#x65;&#x63;&#x65;&#x69;&#x76;&#101;&#x2e;&#101;&#x6e;&#99;&#114;&#x79;&#112;&#116;&#x65;&#100;&#x2e;&#99;&#111;&#110;&#x74;&#101;&#110;&#x74;&#64;&#x7a;&#111;&#x68;&#111;&#46;&#99;&#x6f;&#x6d;</a> = 123456789ABCDEF
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/gpg-mailgate.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="k">[default]</span>
+</span><span class='line'><span class="na">add_header</span> <span class="o">=</span> <span class="s">yes</span>
+</span><span class='line'><span class="na">domains</span> <span class="o">=</span> <span class="s">zoho.com&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[gpg]</span>
+</span><span class='line'><span class="na">keyhome</span> <span class="o">=</span> <span class="s">/var/gpg/.gnupg&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[logging]</span>
+</span><span class='line'><span class="na">file</span> <span class="o">=</span> <span class="s">/tmp/gpg-mailgate.log&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[relay]</span>
+</span><span class='line'><span class="na">host</span> <span class="o">=</span> <span class="s">127.0.0.1</span>
+</span><span class='line'><span class="na">port</span> <span class="o">=</span> <span class="s">10028&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[keymap]</span>
+</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#x65;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#x77;&amp;#x68;&amp;#105;&amp;#99;&amp;#104;&amp;#46;&amp;#x77;&amp;#x69;&amp;#x6c;&amp;#108;&amp;#x2e;&amp;#x72;&amp;#101;&amp;#x63;&amp;#x65;&amp;#105;&amp;#118;&amp;#101;&amp;#x2e;&amp;#101;&amp;#110;&amp;#99;&amp;#114;&amp;#121;&amp;#x70;&amp;#x74;&amp;#101;&amp;#x64;&amp;#46;&amp;#x63;&amp;#111;&amp;#110;&amp;#116;&amp;#101;&amp;#110;&amp;#116;&amp;#64;&amp;#x7a;&amp;#x6f;&amp;#104;&amp;#x6f;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&quot;&gt;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#119;&amp;#104;&amp;#x69;&amp;#99;&amp;#104;&amp;#46;&amp;#119;&amp;#x69;&amp;#108;&amp;#x6c;&amp;#x2e;&amp;#114;&amp;#x65;&amp;#99;&amp;#101;&amp;#x69;&amp;#118;&amp;#x65;&amp;#46;&amp;#101;&amp;#x6e;&amp;#99;&amp;#114;&amp;#121;&amp;#x70;&amp;#x74;&amp;#101;&amp;#100;&amp;#46;&amp;#99;&amp;#x6f;&amp;#110;&amp;#x74;&amp;#101;&amp;#110;&amp;#x74;&amp;#64;&amp;#x7a;&amp;#111;&amp;#x68;&amp;#111;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt; = 123456789ABCDEF</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting postfix</h2>
 
@@ -570,45 +791,76 @@ never appear in original message headers, because it&rsquo;s not the recipient. 
 make it appear &ndash; simply add <code>X-GPG-Encrypt-Cc</code> header to your message. So, the
 configuration will present as follows:</p>
 
-<p>{% codeblock /etc/postfix/main.cf lang:sh %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;gpg&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;header_checks <span class="o">=</span> regexp:/etc/postfix/header_checks
+</span><span class='line'><span class="nv">content_filter</span> <span class="o">=</span> gpg-mailgate
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h1>gpg</h1>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/header_checks </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#101;&#109;&#x61;&#105;&#x6c;&#x2e;&#119;&#104;&#x69;&#99;&#104;&#46;&#119;&#x69;&#x6c;&#x6c;&#46;&#x72;&#101;&#99;&#x65;&#x69;&#118;&#101;&#x2e;&#101;&#110;&#x63;&#114;&#x79;&#x70;&#116;&#x65;&#100;&#46;&#x63;&#x6f;&#x6e;&#x74;&#x65;&#x6e;&#x74;&#x40;&#x7a;&#111;&#x68;&#111;&#46;&#99;&#111;&#x6d;">&#x65;&#109;&#x61;&#105;&#x6c;&#x2e;&#119;&#104;&#x69;&#x63;&#104;&#46;&#x77;&#105;&#108;&#108;&#46;&#x72;&#x65;&#x63;&#101;&#105;&#118;&#101;&#x2e;&#x65;&#110;&#x63;&#114;&#x79;&#112;&#x74;&#x65;&#100;&#x2e;&#99;&#x6f;&#110;&#x74;&#x65;&#x6e;&#x74;&#x40;&#122;&#x6f;&#x68;&#111;&#x2e;&#x63;&#x6f;&#109;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>header_checks = regexp:/etc/postfix/header_checks
-content_filter = gpg-mailgate
-{% endcodeblock %}</p>
-
-<p>{% codeblock /etc/postfix/header_checks %}
-/^From: .*/ PREPEND X-GPG-Encrypt-Cc: <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x65;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#119;&#x68;&#105;&#99;&#x68;&#x2e;&#119;&#x69;&#108;&#108;&#x2e;&#114;&#101;&#x63;&#101;&#105;&#x76;&#x65;&#x2e;&#101;&#110;&#x63;&#114;&#x79;&#112;&#x74;&#101;&#100;&#x2e;&#99;&#x6f;&#x6e;&#x74;&#x65;&#x6e;&#116;&#64;&#122;&#x6f;&#x68;&#111;&#46;&#x63;&#111;&#109;">&#101;&#109;&#x61;&#x69;&#108;&#x2e;&#x77;&#x68;&#x69;&#99;&#x68;&#x2e;&#x77;&#x69;&#108;&#x6c;&#46;&#x72;&#101;&#99;&#101;&#105;&#118;&#101;&#x2e;&#x65;&#x6e;&#99;&#x72;&#x79;&#112;&#x74;&#101;&#x64;&#46;&#99;&#111;&#110;&#x74;&#x65;&#110;&#116;&#64;&#x7a;&#x6f;&#104;&#111;&#x2e;&#x63;&#111;&#x6d;</a>
-{% endcodeblock %}</p>
-
-<p>{% codeblock /etc/postfix/master.cf lang:sh %}</p>
-
-<h1>gpg-mailgate</h1>
-
-<p>gpg-mailgate    unix    &ndash;       n       n       &ndash;       &ndash;       pipe
-  flags= user=gpgmap argv=/usr/local/bin/gpg-mailgate.py</p>
-
-<p>127.0.0.1:10028 inet    n       &ndash;       n       &ndash;       10      smtpd</p>
-
-<pre><code>    -o content_filter=
-    -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks
-    -o smtpd_helo_restrictions=
-    -o smtpd_client_restrictions=
-    -o smtpd_sender_restrictions=
-    -o smtpd_recipient_restrictions=permit_mynetworks,reject
-    -o mynetworks=127.0.0.0/8
-    -o smtpd_authorized_xforward_hosts=127.0.0.0/8
-</code></pre>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;gpg-mailgate&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;gpg-mailgate    unix    &amp;ndash;       n       n       &amp;ndash;       &amp;ndash;       pipe
+</span><span class='line'>  <span class="nv">flags</span><span class="o">=</span> <span class="nv">user</span><span class="o">=</span>gpgmap <span class="nv">argv</span><span class="o">=</span>/usr/local/bin/gpg-mailgate.py&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;127.0.0.1:10028 inet    n       &amp;ndash;       n       &amp;ndash;       10      smtpd&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    -o <span class="nv">content_filter</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">receive_override_options</span><span class="o">=</span>no_unknown_recipient_checks,no_header_body_checks
+</span><span class='line'>    -o <span class="nv">smtpd_helo_restrictions</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">smtpd_client_restrictions</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">smtpd_sender_restrictions</span><span class="o">=</span>
+</span><span class='line'>    -o <span class="nv">smtpd_recipient_restrictions</span><span class="o">=</span>permit_mynetworks,reject
+</span><span class='line'>    -o <span class="nv">mynetworks</span><span class="o">=</span>127.0.0.0/8
+</span><span class='line'>    -o <span class="nv">smtpd_authorized_xforward_hosts</span><span class="o">=</span>127.0.0.0/8
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Don&rsquo;t forget to create <code>header_checks.db</code> and restart postfix.</p>
 
-<p>{% codeblock As root lang:sh %}
-postmap header_checks
-/etc/init.d/postfix restart
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>postmap header_checks
+</span><span class='line'>/etc/init.d/postfix restart
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And that&rsquo;s pretty much everything. Send yourself an email, and enjoy your new,
 shiny and secure backup :)</p>
@@ -646,100 +898,135 @@ Mostly because it&rsquo;s easiest to configure and is still maintained.</p>
 <p>You will be suprised how simple it is. :) Firstly you need to install a proper
 debian packages:</p>
 
-<p>{% codeblock As root lang:sh %}
-apt-get install opendkim libmail-dkim-perl
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install opendkim libmail-dkim-perl
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>The second one is a dkim support for spamassassin. I&rsquo;ll cover that later. Next,
 you need to edit your <code>/etc/opendkim.conf</code> file:</p>
 
-<p>{% codeblock /etc/opendkim.conf lang:sh %}
-SysLog             yes
-Umask              002</p>
-
-<p>KeyTable           /etc/mail/dkim/KeyTable
-SigningTable       /etc/mail/dkim/SigningTable
-ExternalIgnoreList /etc/mail/dkim/TrustedHosts
-InternalHosts      /etc/mail/dkim/TrustedHosts</p>
-
-<p>Canonicalization   relaxed/simple
-Mode               sv
-X-Header           yes
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/opendkim.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>SysLog             yes
+</span><span class='line'>Umask              002&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;KeyTable           /etc/mail/dkim/KeyTable
+</span><span class='line'>SigningTable       /etc/mail/dkim/SigningTable
+</span><span class='line'>ExternalIgnoreList /etc/mail/dkim/TrustedHosts
+</span><span class='line'>InternalHosts      /etc/mail/dkim/TrustedHosts&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Canonicalization   relaxed/simple
+</span><span class='line'>Mode               sv
+</span><span class='line'>X-Header           yes
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p><code>Mode sv</code> directive tells opendkim to sign but also verify messages, while
 <code>X-Header</code> adds <code>X-Dkim</code> header (which contains information about the DKIM
 daemon you are using). Next we need to tell opendkim which port it will be
 using, so in <code>/etc/default/opendkim</code> uncomment:</p>
 
-<p>{% codeblock /etc/default/opendkim lang:sh %}
-SOCKET=&ldquo;inet:12345@localhost&rdquo; # listen on loopback on port 12345
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/default/opendkim </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">SOCKET</span><span class="o">=</span>&amp;ldquo;inet:12345@localhost&amp;rdquo; <span class="c"># listen on loopback on port 12345</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now we have to populate those extra files we defined. <code>TrustedHosts</code> is the
 easiest one, it&rsquo;s just the list of hosts and domains which are allowed to use
 DKIM. So in most cases:</p>
 
-<p>{% codeblock /etc/mail/dkim/TrustedHosts lang:sh %}
-localhost
-127.0.0.1
-192.168.1.1
-1.2.3.4 # external IP
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/dkim/TrustedHosts </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>localhost
+</span><span class='line'>127.0.0.1
+</span><span class='line'>192.168.1.1
+</span><span class='line'>1.2.3.4 <span class="c"># external IP</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Next, we need to create a key and DNS TXT record pair for each domain we want
 to be signed. I suggest to use strong key (<code>-b</code> parameter), to avoid
 <a href="http://www.wired.com/threatlevel/2012/10/dkim-vulnerability-widespread">some company&rsquo;s failure</a>.
 To do this:</p>
 
-<p>{% codeblock As root lang:sh %}
-mkdir -p /etc/mail/dkim/keys/mydomain.com
-cd /etc/mail/dkim/keys/mydomain.com
-opendkim-genkey -r -b 2048 -d mydomain.com -s mail
-chown opendkim:opendkim mail.private
-chmod 600 mail.private
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p /etc/mail/dkim/keys/mydomain.com
+</span><span class='line'><span class="nb">cd</span> /etc/mail/dkim/keys/mydomain.com
+</span><span class='line'>opendkim-genkey -r -b 2048 -d mydomain.com -s mail
+</span><span class='line'>chown opendkim:opendkim mail.private
+</span><span class='line'>chmod 600 mail.private
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>This will create two files: <code>mail.private</code> &ndash; which contains a private RSA key,
 and <code>mail.txt</code> which contains a contents for DNS TXT record. So let&rsquo;s make use
 of them! First keys &ndash; they need to be fined in <code>KeyTable</code> and <code>SingingTable</code>
 files.</p>
 
-<p>{% codeblock /etc/mail/dkim/KeyTable lang:sh %}
-mail._domainkey.mydomain.com mydomain.com:mail:/etc/mail/dkim/keys/mydomain.com/mail.private
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/dkim/KeyTable </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mail._domainkey.mydomain.com mydomain.com:mail:/etc/mail/dkim/keys/mydomain.com/mail.private
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>{% codeblock /etc/mail/dkim/SigningTable lang:sh %}
-mydomain.com mail._domainkey.mydomain.com
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/dkim/SigningTable </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mydomain.com mail._domainkey.mydomain.com
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>The last thing we need to do is to add a DNS TXT record for
 <code>mail._domainkey.mydomain.com</code> domain containing contents provided by
 <code>opendkim-genkey</code>. For example for irgon.com it looks like this:</p>
 
-<p>{% codeblock DNS TXT record lang:sh %}
-mail._domainkey.irgon.com descriptive text &ldquo;v=DKIM1\; g=*\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsfIThdXoizR6sop0gifPwPkT45I/KnTTNKDS4BHWtoU6as62c/3BRQuKqDAIacheZzWbfEPq/M2YvoNrVhx1laltg7aeUhZlcVOtz415lIy8M8oUVTCDxewBKsTEQD5M4Roaadoj7vzpA1JMcOEv36TizFq/KB5GL46pVNyOMJ+Mg&rdquo; &ldquo;97F+EQQeiOFsn/T+tNuxWky3l4Qky3S8U34wYmRSr+sVLu4U31QtocwL4uJ7ofVNdVk0baYo7s1HYnM3CGEKK+zdHTR/AoNiquvVX1lLX9s85bade4cNuRaINjzDyM4fAglLgSHZEtRcRlYqdMEpQcplI1OaSxIFS4DpFL3RwIDAQAB&rdquo;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>DNS TXT record </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mail._domainkey.irgon.com descriptive text &amp;ldquo;v<span class="o">=</span>DKIM1<span class="se">\;</span> <span class="nv">g</span><span class="o">=</span>*<span class="se">\;</span> <span class="nv">k</span><span class="o">=</span>rsa<span class="se">\;</span> <span class="nv">p</span><span class="o">=</span>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsfIThdXoizR6sop0gifPwPkT45I/KnTTNKDS4BHWtoU6as62c/3BRQuKqDAIacheZzWbfEPq/M2YvoNrVhx1laltg7aeUhZlcVOtz415lIy8M8oUVTCDxewBKsTEQD5M4Roaadoj7vzpA1JMcOEv36TizFq/KB5GL46pVNyOMJ+Mg&amp;rdquo; &amp;ldquo;97F+EQQeiOFsn/T+tNuxWky3l4Qky3S8U34wYmRSr+sVLu4U31QtocwL4uJ7ofVNdVk0baYo7s1HYnM3CGEKK+zdHTR/AoNiquvVX1lLX9s85bade4cNuRaINjzDyM4fAglLgSHZEtRcRlYqdMEpQcplI1OaSxIFS4DpFL3RwIDAQAB&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And that settles DKIM. All we have left is starting it:</p>
 
-<p>{% codeblock As root lang:sh %}
-/etc/init.d/opendkim start
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/etc/init.d/opendkim start
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Connecting opendkim to postfix</h2>
 
 <p>This is really simple part.</p>
 
-<p>{% codeblock /etc/postfix/main.cf lang:sh %}</p>
-
-<h1>DKIM</h1>
-
-<p>milter_default_action = accept
-milter_protocol = 6
-smtpd_milters = inet:localhost:12345
-non_smtpd_milters = inet:localhost:12345
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;DKIM&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;milter_default_action <span class="o">=</span> accept
+</span><span class='line'><span class="nv">milter_protocol</span> <span class="o">=</span> 6
+</span><span class='line'><span class="nv">smtpd_milters</span> <span class="o">=</span> inet:localhost:12345
+</span><span class='line'><span class="nv">non_smtpd_milters</span> <span class="o">=</span> inet:localhost:12345
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>then. reload it and you are set.</p>
 
@@ -747,45 +1034,62 @@ non_smtpd_milters = inet:localhost:12345
 
 <p>Ok, now THAT is simple. Just install package:</p>
 
-<p>{% codeblock As root lang:sh %}
-apt-get install postfix-policyd-spf-python
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install postfix-policyd-spf-python
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>and add service:</p>
 
-<p>{% codeblock /etc/postfix/master.cf lang:sh %}
-policy-spf  unix  &ndash;  n  n  &ndash;  &ndash;  spawn user=nobody argv=/usr/bin/policyd-spf
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>policy-spf  unix  &amp;ndash;  n  n  &amp;ndash;  &amp;ndash;  spawn <span class="nv">user</span><span class="o">=</span>nobody <span class="nv">argv</span><span class="o">=</span>/usr/bin/policyd-spf
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Add spf timeout to <code>/etc/postfix/main.cf</code> and adjust
 <code>smtpd_recipient_restrictions</code> to include
 <code>check_policy_service unix:private/policy-spf</code>, so in my file it looks like
 this:</p>
 
-<p>{% codeblock /etc/postfix/main.cf lang:sh %}
-[&hellip;]
-smtpd_recipient_restrictions = reject_unauth_pipelining,</p>
-
-<pre><code>                           permit_sasl_authenticated,
-                           permit_mynetworks,
-                           reject_non_fqdn_recipient,
-                           reject_unknown_recipient_domain,
-                           reject_unauth_destination,
-                           reject_unknown_sender_domain,
-                           check_policy_service unix:private/policy-spf
-</code></pre>
-
-<p>[&hellip;]
-spf-policyd_time_limit = 3600s
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/main.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="o">[</span>&amp;hellip;<span class="o">]</span>
+</span><span class='line'><span class="nv">smtpd_recipient_restrictions</span> <span class="o">=</span> reject_unauth_pipelining,&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;                           permit_sasl_authenticated,
+</span><span class='line'>                           permit_mynetworks,
+</span><span class='line'>                           reject_non_fqdn_recipient,
+</span><span class='line'>                           reject_unknown_recipient_domain,
+</span><span class='line'>                           reject_unauth_destination,
+</span><span class='line'>                           reject_unknown_sender_domain,
+</span><span class='line'>                           check_policy_service unix:private/policy-spf
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">[</span>&amp;hellip;<span class="o">]</span>
+</span><span class='line'>spf-policyd_time_limit <span class="o">=</span> 3600s
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Last but not least is updating a DNS record. This is simple and similar to DKIM &ndash;
 just ad TXT record to your TLD containing <code>v=spf1 a mx ip4:&lt;your ip&gt;</code>, for
 example my looks like this:</p>
 
-<p>{% codeblock DNS TXT record lang:sh %}
-irgon.com descriptive text &ldquo;v=spf1 a mx ip4:213.134.188.213&rdquo;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>DNS TXT record </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>irgon.com descriptive text &amp;ldquo;v<span class="o">=</span>spf1 a mx ip4:213.134.188.213&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Don&rsquo;t forget to restart your Postfix when you&rsquo;re done!</p>
 
@@ -794,21 +1098,24 @@ irgon.com descriptive text &ldquo;v=spf1 a mx ip4:213.134.188.213&rdquo;
 <p>To test if everything works fine, just send yourself an email and check it
 headers. You should see something like:</p>
 
-<p>{% codeblock Mail header lang:sh %}
-X-Dkim: OpenDKIM Filter v2.0.1 myexample.com 0224020B8
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=myexample.com; s=mail; t=1351357546; bh=Rskt6Q/nZKmxgXkWUYP6cCBSDJhtkVT0PSrUEVGVgp4=; h=From:Content-Type:Content-Transfer-Encoding:Subject:Message-Id: Date:To:Mime-Version; b=phPQdG6HYaders4Xv0TsK2mT+PFYVk/brOFpnmCjCZtvbeGJ+XwrNk4Tnc9xGELtAglLOVplSvMV9nTK6xonta1qLTtnLYPsY4o/WPfyZYDgHmp6X9ZYP4otAHYK3jC00PbKGNqhXeD3bCc7CBV/aVGMQX4Bt0TjAAgndeYCI9VnvR2zH0iTEjlAT2OXrh2JV+wrK5UOXae8gRPT28F2Mg325YOiDwD1T5bgFtfc9mh2s/NRcy7lyDiPcb3CNV+nMXKyq/47o22LlALv5g5+OBBZACQYpYtgalM54InQDPoL/udvKtI/YYaiByFLwqeYFh2LXX6et 9dAiNCRLL+EoA==
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Mail header </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>X-Dkim: OpenDKIM Filter v2.0.1 myexample.com 0224020B8
+</span><span class='line'>Dkim-Signature: <span class="nv">v</span><span class="o">=</span>1; <span class="nv">a</span><span class="o">=</span>rsa-sha256; <span class="nv">c</span><span class="o">=</span>relaxed/simple; <span class="nv">d</span><span class="o">=</span>myexample.com; <span class="nv">s</span><span class="o">=</span>mail; <span class="nv">t</span><span class="o">=</span>1351357546; <span class="nv">bh</span><span class="o">=</span>Rskt6Q/nZKmxgXkWUYP6cCBSDJhtkVT0PSrUEVGVgp4<span class="o">=</span>; <span class="nv">h</span><span class="o">=</span>From:Content-Type:Content-Transfer-Encoding:Subject:Message-Id: Date:To:Mime-Version; <span class="nv">b</span><span class="o">=</span>phPQdG6HYaders4Xv0TsK2mT+PFYVk/brOFpnmCjCZtvbeGJ+XwrNk4Tnc9xGELtAglLOVplSvMV9nTK6xonta1qLTtnLYPsY4o/WPfyZYDgHmp6X9ZYP4otAHYK3jC00PbKGNqhXeD3bCc7CBV/aVGMQX4Bt0TjAAgndeYCI9VnvR2zH0iTEjlAT2OXrh2JV+wrK5UOXae8gRPT28F2Mg325YOiDwD1T5bgFtfc9mh2s/NRcy7lyDiPcb3CNV+nMXKyq/47o22LlALv5g5+OBBZACQYpYtgalM54InQDPoL/udvKtI/YYaiByFLwqeYFh2LXX6et 9dAiNCRLL+EoA<span class="o">==</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Which means that singing is alive and kicking. To test verification, just send
 yourself an email from DKIM-using provider (like Yahoo or Gmail) and check for
 following header:</p>
 
-<p>{% codeblock Mail header lang:sh %}
-Authentication-Results: myexample.com; dkim=pass (2048-bit key; insecure key) header.i=@gmail.com; dkim-adsp=pass
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Mail header </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>Authentication-Results: myexample.com; <span class="nv">dkim</span><span class="o">=</span>pass <span class="o">(</span>2048-bit key; insecure key<span class="o">)</span> header.i<span class="o">=</span>@gmail.com; dkim-adsp<span class="o">=</span>pass
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#97;&#117;&#x74;&#111;&#x72;&#x65;&#x73;&#112;&#x6f;&#x6e;&#100;&#43;&#100;&#107;&#105;&#x6d;&#64;&#x64;&#x6b;&#46;&#101;&#x6c;&#x61;&#110;&#x64;&#x73;&#121;&#x73;&#x2e;&#x63;&#x6f;&#x6d;&#122;&#46;">&#x61;&#x75;&#x74;&#111;&#x72;&#101;&#x73;&#x70;&#111;&#110;&#100;&#43;&#x64;&#107;&#x69;&#109;&#64;&#x64;&#x6b;&#x2e;&#x65;&#108;&#x61;&#x6e;&#100;&#115;&#x79;&#x73;&#46;&#x63;&#x6f;&#x6d;&#122;&#46;</a> This is automated service, which checks
+`<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#97;&#117;&#x74;&#x6f;&#114;&#101;&#x73;&#x70;&#111;&#110;&#x64;&#x2b;&#x64;&#x6b;&#105;&#109;&#x40;&#100;&#107;&#46;&#x65;&#x6c;&#x61;&#110;&#100;&#x73;&#x79;&#115;&#46;&#x63;&#111;&#x6d;&#122;&#x2e;">&#97;&#117;&#x74;&#x6f;&#x72;&#x65;&#x73;&#x70;&#x6f;&#x6e;&#100;&#x2b;&#x64;&#x6b;&#x69;&#x6d;&#x40;&#x64;&#107;&#x2e;&#x65;&#x6c;&#97;&#110;&#x64;&#x73;&#x79;&#x73;&#46;&#x63;&#111;&#109;&#x7a;&#x2e;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
@@ -822,17 +1129,20 @@ properly.</p>
 spamassassin puts a very little weight to that rules, but you can easily
 increase it by adding:</p>
 
-<p>{% codeblock /etc/mail/spamassassin/local.cf lang:sh %}
-score T_DKIM_INVALID 10
-score DKIM_ADSP_CUSTOM_MED 10
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/mail/spamassassin/local.cf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>score T_DKIM_INVALID 10
+</span><span class='line'>score DKIM_ADSP_CUSTOM_MED 10
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>You can also add sieve filter based on <code>Authentication-Results</code> if you want to
 treat those suspicious messages differently than normal spam:</p>
 
-<p>{% codeblock .dovecot.sieve lang:sh %}
-if header :contains &ldquo;Authentication-Results&rdquo; &ldquo;dkim=fail&rdquo; { fileinto &ldquo;DANGER&rdquo;; stop; }
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>.dovecot.sieve </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">if </span>header :contains &amp;ldquo;Authentication-Results&amp;rdquo; &amp;ldquo;dkim<span class="o">=</span>fail&amp;rdquo; <span class="o">{</span> fileinto &amp;ldquo;DANGER&amp;rdquo;; stop; <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>The possibilities are endless :)</p>
 
@@ -904,13 +1214,18 @@ all of this together?</p>
 <code>/etc/davfs2/secrets</code>, set <code>use_locks</code> to <code>0</code> and add proper line to
 <code>/etc/fstab</code>. Then just mount it. So:</p>
 
-<p>{% codeblock As root lang:sh %}
-echo &ldquo;<a href="https://www.box.com/dav">https://www.box.com/dav</a>    <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x6c;&#111;&#103;&#x69;&#x6e;&#x40;&#101;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#x6c;&#111;&#103;&#x69;&#x6e;&#x40;&#101;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a>     my_box_com_password&rdquo; >> /etc/davfs2/secrets
-sed -i'&lsquo; -r &rsquo;s/#?\s*use_locks\s+0/use_locks 1/g&rsquo; /etc/davfs2/davfs2.conf
-mkdir /mnt/Box
-echo &ldquo;<a href="https://www.box.com/dav">https://www.box.com/dav</a> /mnt/Box davfs rw,noauto 0 0&rdquo; >> /etc/fstab
-mount /mnt/Box
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#108;&amp;#x6f;&amp;#x67;&amp;#x69;&amp;#110;&amp;#64;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#x6c;&amp;#111;&amp;#103;&amp;#x69;&amp;#x6e;&amp;#64;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
+</span><span class='line'>sed -i<span class="err">&#39;</span>&amp;lsquo; -r &amp;rsquo;s/#?<span class="se">\s</span>*use_locks<span class="se">\s</span>+0/use_locks 1/g&amp;rsquo; /etc/davfs2/davfs2.conf
+</span><span class='line'>mkdir /mnt/Box
+</span><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt; /mnt/Box davfs rw,noauto 0 0&amp;rdquo; &gt;&gt; /etc/fstab
+</span><span class='line'>mount /mnt/Box
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>If everything went smooth, you will have access to your box.com account via
 filesystem. Pretty neat.</p>
@@ -920,79 +1235,120 @@ filesystem. Pretty neat.</p>
 <p>Firstly you need to set initial repository and backup files. Then encrypt them
 and copy to box.com. Here is how I do it:</p>
 
-<p>{% codeblock As root lang:sh %}
-cd /
-export MACHINE=DeeDee
-mkdir -p /home/Backup/${MACHINE}
-mkdir -p /mnt/Box/Backups/patches
-ln -s /home/Backup/${MACHINE} /.git
-git init
-git add -A etc root home some/other/important/dirs
-git commit -m &ldquo;Initial&rdquo;
-git gc # compress repository
-tar -cf /home/Backup/${MACHINE}.initial.tar /home/Backup/${MACHINE}/*
-gpg -e -r <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#109;&#121;&#x2e;&#107;&#101;&#121;&#64;&#101;&#x6d;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#x6d;">&#109;&#x79;&#x2e;&#107;&#101;&#x79;&#x40;&#x65;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a> /home/Backup/${MACHINE}.initial.tar</p>
-
-<h1>box.com has maximum file limit so split files to lesser chunks</h1>
-
-<p>split &mdash;bytes=99m /home/Backup/${MACHINE}.initial.tar.gpg /home/Backup/${MACHINE}.initial.tar.
-mv /home/Backup/DeeDee.${MACHINE}.tar.?? /mnt/Box/Backups
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /
+</span><span class='line'><span class="nb">export </span><span class="nv">MACHINE</span><span class="o">=</span>DeeDee
+</span><span class='line'>mkdir -p /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>
+</span><span class='line'>mkdir -p /mnt/Box/Backups/patches
+</span><span class='line'>ln -s /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span> /.git
+</span><span class='line'>git init
+</span><span class='line'>git add -A etc root home some/other/important/dirs
+</span><span class='line'>git commit -m &amp;ldquo;Initial&amp;rdquo;
+</span><span class='line'>git gc <span class="c"># compress repository</span>
+</span><span class='line'>tar -cf /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>/*
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#109;&amp;#121;&amp;#x2e;&amp;#107;&amp;#101;&amp;#x79;&amp;#x40;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#x6d;&amp;#x79;&amp;#46;&amp;#x6b;&amp;#101;&amp;#x79;&amp;#x40;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;box.com has maximum file limit so split files to lesser chunks&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;split &amp;mdash;bytes<span class="o">=</span>99m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar.
+</span><span class='line'>mv /home/Backup/DeeDee.<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.tar.?? /mnt/Box/Backups
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>If you have alot of files, some of them may not be copied in a first time &ndash; in
 this initial deploy, make sure that all the files are moved to box.com!</p>
 
 <p>After that all we need is a daily-snapshot deploy script</p>
 
-<p>{% codeblock As root lang:sh %}
-export NOW=<code>date -I</code>
-export MACHINE=DeeDee
-cd /
-git add -A
-git commit -m &ldquo;${NOW}&rdquo; -a
-git format-patch -1 &mdash;stdout > /home/Backup/${MACHINE}.${NOW}.patch
-gpg -e -r <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x79;&#x6f;&#117;&#x72;&#64;&#107;&#x65;&#x79;&#46;&#x65;&#109;&#97;&#x69;&#108;">&#x79;&#x6f;&#x75;&#114;&#x40;&#107;&#x65;&#121;&#46;&#101;&#x6d;&#x61;&#105;&#108;</a> /home/Backup/${MACHINE}.${NOW}.patch
-split &mdash;bytes=50m /home/Backup/${MACHINE}.${NOW}.patch.gpg /home/Backup/${MACHINE}.${NOW}.patch.
-mv /home/Backup/${MACHINE}.${NOW}.patch.?? /mnt/Box/Backups/patches
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">NOW</span><span class="o">=</span>&lt;code&gt;date -I&lt;/code&gt;
+</span><span class='line'><span class="nb">export </span><span class="nv">MACHINE</span><span class="o">=</span>DeeDee
+</span><span class='line'><span class="nb">cd</span> /
+</span><span class='line'>git add -A
+</span><span class='line'>git commit -m &amp;ldquo;<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>&amp;rdquo; -a
+</span><span class='line'>git format-patch -1 &amp;mdash;stdout &gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#x79;&amp;#x6f;&amp;#117;&amp;#x72;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#46;&amp;#101;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&quot;</span>&gt;&amp;#x79;&amp;#111;&amp;#x75;&amp;#x72;&amp;#x40;&amp;#107;&amp;#101;&amp;#x79;&amp;#x2e;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>split &amp;mdash;bytes<span class="o">=</span>50m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.
+</span><span class='line'>mv /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.?? /mnt/Box/Backups/patches
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now all you need to do is put this script to some file, and add it to cron:</p>
 
-<p>{% codeblock crontab -e lang:sh %}
-0 3 * * * /backup
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>crontab -e </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>0 3 * * * /backup
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Restoring backup</h2>
 
 <p>This is pretty simple. First, fetch all the <code>*.initial.*</code> files to some
 directory, then merge them, decrypt and unpack.</p>
 
-<p>{% codeblock As root lang:sh %}
-mkdir -p /home/Restore/.git
-cd /home/Restore/.git
-cp /mnt/Box/Backups/<em>.initial.</em> .
-cat <em>.initial.</em> > Backup.initial.tar
-tar -xf Backup.initial.tar
-rm -rf Backup.initial.tar
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p /home/Restore/.git
+</span><span class='line'><span class="nb">cd</span> /home/Restore/.git
+</span><span class='line'>cp /mnt/Box/Backups/&lt;em&gt;.initial.&lt;/em&gt; .
+</span><span class='line'>cat &lt;em&gt;.initial.&lt;/em&gt; &gt; Backup.initial.tar
+</span><span class='line'>tar -xf Backup.initial.tar
+</span><span class='line'>rm -rf Backup.initial.tar
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now you need to apply the patches:</p>
 
-<p>{% codeblock As root lang:sh %}
-cd /home/Restore
-cp /mnt/Box/Backups/patches/<em> .
-for i in </em>.patch.aa; do mv ${i} <code>echo ${i} | sed -r 's/.aa$//'</code>; done</p>
-
-<h1>Don&rsquo;t forget to concatenate splitted patches, so for example:</h1>
-
-<p>cat Backup.2012-10-14.patch.<em> > Backup.2012-10.14.patch
-git apply </em>.patch
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /home/Restore
+</span><span class='line'>cp /mnt/Box/Backups/patches/&lt;em&gt; .
+</span><span class='line'><span class="k">for </span>i in &lt;/em&gt;.patch.aa; <span class="k">do </span>mv <span class="k">${</span><span class="nv">i</span><span class="k">}</span> &lt;code&gt;echo <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | sed -r <span class="s1">&#39;s/.aa$//&#39;</span>&lt;/code&gt;; <span class="k">done</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Don&amp;rsquo;t forget to concatenate splitted patches, so <span class="k">for </span>example:&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cat Backup.2012-10-14.patch.&lt;em&gt; &gt; Backup.2012-10.14.patch
+</span><span class='line'>git apply &lt;/em&gt;.patch
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And the last thing is simply to restore repo to it&rsquo;s current state:
-{% codeblock As root lang:sh %}
-git reset &mdash;hard master
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git reset &amp;mdash;hard master
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And voilla, everything is back!</p>
 
