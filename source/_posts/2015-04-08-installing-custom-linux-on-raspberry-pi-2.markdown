@@ -143,7 +143,7 @@ mkdir -p root/lib/modules
 curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
 chmod +x /usr/bin/rpi-update
 SKIP_BACKUP=1 UPDATE_SELF=0 BOOT_PATH=boot ROOT_PATH=root rpi-update
-echo "dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait" > boot/cmdline.txt
+echo "dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait" > boot/cmdline.txt
 {% endcodeblock %}
 
 And that's it! At this point, if you have a monitor, you can flash your SD Card, plug it in to your Raspberry, and see
