@@ -4,7 +4,7 @@
   <title><![CDATA[Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-05-03T18:39:58+02:00</updated>
+  <updated>2015-05-04T08:36:40+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -211,7 +211,7 @@ out of the box.</p>
 </span><span class='line'>curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
 </span><span class='line'>chmod +x /usr/bin/rpi-update
 </span><span class='line'><span class="nv">SKIP_BACKUP</span><span class="o">=</span>1 <span class="nv">UPDATE_SELF</span><span class="o">=</span>0 <span class="nv">BOOT_PATH</span><span class="o">=</span>boot <span class="nv">ROOT_PATH</span><span class="o">=</span>root rpi-update
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait&quot;</span> &gt; boot/cmdline.txt
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait&quot;</span> &gt; boot/cmdline.txt
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1289,7 +1289,7 @@ following header:</p>
 
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#97;&#117;&#x74;&#111;&#x72;&#101;&#115;&#112;&#111;&#x6e;&#x64;&#x2b;&#100;&#x6b;&#105;&#109;&#x40;&#100;&#107;&#x2e;&#x65;&#108;&#x61;&#110;&#x64;&#115;&#x79;&#x73;&#x2e;&#99;&#x6f;&#x6d;&#122;&#46;">&#x61;&#117;&#x74;&#x6f;&#114;&#x65;&#x73;&#x70;&#111;&#x6e;&#x64;&#43;&#x64;&#107;&#x69;&#x6d;&#x40;&#100;&#107;&#46;&#101;&#x6c;&#97;&#110;&#x64;&#x73;&#121;&#115;&#46;&#99;&#111;&#109;&#122;&#x2e;</a> This is automated service, which checks
+`<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x61;&#117;&#x74;&#111;&#x72;&#101;&#x73;&#x70;&#111;&#x6e;&#x64;&#43;&#x64;&#x6b;&#105;&#109;&#x40;&#x64;&#x6b;&#46;&#x65;&#x6c;&#97;&#x6e;&#x64;&#115;&#121;&#x73;&#x2e;&#99;&#x6f;&#109;&#x7a;&#46;">&#97;&#117;&#116;&#111;&#x72;&#101;&#x73;&#112;&#111;&#110;&#x64;&#x2b;&#100;&#107;&#105;&#x6d;&#x40;&#x64;&#x6b;&#x2e;&#x65;&#108;&#x61;&#x6e;&#x64;&#115;&#121;&#115;&#x2e;&#x63;&#111;&#x6d;&#x7a;&#46;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
