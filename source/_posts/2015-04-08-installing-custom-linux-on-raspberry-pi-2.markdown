@@ -57,7 +57,7 @@ apt-get install -y git binfmt-support qemu qemu-user-static debootstrap kpartx l
 Now we can setup the initial partitioning.
 
 {% codeblock As root lang:sh %}
-dd if=/dev/zero of=rpi.img bs=1M count=512
+dd if=/dev/zero of=rpi.img bs=1M count=768
 losetup -f --show rpi.img # returns loop device used later, usually /dev/loop0
 fdisk /dev/loop0
 {% endcodeblock %}
@@ -263,7 +263,7 @@ nmap -p22 -oG - --open 192.168.0.0/24 | grep Host | awk '{print $2}' | sort | un
 {% endcodeblock %}
 
 Don't forget to change your root password (or disable root login at all) and to secure your system after you sign in!
-The next thing, you might notice is, that your Linux partition is pretty small (512MB). This is due to fact, that
+The next thing, you might notice is, that your Linux partition is pretty small (768MB). This is due to fact, that
 the original image was created as small as possible, to reduce flashing time. Thankfully, you can expand it pretty
 easily.
 
@@ -285,3 +285,10 @@ resize2fs /dev/mmcblk0p2 # Resize filesystem to fill up whole partition space
 
 Happy hacking!
 
+## [May 04 update] Debian Jessie
+
+Few days ago, [Debian Jessie came out](https://www.debian.org/News/2015/20150426). I checked this guide against it, and
+everything should work out of the box. All you need to do is change `wheezy` to `jessie` in debootstrap phase and in
+`/etc/apt/sources.list` file. Also, the new `/etc/network/interfaces.d` format was introduced, so instead putting all
+of your newtork conf in one file, you can split it to separate files and them put in this directory (i.e.
+`/etc/network/interfaces.d/lo`, `etc/network/interfaces.d/wifi` etc.)
