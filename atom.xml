@@ -4,7 +4,7 @@
   <title><![CDATA[Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-05-04T08:36:40+02:00</updated>
+  <updated>2015-05-04T08:48:36+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -85,7 +85,7 @@ install all the necessary packages:</p>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>rpi.img <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>512
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>rpi.img <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>768
 </span><span class='line'>losetup -f --show rpi.img <span class="c"># returns loop device used later, usually /dev/loop0</span>
 </span><span class='line'>fdisk /dev/loop0
 </span></code></pre></td></tr></table></div></figure>
@@ -372,7 +372,7 @@ with <code>raspberry</code> password.</p>
 
 
 <p>Don&rsquo;t forget to change your root password (or disable root login at all) and to secure your system after you sign in!
-The next thing, you might notice is, that your Linux partition is pretty small (512MB). This is due to fact, that
+The next thing, you might notice is, that your Linux partition is pretty small (768MB). This is due to fact, that
 the original image was created as small as possible, to reduce flashing time. Thankfully, you can expand it pretty
 easily.</p>
 
@@ -407,6 +407,14 @@ easily.</p>
 
 
 <p>Happy hacking!</p>
+
+<h2>[May 04 update] Debian Jessie</h2>
+
+<p>Few days ago, <a href="https://www.debian.org/News/2015/20150426">Debian Jessie came out</a>. I checked this guide against it, and
+everything should work out of the box. All you need to do is change <code>wheezy</code> to <code>jessie</code> in debootstrap phase and in
+<code>/etc/apt/sources.list</code> file. Also, the new <code>/etc/network/interfaces.d</code> format was introduced, so instead putting all
+of your newtork conf in one file, you can split it to separate files and them put in this directory (i.e.
+<code>/etc/network/interfaces.d/lo</code>, <code>etc/network/interfaces.d/wifi</code> etc.)</p>
 ]]></content>
   </entry>
   
@@ -1289,7 +1297,7 @@ following header:</p>
 
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x61;&#117;&#x74;&#111;&#x72;&#101;&#x73;&#x70;&#111;&#x6e;&#x64;&#43;&#x64;&#x6b;&#105;&#109;&#x40;&#x64;&#x6b;&#46;&#x65;&#x6c;&#97;&#x6e;&#x64;&#115;&#121;&#x73;&#x2e;&#99;&#x6f;&#109;&#x7a;&#46;">&#97;&#117;&#116;&#111;&#x72;&#101;&#x73;&#112;&#111;&#110;&#x64;&#x2b;&#100;&#107;&#105;&#x6d;&#x40;&#x64;&#x6b;&#x2e;&#x65;&#108;&#x61;&#x6e;&#x64;&#115;&#121;&#115;&#x2e;&#x63;&#111;&#x6d;&#x7a;&#46;</a> This is automated service, which checks
+`<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#97;&#x75;&#x74;&#x6f;&#114;&#x65;&#115;&#x70;&#111;&#x6e;&#100;&#x2b;&#x64;&#x6b;&#105;&#109;&#64;&#x64;&#x6b;&#x2e;&#101;&#x6c;&#x61;&#110;&#100;&#115;&#121;&#x73;&#x2e;&#99;&#111;&#x6d;&#x7a;&#x2e;">&#97;&#x75;&#116;&#x6f;&#x72;&#101;&#115;&#x70;&#111;&#x6e;&#100;&#43;&#100;&#107;&#x69;&#x6d;&#x40;&#100;&#x6b;&#46;&#101;&#x6c;&#97;&#x6e;&#100;&#115;&#x79;&#115;&#x2e;&#99;&#111;&#109;&#x7a;&#46;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
