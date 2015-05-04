@@ -184,7 +184,15 @@ apt-get update
 LANG=C apt-get install locales
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
-apt-get install openssh-server openssh-blacklist openssh-blacklist-extra
+apt-get install openssh-server openssh-blacklist openssh-blacklist-extra sudo
+{% endcodeblock %}
+
+Also you need to set some basic DNS servers, otherwise you won't be able to resolve any domain names. OpenDNS seems
+to be a good choice, [Google DNS is definitely not](https://developers.google.com/speed/public-dns/faq#privacy).
+
+{% codeblock Raspberry /etc/resolv.conf %}
+nameserver 208.67.222.222
+nameserver 208.67.220.220
 {% endcodeblock %}
 
 ## Configuring network
