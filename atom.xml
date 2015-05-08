@@ -4,7 +4,7 @@
   <title><![CDATA[Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-05-04T20:06:46+02:00</updated>
+  <updated>2015-05-08T23:16:20+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -265,17 +265,17 @@ basic UTF8 language support, and <code>openssh-server</code> to allow us to actu
 </span><span class='line'><span class="nv">LANG</span><span class="o">=</span>C apt-get install locales
 </span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;en_US.UTF-8 UTF-8&quot;</span> &gt;&gt; /etc/locale.gen
 </span><span class='line'>locale-gen
-</span><span class='line'>apt-get install openssh-server openssh-blacklist openssh-blacklist-extra sudo
+</span><span class='line'>apt-get install openssh-server openssh-blacklist openssh-blacklist-extra
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Also you need to set some basic DNS servers, otherwise you won&rsquo;t be able to resolve any domain names. OpenDNS seems
-to be a good choice, <a href="https://developers.google.com/speed/public-dns/faq#privacy">Google DNS is definitely not</a>.</p>
+<p>If you plan, to configure your system with Ansible or some other auto-tool, it&rsquo;s also a good idea to install
+sudo, python and aptitude.</p>
 
-<figure class='code'><figcaption><span>Raspberry</span><a href='http://www.rzegocki.pl/etc/resolv.conf'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>nameserver 208.67.222.222
-</span><span class='line'>nameserver 208.67.220.220</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install sudo python aptitude
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Configuring network</h2>
@@ -290,11 +290,24 @@ connection for over 60s). Otherwise, all you need to do is add following lines t
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>auto lo
 </span><span class='line'>iface lo inet loopback
 </span><span class='line'>
 </span><span class='line'>auto eth0
 </span><span class='line'>iface eth0 inet dhcp
+</span><span class='line'>dns-nameservers 208.67.222.222 208.67.220.220
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s a good idea to force nameservers (i.e. to OpenDNS as in example above) &ndash; many providers, are setting default DNS
+servers to Google DNS, <a href="https://developers.google.com/speed/public-dns/faq#privacy">which is not the best choice</a>.</p>
+
+<p>To make <code>dns-nameservers</code> directive actually work, you would need a <code>resolvconf</code> package.</p>
+
+<figure class='code'><figcaption><span>Raspbery root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install resolvconf
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -325,10 +338,12 @@ instead of the one which I used.</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Add those lines at the end of the file</span>
 </span><span class='line'>
 </span><span class='line'>auto wlan0
 </span><span class='line'>iface wlan0 inet dhcp
+</span><span class='line'>dns-nameservers 208.67.222.222 208.67.220.220
 </span><span class='line'>wpa-ssid &lt;name of your WiFi network&gt;
 </span><span class='line'>wpa-psk &lt;password to your WiFi network&gt;
 </span></code></pre></td></tr></table></div></figure>
@@ -423,7 +438,9 @@ easily.</p>
 everything should work out of the box. All you need to do is change <code>wheezy</code> to <code>jessie</code> in debootstrap phase and in
 <code>/etc/apt/sources.list</code> file. Also, the new <code>/etc/network/interfaces.d</code> format was introduced, so instead putting all
 of your newtork conf in one file, you can split it to separate files and them put in this directory (i.e.
-<code>/etc/network/interfaces.d/lo</code>, <code>etc/network/interfaces.d/wifi</code> etc.)</p>
+<code>/etc/network/interfaces.d/lo</code>, <code>etc/network/interfaces.d/wifi</code> etc.). You might also have problems with <code>root</code> login
+via SSH, if so, set <code>PermitRootLogin yes</code> in <code>/etc/ssh/sshd_config</code> (but don&rsquo;t forget, to set it back to <code>no</code> when
+you finish configuration!).</p>
 ]]></content>
   </entry>
   
@@ -1306,7 +1323,7 @@ following header:</p>
 
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#x61;&#x75;&#x74;&#111;&#x72;&#x65;&#x73;&#x70;&#111;&#x6e;&#x64;&#43;&#x64;&#107;&#x69;&#x6d;&#64;&#x64;&#x6b;&#x2e;&#101;&#108;&#x61;&#110;&#x64;&#x73;&#121;&#115;&#x2e;&#99;&#x6f;&#x6d;&#x7a;&#46;">&#x61;&#117;&#116;&#x6f;&#114;&#101;&#115;&#x70;&#111;&#x6e;&#x64;&#x2b;&#x64;&#x6b;&#105;&#109;&#64;&#x64;&#107;&#x2e;&#x65;&#x6c;&#x61;&#x6e;&#100;&#115;&#x79;&#x73;&#x2e;&#99;&#x6f;&#x6d;&#x7a;&#x2e;</a> This is automated service, which checks
+`<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#97;&#x75;&#116;&#111;&#114;&#x65;&#115;&#112;&#111;&#110;&#100;&#43;&#100;&#x6b;&#x69;&#x6d;&#64;&#x64;&#107;&#x2e;&#x65;&#x6c;&#97;&#x6e;&#100;&#115;&#121;&#115;&#x2e;&#99;&#x6f;&#x6d;&#x7a;&#46;">&#x61;&#x75;&#x74;&#111;&#114;&#x65;&#115;&#112;&#x6f;&#110;&#x64;&#x2b;&#x64;&#x6b;&#105;&#109;&#64;&#x64;&#x6b;&#46;&#101;&#x6c;&#97;&#x6e;&#x64;&#x73;&#x79;&#x73;&#46;&#99;&#x6f;&#109;&#x7a;&#46;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>

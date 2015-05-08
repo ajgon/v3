@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Administration | Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/blog/categories/administration/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-05-04T20:06:46+02:00</updated>
+  <updated>2015-05-08T23:16:20+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -249,16 +249,16 @@ basic UTF8 language support, and <code>openssh-server</code> to allow us to actu
 </span><span class='line'><span class="nv">LANG</span><span class="o">=</span>C apt-get install locales
 </span><span class='line'><span class="nb">echo</span> &amp;ldquo;en_US.UTF-8 UTF-8&amp;rdquo; &gt;&gt; /etc/locale.gen
 </span><span class='line'>locale-gen
-</span><span class='line'>apt-get install openssh-server openssh-blacklist openssh-blacklist-extra sudo
+</span><span class='line'>apt-get install openssh-server openssh-blacklist openssh-blacklist-extra
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Also you need to set some basic DNS servers, otherwise you won&rsquo;t be able to resolve any domain names. OpenDNS seems
-to be a good choice, <a href="https://developers.google.com/speed/public-dns/faq#privacy">Google DNS is definitely not</a>.</p>
+<p>If you plan, to configure your system with Ansible or some other auto-tool, it&rsquo;s also a good idea to install
+sudo, python and aptitude.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspberry</span><a href='/etc/resolv.conf'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>nameserver 208.67.222.222
-</span><span class='line'>nameserver 208.67.220.220</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>As Raspberry root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install sudo python aptitude
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Configuring network</h2>
 
@@ -272,11 +272,23 @@ connection for over 60s). Otherwise, all you need to do is add following lines t
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>auto lo
 </span><span class='line'>iface lo inet loopback&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;auto eth0
 </span><span class='line'>iface eth0 inet dhcp
+</span><span class='line'>dns-nameservers 208.67.222.222 208.67.220.220
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>It&rsquo;s a good idea to force nameservers (i.e. to OpenDNS as in example above) &ndash; many providers, are setting default DNS
+servers to Google DNS, <a href="https://developers.google.com/speed/public-dns/faq#privacy">which is not the best choice</a>.</p>
+
+<p>To make <code>dns-nameservers</code> directive actually work, you would need a <code>resolvconf</code> package.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Raspbery root </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install resolvconf
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>And that&rsquo;s it. It&rsquo;s getting more complicated if you want to configure a WiFi network as well.</p>
@@ -307,12 +319,14 @@ instead of the one which I used.</p>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
+<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;Add those lines at the end of the file&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;auto wlan0
 </span><span class='line'>iface wlan0 inet dhcp
+</span><span class='line'>dns-nameservers 208.67.222.222 208.67.220.220
 </span><span class='line'>wpa-ssid &lt;name of your WiFi network&gt;
 </span><span class='line'>wpa-psk &lt;password to your WiFi network&gt;
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
@@ -409,7 +423,9 @@ easily.</p>
 everything should work out of the box. All you need to do is change <code>wheezy</code> to <code>jessie</code> in debootstrap phase and in
 <code>/etc/apt/sources.list</code> file. Also, the new <code>/etc/network/interfaces.d</code> format was introduced, so instead putting all
 of your newtork conf in one file, you can split it to separate files and them put in this directory (i.e.
-<code>/etc/network/interfaces.d/lo</code>, <code>etc/network/interfaces.d/wifi</code> etc.)</p>
+<code>/etc/network/interfaces.d/lo</code>, <code>etc/network/interfaces.d/wifi</code> etc.). You might also have problems with <code>root</code> login
+via SSH, if so, set <code>PermitRootLogin yes</code> in <code>/etc/ssh/sshd_config</code> (but don&rsquo;t forget, to set it back to <code>no</code> when
+you finish configuration!).</p>
 ]]></content>
   </entry>
   
@@ -715,7 +731,7 @@ confirmation &ndash; and eventually fail):</p>
 </span><span class='line'>chown -R gpgmap /var/gpg
 </span><span class='line'>chmod 700 /var/gpg/.gnupg
 </span><span class='line'>sudo -u gpgmap /usr/bin/gpg &amp;mdash;gen-key &amp;mdash;homedir<span class="o">=</span>/var/gpg/.gnupg
-</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#121;&amp;#111;&amp;#117;&amp;#x72;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#46;&amp;#101;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&quot;</span>&gt;&amp;#121;&amp;#111;&amp;#117;&amp;#114;&amp;#x40;&amp;#107;&amp;#x65;&amp;#x79;&amp;#x2e;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt; trust quit
+</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#x79;&amp;#111;&amp;#x75;&amp;#x72;&amp;#64;&amp;#107;&amp;#x65;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#121;&amp;#111;&amp;#117;&amp;#x72;&amp;#64;&amp;#x6b;&amp;#x65;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt; trust quit
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting gpg-mailgate</h2>
@@ -775,7 +791,7 @@ config file should look similar to this:</p>
 </span><span class='line'><span class="na">port</span> <span class="o">=</span> <span class="s">10028&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[keymap]</span>
-</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#x65;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#x77;&amp;#x68;&amp;#105;&amp;#99;&amp;#104;&amp;#46;&amp;#x77;&amp;#x69;&amp;#x6c;&amp;#108;&amp;#x2e;&amp;#x72;&amp;#101;&amp;#x63;&amp;#x65;&amp;#105;&amp;#118;&amp;#101;&amp;#x2e;&amp;#101;&amp;#110;&amp;#99;&amp;#114;&amp;#121;&amp;#x70;&amp;#x74;&amp;#101;&amp;#x64;&amp;#46;&amp;#x63;&amp;#111;&amp;#110;&amp;#116;&amp;#101;&amp;#110;&amp;#116;&amp;#64;&amp;#x7a;&amp;#x6f;&amp;#104;&amp;#x6f;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&quot;&gt;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#119;&amp;#104;&amp;#x69;&amp;#99;&amp;#104;&amp;#46;&amp;#119;&amp;#x69;&amp;#108;&amp;#x6c;&amp;#x2e;&amp;#114;&amp;#x65;&amp;#99;&amp;#101;&amp;#x69;&amp;#118;&amp;#x65;&amp;#46;&amp;#101;&amp;#x6e;&amp;#99;&amp;#114;&amp;#121;&amp;#x70;&amp;#x74;&amp;#101;&amp;#100;&amp;#46;&amp;#99;&amp;#x6f;&amp;#110;&amp;#x74;&amp;#101;&amp;#110;&amp;#x74;&amp;#64;&amp;#x7a;&amp;#111;&amp;#x68;&amp;#111;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt; = 123456789ABCDEF</span>
+</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#116;&amp;#111;&amp;#58;&amp;#101;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x2e;&amp;#x77;&amp;#x68;&amp;#105;&amp;#99;&amp;#x68;&amp;#x2e;&amp;#119;&amp;#x69;&amp;#108;&amp;#x6c;&amp;#46;&amp;#x72;&amp;#x65;&amp;#99;&amp;#x65;&amp;#105;&amp;#x76;&amp;#101;&amp;#x2e;&amp;#101;&amp;#110;&amp;#x63;&amp;#114;&amp;#x79;&amp;#112;&amp;#116;&amp;#x65;&amp;#100;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6e;&amp;#x74;&amp;#101;&amp;#x6e;&amp;#116;&amp;#x40;&amp;#x7a;&amp;#x6f;&amp;#x68;&amp;#x6f;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#119;&amp;#104;&amp;#105;&amp;#x63;&amp;#104;&amp;#46;&amp;#x77;&amp;#105;&amp;#108;&amp;#x6c;&amp;#46;&amp;#x72;&amp;#x65;&amp;#99;&amp;#101;&amp;#x69;&amp;#x76;&amp;#101;&amp;#x2e;&amp;#101;&amp;#x6e;&amp;#99;&amp;#x72;&amp;#x79;&amp;#112;&amp;#116;&amp;#101;&amp;#x64;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6e;&amp;#x74;&amp;#101;&amp;#110;&amp;#x74;&amp;#x40;&amp;#x7a;&amp;#x6f;&amp;#x68;&amp;#x6f;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&lt;/a&gt; = 123456789ABCDEF</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting postfix</h2>
@@ -808,7 +824,7 @@ configuration will present as follows:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/header_checks </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#101;&#109;&#x61;&#105;&#x6c;&#x2e;&#119;&#104;&#x69;&#99;&#104;&#46;&#119;&#x69;&#x6c;&#x6c;&#46;&#x72;&#101;&#99;&#x65;&#x69;&#118;&#101;&#x2e;&#101;&#110;&#x63;&#114;&#x79;&#x70;&#116;&#x65;&#100;&#46;&#x63;&#x6f;&#x6e;&#x74;&#x65;&#x6e;&#x74;&#x40;&#x7a;&#111;&#x68;&#111;&#46;&#99;&#111;&#x6d;">&#x65;&#109;&#x61;&#105;&#x6c;&#x2e;&#119;&#104;&#x69;&#x63;&#104;&#46;&#x77;&#105;&#108;&#108;&#46;&#x72;&#x65;&#x63;&#101;&#105;&#118;&#101;&#x2e;&#x65;&#110;&#x63;&#114;&#x79;&#112;&#x74;&#x65;&#100;&#x2e;&#99;&#x6f;&#110;&#x74;&#x65;&#x6e;&#x74;&#x40;&#122;&#x6f;&#x68;&#111;&#x2e;&#x63;&#x6f;&#109;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x65;&#x6d;&#x61;&#x69;&#108;&#x2e;&#119;&#104;&#105;&#99;&#x68;&#x2e;&#x77;&#105;&#108;&#108;&#x2e;&#114;&#x65;&#99;&#101;&#x69;&#118;&#101;&#x2e;&#101;&#110;&#99;&#114;&#x79;&#x70;&#x74;&#101;&#100;&#46;&#99;&#111;&#110;&#x74;&#101;&#x6e;&#116;&#64;&#122;&#111;&#104;&#111;&#46;&#99;&#x6f;&#109;">&#101;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x77;&#x68;&#x69;&#99;&#x68;&#x2e;&#x77;&#x69;&#x6c;&#x6c;&#x2e;&#114;&#101;&#99;&#x65;&#x69;&#118;&#x65;&#x2e;&#101;&#x6e;&#x63;&#x72;&#121;&#112;&#x74;&#101;&#x64;&#46;&#x63;&#111;&#110;&#x74;&#x65;&#110;&#116;&#64;&#x7a;&#x6f;&#104;&#x6f;&#x2e;&#99;&#x6f;&#x6d;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1115,7 +1131,7 @@ following header:</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#97;&#117;&#x74;&#x6f;&#114;&#101;&#x73;&#x70;&#111;&#110;&#x64;&#x2b;&#x64;&#x6b;&#105;&#109;&#x40;&#100;&#107;&#46;&#x65;&#x6c;&#x61;&#110;&#100;&#x73;&#x79;&#115;&#46;&#x63;&#111;&#x6d;&#122;&#x2e;">&#97;&#117;&#x74;&#x6f;&#x72;&#x65;&#x73;&#x70;&#x6f;&#x6e;&#100;&#x2b;&#x64;&#x6b;&#x69;&#x6d;&#x40;&#x64;&#107;&#x2e;&#x65;&#x6c;&#97;&#110;&#x64;&#x73;&#x79;&#x73;&#46;&#x63;&#111;&#109;&#x7a;&#x2e;</a> This is automated service, which checks
+`<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x61;&#117;&#x74;&#x6f;&#114;&#x65;&#115;&#112;&#111;&#110;&#100;&#x2b;&#100;&#x6b;&#x69;&#109;&#64;&#x64;&#107;&#x2e;&#101;&#108;&#x61;&#x6e;&#x64;&#x73;&#121;&#x73;&#x2e;&#x63;&#111;&#x6d;&#122;&#x2e;">&#97;&#117;&#116;&#x6f;&#114;&#x65;&#x73;&#x70;&#111;&#x6e;&#100;&#43;&#100;&#107;&#x69;&#109;&#64;&#x64;&#x6b;&#x2e;&#101;&#108;&#97;&#110;&#100;&#115;&#x79;&#115;&#x2e;&#x63;&#111;&#x6d;&#x7a;&#46;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
@@ -1220,7 +1236,7 @@ all of this together?</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#108;&amp;#x6f;&amp;#x67;&amp;#x69;&amp;#110;&amp;#64;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#x6c;&amp;#111;&amp;#103;&amp;#x69;&amp;#x6e;&amp;#64;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#x6c;&amp;#111;&amp;#x67;&amp;#x69;&amp;#x6e;&amp;#64;&amp;#x65;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#x6c;&amp;#x6f;&amp;#103;&amp;#105;&amp;#x6e;&amp;#64;&amp;#x65;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
 </span><span class='line'>sed -i<span class="err">&#39;</span>&amp;lsquo; -r &amp;rsquo;s/#?<span class="se">\s</span>*use_locks<span class="se">\s</span>+0/use_locks 1/g&amp;rsquo; /etc/davfs2/davfs2.conf
 </span><span class='line'>mkdir /mnt/Box
 </span><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt; /mnt/Box davfs rw,noauto 0 0&amp;rdquo; &gt;&gt; /etc/fstab
@@ -1262,7 +1278,7 @@ and copy to box.com. Here is how I do it:</p>
 </span><span class='line'>git commit -m &amp;ldquo;Initial&amp;rdquo;
 </span><span class='line'>git gc <span class="c"># compress repository</span>
 </span><span class='line'>tar -cf /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>/*
-</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#109;&amp;#121;&amp;#x2e;&amp;#107;&amp;#101;&amp;#x79;&amp;#x40;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#x6d;&amp;#x79;&amp;#46;&amp;#x6b;&amp;#101;&amp;#x79;&amp;#x40;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#x6d;&amp;#x79;&amp;#46;&amp;#107;&amp;#x65;&amp;#x79;&amp;#x40;&amp;#x65;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&quot;</span>&gt;&amp;#109;&amp;#x79;&amp;#x2e;&amp;#107;&amp;#x65;&amp;#x79;&amp;#64;&amp;#x65;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;box.com has maximum file limit so split files to lesser chunks&lt;/h1&gt;
 </span><span class='line'>
@@ -1291,7 +1307,7 @@ this initial deploy, make sure that all the files are moved to box.com!</p>
 </span><span class='line'>git add -A
 </span><span class='line'>git commit -m &amp;ldquo;<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>&amp;rdquo; -a
 </span><span class='line'>git format-patch -1 &amp;mdash;stdout &gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
-</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#x79;&amp;#x6f;&amp;#117;&amp;#x72;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#46;&amp;#101;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&quot;</span>&gt;&amp;#x79;&amp;#111;&amp;#x75;&amp;#x72;&amp;#x40;&amp;#107;&amp;#101;&amp;#x79;&amp;#x2e;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#x79;&amp;#x6f;&amp;#117;&amp;#114;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&quot;</span>&gt;&amp;#121;&amp;#111;&amp;#117;&amp;#114;&amp;#x40;&amp;#107;&amp;#x65;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#108;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
 </span><span class='line'>split &amp;mdash;bytes<span class="o">=</span>50m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.
 </span><span class='line'>mv /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.?? /mnt/Box/Backups/patches
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
