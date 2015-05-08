@@ -184,15 +184,14 @@ apt-get update
 LANG=C apt-get install locales
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
-apt-get install openssh-server openssh-blacklist openssh-blacklist-extra sudo
+apt-get install openssh-server openssh-blacklist openssh-blacklist-extra
 {% endcodeblock %}
 
-Also you need to set some basic DNS servers, otherwise you won't be able to resolve any domain names. OpenDNS seems
-to be a good choice, [Google DNS is definitely not](https://developers.google.com/speed/public-dns/faq#privacy).
+If you plan, to configure your system with Ansible or some other auto-tool, it's also a good idea to install
+sudo, python and aptitude.
 
-{% codeblock Raspberry /etc/resolv.conf %}
-nameserver 208.67.222.222
-nameserver 208.67.220.220
+{% codeblock As Raspberry root lang:sh %}
+apt-get install sudo python aptitude
 {% endcodeblock %}
 
 ## Configuring network
@@ -207,6 +206,16 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet dhcp
+dns-nameservers 208.67.222.222 208.67.220.220
+{% endcodeblock %}
+
+It's a good idea to force nameservers (i.e. to OpenDNS as in example above) - many providers, are setting default DNS
+servers to Google DNS, [which is not the best choice](https://developers.google.com/speed/public-dns/faq#privacy).
+
+To make `dns-nameservers` directive actually work, you would need a `resolvconf` package.
+
+{% codeblock Raspbery root lang:sh %}
+apt-get install resolvconf
 {% endcodeblock %}
 
 And that's it. It's getting more complicated if you want to configure a WiFi network as well.
@@ -231,6 +240,7 @@ apt-get install wireless-tools wpasupplicant
 
 auto wlan0
 iface wlan0 inet dhcp
+dns-nameservers 208.67.222.222 208.67.220.220
 wpa-ssid <name of your WiFi network>
 wpa-psk <password to your WiFi network>
 {% endcodeblock %}
@@ -299,4 +309,6 @@ Few days ago, [Debian Jessie came out](https://www.debian.org/News/2015/20150426
 everything should work out of the box. All you need to do is change `wheezy` to `jessie` in debootstrap phase and in
 `/etc/apt/sources.list` file. Also, the new `/etc/network/interfaces.d` format was introduced, so instead putting all
 of your newtork conf in one file, you can split it to separate files and them put in this directory (i.e.
-`/etc/network/interfaces.d/lo`, `etc/network/interfaces.d/wifi` etc.)
+`/etc/network/interfaces.d/lo`, `etc/network/interfaces.d/wifi` etc.). You might also have problems with `root` login
+via SSH, if so, set `PermitRootLogin yes` in `/etc/ssh/sshd_config` (but don't forget, to set it back to `no` when
+you finish configuration!).
