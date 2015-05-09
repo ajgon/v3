@@ -238,11 +238,32 @@ apt-get install wireless-tools wpasupplicant
 {% codeblock Raspberry &#47;etc/network/interfaces lang:sh %}
 # Add those lines at the end of the file
 
+allow-hotplug wlan0
 auto wlan0
 iface wlan0 inet dhcp
 dns-nameservers 208.67.222.222 208.67.220.220
-wpa-ssid <name of your WiFi network>
-wpa-psk <password to your WiFi network>
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+{% endcodeblock %}
+
+Last thing is configuring all networks you wish your Raspberry to connect. This is very convinient, if you plan to move
+your machine between home, work etc. - you can configure all trusted networks credentials, and later - just power on
+and be online.
+
+{% codeblock Raspberry &#47;etc/wpa_supplicant/wpa_supplicant.conf lang:sh %}
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="MyHomeNetwork"
+    psk="MyHomePassword"
+    id_str="home"
+}
+
+network={
+    ssid="MyWorkNetwork"
+    psk="MyWorkPassword"
+    id_str="work"
+}
 {% endcodeblock %}
 
 ## Flashing
