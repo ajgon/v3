@@ -441,11 +441,47 @@ instead of the one which I used.</p>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Add those lines at the end of the file</span>
 </span><span class='line'>
+</span><span class='line'>allow-hotplug wlan0
 </span><span class='line'>auto wlan0
 </span><span class='line'>iface wlan0 inet dhcp
 </span><span class='line'>dns-nameservers 208.67.222.222 208.67.220.220
-</span><span class='line'>wpa-ssid &lt;name of your WiFi network&gt;
-</span><span class='line'>wpa-psk &lt;password to your WiFi network&gt;
+</span><span class='line'>wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Last thing is configuring all networks you wish your Raspberry to connect. This is very convinient, if you plan to move
+your machine between home, work etc. &ndash; you can configure all trusted networks credentials, and later &ndash; just power on
+and be online.</p>
+
+<figure class='code'><figcaption><span>Raspberry &#47;etc/wpa_supplicant/wpa_supplicant.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">ctrl_interface</span><span class="o">=</span><span class="nv">DIR</span><span class="o">=</span>/var/run/wpa_supplicant <span class="nv">GROUP</span><span class="o">=</span>netdev
+</span><span class='line'><span class="nv">update_config</span><span class="o">=</span>1
+</span><span class='line'>
+</span><span class='line'><span class="nv">network</span><span class="o">={</span>
+</span><span class='line'>    <span class="nv">ssid</span><span class="o">=</span><span class="s2">&quot;MyHomeNetwork&quot;</span>
+</span><span class='line'>    <span class="nv">psk</span><span class="o">=</span><span class="s2">&quot;MyHomePassword&quot;</span>
+</span><span class='line'>    <span class="nv">id_str</span><span class="o">=</span><span class="s2">&quot;home&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">network</span><span class="o">={</span>
+</span><span class='line'>    <span class="nv">ssid</span><span class="o">=</span><span class="s2">&quot;MyWorkNetwork&quot;</span>
+</span><span class='line'>    <span class="nv">psk</span><span class="o">=</span><span class="s2">&quot;MyWorkPassword&quot;</span>
+</span><span class='line'>    <span class="nv">id_str</span><span class="o">=</span><span class="s2">&quot;work&quot;</span>
+</span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
