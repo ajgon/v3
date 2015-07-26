@@ -4,84 +4,84 @@
         <loc>
             http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/
         </loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/
         </loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/
         </loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/
         </loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/
         </loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server/</loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/
         </loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have/
         </loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/
         </loc>
-        <lastmod>2015-07-13T22:54:12+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/robots.txt</loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/portfolio/</loc>
-        <lastmod>2015-07-13T22:54:12+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/presentations/</loc>
-        <lastmod>2015-07-13T22:54:12+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/public-key.txt</loc>
-        <lastmod>2015-02-07T19:23:33+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/</loc>
-        <lastmod>2015-07-13T22:59:51+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.rzegocki.pl/open-source/</loc>
-        <lastmod>2015-02-07T19:26:02+01:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>http://www.rzegocki.pl/blog/archives/</loc>
-        <lastmod>2015-07-13T22:54:12+02:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>http://www.rzegocki.pl/blog/</loc>
-        <lastmod>2015-07-13T22:54:12+02:00</lastmod>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/</loc>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/open-source/</loc>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/portfolio/</loc>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/presentations/</loc>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/public-key.txt</loc>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/robots.txt</loc>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
 </urlset>
