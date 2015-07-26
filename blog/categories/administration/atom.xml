@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Administration | Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/blog/categories/administration/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-07-26T18:17:51+02:00</updated>
+  <updated>2015-07-26T18:19:57+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Installing custom linux on Raspberry&nbsp;Pi&nbsp;2]]></title>
-    <link href="http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/"/>
     <updated>2015-04-19T20:00:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2</id>
+    <id>http://www.rzegocki.pl/v3/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2</id>
     <content type="html"><![CDATA[<p>Few days ago, <a href="/images/upload/rpi.jpg">I gave myself a present</a>, which (at the very beginning) I was planning to power
 up with <a href="https://osmc.tv/">OSMC</a> and use it as HTPC. However, in a meantime I had to switch my apartment, and put
 my worn ATOM server offline for couple of hours &ndash; necessity I didn&rsquo;t like very much. This, and the fact that my server
@@ -478,9 +478,9 @@ you finish configuration!).</p>
   
   <entry>
     <title type="html"><![CDATA[Adding Email server autoconfig and autodiscover]]></title>
-    <link href="http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/"/>
     <updated>2013-10-28T14:57:00+01:00</updated>
-    <id>http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover</id>
+    <id>http://www.rzegocki.pl/v3/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover</id>
     <content type="html"><![CDATA[<p>One of the nicest, yet badly documented features in new MUAs is email servers autodiscovering. When you type your e-mail address in configuration window, modern MUA is trying to determine what IMAP/POP3 servers are, and how to connect to them. To do so, they assume, that your email contains a server domain name. A nice assumption, but often not relevant (google apps is a good example here). Thankfully, there is also another way &ndash; asking an original server on a specially configured domain what those parameters are.</p>
 
 <!-- more -->
@@ -711,9 +711,9 @@ you finish configuration!).</p>
   
   <entry>
     <title type="html"><![CDATA[Setting encrypted backup Email server]]></title>
-    <link href="http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2013/04/14/setting-encrypted-backup-email-server/"/>
     <updated>2013-04-14T13:34:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server</id>
+    <id>http://www.rzegocki.pl/v3/blog/2013/04/14/setting-encrypted-backup-email-server</id>
     <content type="html"><![CDATA[<p>There is a popular Internet saying that people are divided into two groups &ndash;
 those who make backups, and those who will. I strongly believe into that,
 that&rsquo;s why despite that I trust my mailserver setup completely, I still want to
@@ -778,7 +778,7 @@ confirmation &ndash; and eventually fail):</p>
 </span><span class='line'>chown -R gpgmap /var/gpg
 </span><span class='line'>chmod 700 /var/gpg/.gnupg
 </span><span class='line'>sudo -u gpgmap /usr/bin/gpg &amp;mdash;gen-key &amp;mdash;homedir<span class="o">=</span>/var/gpg/.gnupg
-</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#116;&amp;#x6f;&amp;#58;&amp;#121;&amp;#x6f;&amp;#117;&amp;#x72;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#121;&amp;#46;&amp;#101;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;&quot;</span>&gt;&amp;#x79;&amp;#x6f;&amp;#117;&amp;#114;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#121;&amp;#x2e;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt; trust quit
+</span><span class='line'>sudo -u gpgmap gpg &amp;mdash;edit-key &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#x79;&amp;#x6f;&amp;#x75;&amp;#114;&amp;#x40;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#x2e;&amp;#101;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;&quot;</span>&gt;&amp;#x79;&amp;#111;&amp;#117;&amp;#x72;&amp;#64;&amp;#x6b;&amp;#101;&amp;#x79;&amp;#46;&amp;#x65;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt; trust quit
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting gpg-mailgate</h2>
@@ -838,7 +838,7 @@ config file should look similar to this:</p>
 </span><span class='line'><span class="na">port</span> <span class="o">=</span> <span class="s">10028&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="err">&lt;p&gt;</span><span class="k">[keymap]</span>
-</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#119;&amp;#104;&amp;#105;&amp;#99;&amp;#x68;&amp;#x2e;&amp;#x77;&amp;#105;&amp;#108;&amp;#108;&amp;#46;&amp;#114;&amp;#x65;&amp;#x63;&amp;#x65;&amp;#105;&amp;#118;&amp;#101;&amp;#x2e;&amp;#x65;&amp;#110;&amp;#99;&amp;#x72;&amp;#x79;&amp;#112;&amp;#x74;&amp;#x65;&amp;#x64;&amp;#46;&amp;#99;&amp;#x6f;&amp;#110;&amp;#116;&amp;#x65;&amp;#110;&amp;#116;&amp;#64;&amp;#x7a;&amp;#111;&amp;#104;&amp;#x6f;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&quot;&gt;&amp;#101;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#119;&amp;#104;&amp;#105;&amp;#99;&amp;#104;&amp;#46;&amp;#x77;&amp;#x69;&amp;#108;&amp;#x6c;&amp;#x2e;&amp;#x72;&amp;#x65;&amp;#99;&amp;#x65;&amp;#x69;&amp;#x76;&amp;#x65;&amp;#x2e;&amp;#x65;&amp;#110;&amp;#99;&amp;#114;&amp;#x79;&amp;#112;&amp;#116;&amp;#101;&amp;#100;&amp;#46;&amp;#99;&amp;#x6f;&amp;#110;&amp;#116;&amp;#101;&amp;#110;&amp;#116;&amp;#64;&amp;#x7a;&amp;#x6f;&amp;#104;&amp;#111;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt; = 123456789ABCDEF</span>
+</span><span class='line'><span class="na">&lt;a href</span><span class="o">=</span><span class="s">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#x65;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#46;&amp;#119;&amp;#104;&amp;#x69;&amp;#99;&amp;#104;&amp;#46;&amp;#119;&amp;#105;&amp;#108;&amp;#108;&amp;#46;&amp;#x72;&amp;#101;&amp;#99;&amp;#x65;&amp;#105;&amp;#118;&amp;#101;&amp;#46;&amp;#101;&amp;#110;&amp;#99;&amp;#x72;&amp;#121;&amp;#x70;&amp;#x74;&amp;#x65;&amp;#x64;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6e;&amp;#x74;&amp;#101;&amp;#x6e;&amp;#116;&amp;#64;&amp;#x7a;&amp;#111;&amp;#x68;&amp;#x6f;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#101;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x77;&amp;#x68;&amp;#x69;&amp;#x63;&amp;#104;&amp;#46;&amp;#119;&amp;#x69;&amp;#108;&amp;#x6c;&amp;#46;&amp;#x72;&amp;#x65;&amp;#x63;&amp;#101;&amp;#x69;&amp;#x76;&amp;#101;&amp;#x2e;&amp;#101;&amp;#x6e;&amp;#x63;&amp;#x72;&amp;#x79;&amp;#112;&amp;#x74;&amp;#x65;&amp;#100;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#110;&amp;#x74;&amp;#101;&amp;#110;&amp;#x74;&amp;#64;&amp;#122;&amp;#111;&amp;#x68;&amp;#111;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt; = 123456789ABCDEF</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Setting postfix</h2>
@@ -871,7 +871,7 @@ configuration will present as follows:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/header_checks </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x65;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x77;&#x68;&#x69;&#99;&#104;&#x2e;&#119;&#105;&#x6c;&#108;&#46;&#x72;&#x65;&#99;&#x65;&#105;&#118;&#101;&#x2e;&#101;&#110;&#x63;&#x72;&#121;&#112;&#116;&#x65;&#x64;&#x2e;&#x63;&#x6f;&#110;&#116;&#101;&#110;&#116;&#64;&#x7a;&#x6f;&#x68;&#x6f;&#x2e;&#99;&#111;&#x6d;">&#101;&#x6d;&#97;&#105;&#108;&#46;&#x77;&#104;&#x69;&#x63;&#104;&#x2e;&#119;&#x69;&#108;&#x6c;&#46;&#114;&#101;&#x63;&#101;&#105;&#x76;&#x65;&#x2e;&#101;&#x6e;&#99;&#x72;&#x79;&#112;&#x74;&#101;&#100;&#x2e;&#x63;&#111;&#110;&#x74;&#x65;&#x6e;&#x74;&#64;&#122;&#111;&#104;&#x6f;&#x2e;&#99;&#x6f;&#109;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/^From: .*/ PREPEND X-GPG-Encrypt-Cc: &lt;a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#101;&#109;&#97;&#x69;&#x6c;&#x2e;&#x77;&#x68;&#x69;&#99;&#x68;&#46;&#x77;&#x69;&#x6c;&#x6c;&#46;&#x72;&#101;&#99;&#101;&#x69;&#x76;&#x65;&#46;&#x65;&#110;&#x63;&#114;&#121;&#x70;&#116;&#101;&#x64;&#x2e;&#99;&#x6f;&#110;&#x74;&#101;&#x6e;&#116;&#x40;&#122;&#111;&#104;&#x6f;&#46;&#99;&#111;&#109;">&#101;&#x6d;&#x61;&#x69;&#x6c;&#46;&#119;&#104;&#105;&#99;&#x68;&#46;&#119;&#x69;&#108;&#108;&#46;&#114;&#x65;&#99;&#x65;&#105;&#x76;&#x65;&#46;&#101;&#x6e;&#99;&#114;&#x79;&#112;&#116;&#101;&#x64;&#x2e;&#x63;&#x6f;&#x6e;&#x74;&#x65;&#x6e;&#116;&#x40;&#122;&#x6f;&#x68;&#111;&#x2e;&#99;&#111;&#109;&lt;/a></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/postfix/master.cf </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -939,9 +939,9 @@ shiny and secure backup :)</p>
   
   <entry>
     <title type="html"><![CDATA[Add more complexity to your Emails - use DKIM and SPF]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/"/>
     <updated>2012-10-27T13:15:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf</id>
     <content type="html"><![CDATA[<p>The next thing my paranoid me couldn&rsquo;t stand of is that my emails can be easily
 spoofed. Yeah, I know I&rsquo;m not a very famous person, so probability of such
 thing happening is similar to zero, but hey &ndash; tell this to my Paranoid me. :)
@@ -1178,7 +1178,7 @@ following header:</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#97;&#117;&#116;&#111;&#x72;&#x65;&#115;&#x70;&#111;&#110;&#x64;&#x2b;&#x64;&#x6b;&#105;&#x6d;&#x40;&#100;&#x6b;&#46;&#x65;&#x6c;&#97;&#x6e;&#x64;&#115;&#121;&#x73;&#x2e;&#99;&#111;&#x6d;&#122;&#x2e;">&#x61;&#117;&#116;&#x6f;&#x72;&#101;&#x73;&#112;&#x6f;&#110;&#x64;&#x2b;&#x64;&#107;&#x69;&#109;&#x40;&#x64;&#x6b;&#x2e;&#101;&#x6c;&#x61;&#x6e;&#100;&#115;&#x79;&#x73;&#46;&#x63;&#111;&#x6d;&#x7a;&#46;</a> This is automated service, which checks
+`<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#97;&#x75;&#x74;&#111;&#x72;&#x65;&#x73;&#x70;&#111;&#110;&#100;&#x2b;&#x64;&#107;&#x69;&#109;&#64;&#x64;&#107;&#46;&#101;&#108;&#97;&#110;&#x64;&#115;&#121;&#115;&#46;&#x63;&#111;&#109;&#x7a;&#x2e;">&#97;&#117;&#116;&#x6f;&#x72;&#101;&#x73;&#112;&#x6f;&#110;&#100;&#x2b;&#x64;&#107;&#105;&#x6d;&#64;&#100;&#x6b;&#x2e;&#x65;&#108;&#x61;&#x6e;&#x64;&#115;&#121;&#x73;&#46;&#x63;&#x6f;&#x6d;&#122;&#x2e;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
@@ -1221,9 +1221,9 @@ treat those suspicious messages differently than normal spam:</p>
   
   <entry>
     <title type="html"><![CDATA[Setting secure, cloud-based backup system using git and box.com]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/"/>
     <updated>2012-10-14T12:57:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com</id>
     <content type="html"><![CDATA[<p>After giving up my <a href="http://gmail.com/">spying e-mail provider</a>, and moving
 everything to my own <a href="https://github.com/ajgon/DeeDee">DeeDee server</a>, I moved
 smoothly from one paranoia to another. Ok, my e-mail is not read anymore by
@@ -1283,7 +1283,7 @@ all of this together?</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#108;&amp;#111;&amp;#103;&amp;#x69;&amp;#x6e;&amp;#x40;&amp;#101;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#111;&amp;#109;&quot;</span>&gt;&amp;#108;&amp;#x6f;&amp;#x67;&amp;#105;&amp;#110;&amp;#x40;&amp;#101;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt;    &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#x6c;&amp;#111;&amp;#x67;&amp;#x69;&amp;#110;&amp;#64;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&quot;</span>&gt;&amp;#108;&amp;#x6f;&amp;#103;&amp;#x69;&amp;#x6e;&amp;#x40;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#99;&amp;#111;&amp;#109;&lt;/a&gt;     my_box_com_password&amp;rdquo; &gt;&gt; /etc/davfs2/secrets
 </span><span class='line'>sed -i<span class="err">&#39;</span>&amp;lsquo; -r &amp;rsquo;s/#?<span class="se">\s</span>*use_locks<span class="se">\s</span>+0/use_locks 1/g&amp;rsquo; /etc/davfs2/davfs2.conf
 </span><span class='line'>mkdir /mnt/Box
 </span><span class='line'><span class="nb">echo</span> &amp;ldquo;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://www.box.com/dav&quot;</span>&gt;https://www.box.com/dav&lt;/a&gt; /mnt/Box davfs rw,noauto 0 0&amp;rdquo; &gt;&gt; /etc/fstab
@@ -1325,7 +1325,7 @@ and copy to box.com. Here is how I do it:</p>
 </span><span class='line'>git commit -m &amp;ldquo;Initial&amp;rdquo;
 </span><span class='line'>git gc <span class="c"># compress repository</span>
 </span><span class='line'>tar -cf /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>/*
-</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#x6d;&amp;#121;&amp;#46;&amp;#107;&amp;#x65;&amp;#121;&amp;#64;&amp;#x65;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&quot;</span>&gt;&amp;#109;&amp;#x79;&amp;#46;&amp;#x6b;&amp;#101;&amp;#x79;&amp;#64;&amp;#101;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#x6d;&amp;#121;&amp;#46;&amp;#107;&amp;#101;&amp;#121;&amp;#64;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&quot;</span>&gt;&amp;#x6d;&amp;#121;&amp;#46;&amp;#x6b;&amp;#x65;&amp;#x79;&amp;#x40;&amp;#101;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.initial.tar&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;box.com has maximum file limit so split files to lesser chunks&lt;/h1&gt;
 </span><span class='line'>
@@ -1354,7 +1354,7 @@ this initial deploy, make sure that all the files are moved to box.com!</p>
 </span><span class='line'>git add -A
 </span><span class='line'>git commit -m &amp;ldquo;<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>&amp;rdquo; -a
 </span><span class='line'>git format-patch -1 &amp;mdash;stdout &gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
-</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#x79;&amp;#x6f;&amp;#x75;&amp;#114;&amp;#64;&amp;#107;&amp;#101;&amp;#x79;&amp;#46;&amp;#x65;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&quot;</span>&gt;&amp;#121;&amp;#x6f;&amp;#117;&amp;#114;&amp;#x40;&amp;#x6b;&amp;#101;&amp;#x79;&amp;#46;&amp;#101;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
+</span><span class='line'>gpg -e -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#121;&amp;#111;&amp;#117;&amp;#114;&amp;#64;&amp;#107;&amp;#x65;&amp;#121;&amp;#x2e;&amp;#101;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#108;&quot;</span>&gt;&amp;#121;&amp;#x6f;&amp;#117;&amp;#x72;&amp;#64;&amp;#107;&amp;#x65;&amp;#x79;&amp;#46;&amp;#101;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&lt;/a&gt; /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch
 </span><span class='line'>split &amp;mdash;bytes<span class="o">=</span>50m /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.gpg /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.
 </span><span class='line'>mv /home/Backup/<span class="k">${</span><span class="nv">MACHINE</span><span class="k">}</span>.<span class="k">${</span><span class="nv">NOW</span><span class="k">}</span>.patch.?? /mnt/Box/Backups/patches
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
