@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/blog/categories/php/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-07-26T18:19:57+02:00</updated>
+  <updated>2015-07-26T18:21:37+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Setting development environment on your Mac]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
+    <link href="http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
     <updated>2012-09-22T12:33:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac</id>
+    <id>http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac</id>
     <content type="html"><![CDATA[<p>Recently I bought an
 <a href="http://www.anandtech.com/show/4253/the-crucial-m4-micron-c400-ssd-review">awesome piece of hardware</a>
 to my MacBook Pro. Unfortunatelly

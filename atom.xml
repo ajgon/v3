@@ -4,7 +4,7 @@
   <title><![CDATA[Igor Rzegocki Personal Homepage]]></title>
   <link href="http://www.rzegocki.pl/atom.xml" rel="self"/>
   <link href="http://www.rzegocki.pl/"/>
-  <updated>2015-07-26T18:19:57+02:00</updated>
+  <updated>2015-07-26T18:21:37+02:00</updated>
   <id>http://www.rzegocki.pl/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Installing custom linux on Raspberry&nbsp;Pi&nbsp;2]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/"/>
+    <link href="http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/"/>
     <updated>2015-04-19T20:00:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2</id>
+    <id>http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2</id>
     <content type="html"><![CDATA[<p>Few days ago, <a href="http://www.rzegocki.pl/images/upload/rpi.jpg">I gave myself a present</a>, which (at the very beginning) I was planning to power
 up with <a href="https://osmc.tv/">OSMC</a> and use it as HTPC. However, in a meantime I had to switch my apartment, and put
 my worn ATOM server offline for couple of hours &ndash; necessity I didn&rsquo;t like very much. This, and the fact that my server
@@ -482,9 +482,9 @@ you finish configuration!).</p>
   
   <entry>
     <title type="html"><![CDATA[25 awesome tools every developer should have]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2013/11/13/25-awesome-tools-every-developer-should-have/"/>
+    <link href="http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have/"/>
     <updated>2013-11-13T11:09:00+01:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2013/11/13/25-awesome-tools-every-developer-should-have</id>
+    <id>http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have</id>
     <content type="html"><![CDATA[<blockquote><p>This is a repost of my <a href="http://x-team.com/2013/11/25-awesome-tools-every-developer-should-have/">original post</a>
 on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for consistency.</p></blockquote>
 
@@ -681,9 +681,9 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
   
   <entry>
     <title type="html"><![CDATA[Adding Email server autoconfig and autodiscover]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/"/>
+    <link href="http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/"/>
     <updated>2013-10-28T14:57:00+01:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover</id>
+    <id>http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover</id>
     <content type="html"><![CDATA[<p>One of the nicest, yet badly documented features in new MUAs is email servers autodiscovering. When you type your e-mail address in configuration window, modern MUA is trying to determine what IMAP/POP3 servers are, and how to connect to them. To do so, they assume, that your email contains a server domain name. A nice assumption, but often not relevant (google apps is a good example here). Thankfully, there is also another way &ndash; asking an original server on a specially configured domain what those parameters are.</p>
 
 <!-- more -->
@@ -894,9 +894,9 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
   
   <entry>
     <title type="html"><![CDATA[Setting encrypted backup Email server]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2013/04/14/setting-encrypted-backup-email-server/"/>
+    <link href="http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server/"/>
     <updated>2013-04-14T13:34:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2013/04/14/setting-encrypted-backup-email-server</id>
+    <id>http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server</id>
     <content type="html"><![CDATA[<p>There is a popular Internet saying that people are divided into two groups &ndash;
 those who make backups, and those who will. I strongly believe into that,
 that&rsquo;s why despite that I trust my mailserver setup completely, I still want to
@@ -1114,9 +1114,9 @@ shiny and secure backup :)</p>
   
   <entry>
     <title type="html"><![CDATA[Add more complexity to your Emails - use DKIM and SPF]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/"/>
+    <link href="http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/"/>
     <updated>2012-10-27T13:15:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf</id>
+    <id>http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf</id>
     <content type="html"><![CDATA[<p>The next thing my paranoid me couldn&rsquo;t stand of is that my emails can be easily
 spoofed. Yeah, I know I&rsquo;m not a very famous person, so probability of such
 thing happening is similar to zero, but hey &ndash; tell this to my Paranoid me. :)
@@ -1359,7 +1359,7 @@ following header:</p>
 
 
 <p>Which means, that verfication is working. As the last final test, send email to
-`<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x61;&#117;&#116;&#111;&#x72;&#101;&#x73;&#112;&#x6f;&#x6e;&#100;&#x2b;&#x64;&#x6b;&#x69;&#x6d;&#64;&#100;&#x6b;&#46;&#101;&#x6c;&#x61;&#110;&#100;&#x73;&#121;&#115;&#46;&#x63;&#x6f;&#109;&#x7a;&#x2e;">&#97;&#x75;&#x74;&#x6f;&#x72;&#101;&#115;&#x70;&#x6f;&#x6e;&#100;&#x2b;&#100;&#107;&#x69;&#109;&#64;&#100;&#x6b;&#x2e;&#101;&#x6c;&#97;&#110;&#100;&#x73;&#x79;&#x73;&#x2e;&#x63;&#111;&#x6d;&#122;&#x2e;</a> This is automated service, which checks
+`<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#97;&#x75;&#116;&#111;&#114;&#101;&#x73;&#112;&#111;&#x6e;&#x64;&#43;&#x64;&#x6b;&#105;&#x6d;&#x40;&#100;&#x6b;&#46;&#101;&#108;&#97;&#110;&#100;&#115;&#x79;&#x73;&#x2e;&#99;&#111;&#109;&#x7a;&#x2e;">&#97;&#x75;&#x74;&#111;&#114;&#101;&#x73;&#x70;&#111;&#110;&#100;&#43;&#100;&#107;&#105;&#x6d;&#64;&#x64;&#x6b;&#46;&#x65;&#x6c;&#97;&#x6e;&#100;&#115;&#x79;&#x73;&#46;&#x63;&#111;&#109;&#122;&#x2e;</a> This is automated service, which checks
 your DKIM headers for you and sends back the results. If you get DKIM Signature
 validation: passz in the body, then it means, that everything is working
 properly.</p>
@@ -1404,9 +1404,9 @@ treat those suspicious messages differently than normal spam:</p>
   
   <entry>
     <title type="html"><![CDATA[Setting secure, cloud-based backup system using git and box.com]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/"/>
+    <link href="http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/"/>
     <updated>2012-10-14T12:57:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com</id>
+    <id>http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com</id>
     <content type="html"><![CDATA[<p>After giving up my <a href="http://gmail.com/">spying e-mail provider</a>, and moving
 everything to my own <a href="https://github.com/ajgon/DeeDee">DeeDee server</a>, I moved
 smoothly from one paranoia to another. Ok, my e-mail is not read anymore by
@@ -1609,9 +1609,9 @@ box.com, but if you do &ndash; please, let me know!</p>
   
   <entry>
     <title type="html"><![CDATA[Setting development environment on your Mac]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
+    <link href="http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
     <updated>2012-09-22T12:33:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac</id>
+    <id>http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac</id>
     <content type="html"><![CDATA[<p>Recently I bought an
 <a href="http://www.anandtech.com/show/4253/the-crucial-m4-micron-c400-ssd-review">awesome piece of hardware</a>
 to my MacBook Pro. Unfortunatelly
@@ -1862,9 +1862,9 @@ I do :).</p>
   
   <entry>
     <title type="html"><![CDATA[Adding a little bit of SpamAssassin into Postfix/Dovecot/Sieve soup]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/"/>
+    <link href="http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/"/>
     <updated>2012-07-21T12:16:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup</id>
+    <id>http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup</id>
     <content type="html"><![CDATA[<p>I was always prefering &ldquo;stay in the shadows&rdquo; policy in terms of email address.
 I have two secondary emails (for spam I want to read, and for spam I want to be
 sent into oblivion i.e. for &ldquo;Register NOW to download this 2KB file&rdquo; sites). My
@@ -2102,9 +2102,9 @@ chance, that you&rsquo;ll find your answers there.</p>
   
   <entry>
     <title type="html"><![CDATA[Setting server-side mail filtering with sieve and dovecot]]></title>
-    <link href="http://www.rzegocki.pl/v3/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/"/>
+    <link href="http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/"/>
     <updated>2012-07-16T11:43:00+02:00</updated>
-    <id>http://www.rzegocki.pl/v3/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot</id>
+    <id>http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot</id>
     <content type="html"><![CDATA[<p>Leaving GMail was of the best decisions for my mail I made recently. But also a
 most problematic one. I needed to set all the MTA architecture myself. I tested
 many solutions out there and finally ended with postfix + dovecot
