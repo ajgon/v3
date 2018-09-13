@@ -8,9 +8,9 @@
   <title>Setting server-side mail filtering with sieve and dovecot - Igor Rzegocki Personal Homepage</title>
   <meta name="author" content="Igor Rzegocki">
 
-   
+
   <meta name="description" content="">
-  
+
   <meta name="keywords" content="">
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,26 +18,26 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link rel="canonical" href="http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot">
+
+  <link rel="canonical" href="http://www.rzegocki.pl/v3/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot">
   <link href="/v3/favicon.png" rel="icon">
-  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
   <link href="/v3/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Igor Rzegocki Personal Homepage" type="application/atom+xml">
-  <script src="/javascripts/jquery.js"></script>
-  <script src="/javascripts/bootstrap-collapse.js"></script>
+  <script src="/v3/javascripts/jquery.js"></script>
+  <script src="/v3/javascripts/bootstrap-collapse.js"></script>
   <script src="/v3/javascripts/modernizr-2.0.js"></script>
   <script src="/v3/javascripts/html5shiv.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/v3/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="/v3/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
 
-  
+
 
 </head>
 
@@ -50,40 +50,40 @@
         </a>
   	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
   	      <ul class="nav">
-    
+
         <li ><a href="/v3/">About me</a></li>
-    
+
         <li ><a href="/v3/portfolio">Portfolio</a></li>
-    
+
         <li ><a href="/v3/open-source">Open source</a></li>
-    
-        <li ><a href="/v3/papers">Papers</a></li>
-    
+
+        <li ><a href="/v3/presentations">Papers</a></li>
+
         <li ><a href="/v3/blog">Blog</a></li>
-    
+
 </ul>
 
 <ul class="nav pull-right">
-    
-    
+
+
     <li><a href="http://github.com/ajgon" title="Github Profile"><i class="icon-github-sign social-navbar"></i> <span>GitHub</span></a></li>
-    
-    
+
+
     <li><a href="http://linkedin.com/in/ajgon" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i> <span>LinkedIn</span></a></li>
-    
-    
+
+
     <li><a href="http://twitter.com/ajgon" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i> <span>Twitter</span></a></li>
-    
-    
-    
+
+
+
     <li><a href="http://facebook.com/7d7cdc4a42dd7aa15f891c7314db770a02efe0e7" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i> <span>Facebook</span></a></li>
-    
-    
+
+
     <li><a href="mailto:igor@rzegocki.pl" title="Email"><i class="icon-envelope-alt social-navbar"></i> <span>E-mail</span></a></li>
-    
-    
+
+
     <li><a href="/public-key.txt" title="GPG Key"><i class="icon-key social-navbar"></i> <span>GPG Key</span></a></li>
-    
+
 </ul>
 
   	    </div>
@@ -96,7 +96,7 @@
         <div id="content">
           <div>
 <article class="hentry" role="article">
-  
+
 
   <header>
   <div class="jumbotron">
@@ -110,7 +110,7 @@
 
 
 
-  
+
 
 
 <i class="icon-calendar-empty"></i> <time datetime="2012-07-16T11:43:00+02:00" pubdate data-updated="true">Jul 16<span>th</span>, 2012</time></h5>
@@ -249,13 +249,13 @@ and confirms that own server is an really, really great idea :)</p>
 
   <footer>
     <hr>
-    
+
     <div class="row-fluid">
-      
+
       <div class="span6">
         <p class="meta">
-        
-        
+
+
 
 
 
@@ -266,32 +266,32 @@ and confirms that own server is an really, really great idea :)</p>
 
         </p>
       </div>
-      
+
       <div class="span6 social-sharing">
         <div class="sharing">
   <div class="addthis_toolbox addthis_default_style ">
-  
-  
+
+
   <a class="addthis_button_tweet"></a>
-  
-  
+
+
   <a class="addthis_counter addthis_pill_style"></a>
   </div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+  <script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
       </div>
-      
-      
+
+
     </div>
-    
+
     <div class="row-fluid">
       <div class="span12">
         <p class="meta">
-          
-          
+
+
             <a class="basic-alignment right" href="/v3/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/" title="Next Post: Adding a little bit of SpamAssassin into Postfix/Dovecot/Sieve soup">Adding a little bit of SpamAssassin into Postfix/Dovecot/Sieve soup &raquo;</a>
-          
+
         </p>
       </div>
     </div>
@@ -316,7 +316,7 @@ and confirms that own server is an really, really great idea :)</p>
       </div>
     </div>
   </div>
-  
+
 
 
 
@@ -329,7 +329,7 @@ and confirms that own server is an really, really great idea :)</p>
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

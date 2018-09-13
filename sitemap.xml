@@ -2,86 +2,86 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>
-            http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/
+            http://www.rzegocki.pl/v3/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/
         </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/
+            http://www.rzegocki.pl/v3/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/
         </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/
+            http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac/
         </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/
+            http://www.rzegocki.pl/v3/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/
         </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/
+            http://www.rzegocki.pl/v3/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/
         </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server/</loc>
+        <loc>http://www.rzegocki.pl/v3/blog/2013/04/14/setting-encrypted-backup-email-server/</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/
-        </loc>
-        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have/
+            http://www.rzegocki.pl/v3/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/
         </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/
+            http://www.rzegocki.pl/v3/blog/2013/11/13/25-awesome-tools-every-developer-should-have/
         </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/blog/archives/</loc>
+        <loc>
+            http://www.rzegocki.pl/v3/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/
+        </loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/blog/</loc>
+        <loc>http://www.rzegocki.pl/v3/blog/archives/</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/</loc>
+        <loc>http://www.rzegocki.pl/v3/blog/</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/open-source/</loc>
+        <loc>http://www.rzegocki.pl/v3/</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/portfolio/</loc>
+        <loc>http://www.rzegocki.pl/v3/open-source/</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/presentations/</loc>
+        <loc>http://www.rzegocki.pl/v3/portfolio/</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/public-key.txt</loc>
+        <loc>http://www.rzegocki.pl/v3/presentations/</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://www.rzegocki.pl/robots.txt</loc>
+        <loc>http://www.rzegocki.pl/v3/public-key.txt</loc>
+        <lastmod>2015-07-26T18:15:41+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.rzegocki.pl/v3/robots.txt</loc>
         <lastmod>2015-07-26T18:15:41+02:00</lastmod>
     </url>
 </urlset>

@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: 
+Disallow:
 
-Sitemap: http://www.rzegocki.pl/sitemap.xml 
+Sitemap: http://www.rzegocki.pl/v3/sitemap.xml

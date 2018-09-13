@@ -2,22 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: PHP | Igor Rzegocki Personal Homepage]]></title>
-  <link href="http://www.rzegocki.pl/blog/categories/php/atom.xml" rel="self"/>
-  <link href="http://www.rzegocki.pl/"/>
+  <link href="http://www.rzegocki.pl/v3/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://www.rzegocki.pl/v3/"/>
   <updated>2015-07-26T18:21:37+02:00</updated>
-  <id>http://www.rzegocki.pl/</id>
+  <id>http://www.rzegocki.pl/v3/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
     <email><![CDATA[igor@rzegocki.pl]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
+
   <entry>
     <title type="html"><![CDATA[Setting development environment on your Mac]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
     <updated>2012-09-22T12:33:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac</id>
     <content type="html"><![CDATA[<p>Recently I bought an
 <a href="http://www.anandtech.com/show/4253/the-crucial-m4-micron-c400-ssd-review">awesome piece of hardware</a>
 to my MacBook Pro. Unfortunatelly
@@ -284,5 +284,5 @@ script which will launch or disable all the services on demand. Just create
 I do :).</p>
 ]]></content>
   </entry>
-  
+
 </feed>

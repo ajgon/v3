@@ -2,23 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Igor Rzegocki Personal Homepage]]></title>
-  <link href="http://www.rzegocki.pl/atom.xml" rel="self"/>
-  <link href="http://www.rzegocki.pl/"/>
+  <link href="http://www.rzegocki.pl/v3/atom.xml" rel="self"/>
+  <link href="http://www.rzegocki.pl/v3/"/>
   <updated>2015-07-26T18:21:37+02:00</updated>
-  <id>http://www.rzegocki.pl/</id>
+  <id>http://www.rzegocki.pl/v3/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
     <email><![CDATA[igor@rzegocki.pl]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
+
   <entry>
     <title type="html"><![CDATA[Installing custom linux on Raspberry&nbsp;Pi&nbsp;2]]></title>
-    <link href="http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2/"/>
     <updated>2015-04-19T20:00:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2</id>
-    <content type="html"><![CDATA[<p>Few days ago, <a href="http://www.rzegocki.pl/images/upload/rpi.jpg">I gave myself a present</a>, which (at the very beginning) I was planning to power
+    <id>http://www.rzegocki.pl/v3/blog/2015/04/19/installing-custom-linux-on-raspberry-pi-2</id>
+    <content type="html"><![CDATA[<p>Few days ago, <a href="http://www.rzegocki.pl/v3/images/upload/rpi.jpg">I gave myself a present</a>, which (at the very beginning) I was planning to power
 up with <a href="https://osmc.tv/">OSMC</a> and use it as HTPC. However, in a meantime I had to switch my apartment, and put
 my worn ATOM server offline for couple of hours &ndash; necessity I didn&rsquo;t like very much. This, and the fact that my server
 got very noisy (I suspected power supply fan) convinced me to start looking for something new. And then I thought &ndash;
@@ -479,12 +479,12 @@ via SSH, if so, set <code>PermitRootLogin yes</code> in <code>/etc/ssh/sshd_conf
 you finish configuration!).</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[25 awesome tools every developer should have]]></title>
-    <link href="http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2013/11/13/25-awesome-tools-every-developer-should-have/"/>
     <updated>2013-11-13T11:09:00+01:00</updated>
-    <id>http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have</id>
+    <id>http://www.rzegocki.pl/v3/blog/2013/11/13/25-awesome-tools-every-developer-should-have</id>
     <content type="html"><![CDATA[<blockquote><p>This is a repost of my <a href="http://x-team.com/2013/11/25-awesome-tools-every-developer-should-have/">original post</a>
 on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for consistency.</p></blockquote>
 
@@ -495,43 +495,43 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
 
 <h2><a href="http://www.iterm2.com/">iTerm</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/iTerm.png" alt="iTerm" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/iTerm.png" alt="iTerm" /></p>
 
 <p>Like it or not, terminal is the most important developer tool. It makes doing a lot of tasks way easier and faster than GUI. As somebody said: &ldquo;GUI makes easy tasks trivial, and hard tasks impossible to make.&rdquo; So learn to love your terminal, and it&rsquo;ll thank you later.</p>
 
 <h2><a href="http://brew.sh/">homebrew</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/brew.png" alt="homebrew" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/brew.png" alt="homebrew" /></p>
 
 <p>A package manager for OSX. Think of it as <a href="https://en.wikipedia.org/wiki/Advanced_Packaging_Tool"><code>apt-get</code></a> for Mac. It was written by the guys who had enough of MacPorts and decided to do it better. And they did &ndash; brew shines everywhere where MacPorts fails, starting from logical directory structure, through simple packaging system (everything is git based) to great simplicity of the tool itself.</p>
 
 <h2><a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/oh-my-zsh.png" alt="oh-my-zsh" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/oh-my-zsh.png" alt="oh-my-zsh" /></p>
 
 <p>A very nice addition to zsh shell &ndash; it comes bundled with a ton of helpful functions, helpers, plugins and themes. Want to see your current git branch in your shell prompt? You got it. RVM version? No problem. Weather? You bet. And still, it has ZShell under it, so it comes along with a nice path completion, history browsing and ton of other stuff.</p>
 
 <h2><a href="http://beyondgrep.com/">ack</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/ack.png" alt="ack" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/ack.png" alt="ack" /></p>
 
 <p>This is how grep would look like if it was created 20 years later; a great, blazing fast tool for finding contents of the file. And it is written with developers in mind, which means (for example), you can narrow results of the search only to the source files of the language you prefer. Or ignore VCS files. Or use regular expressions out of the box. This is a find-in-file Swiss Army Knife.</p>
 
 <h2><a href="http://rvm.io/">rvm</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/rvm.png" alt="rvm" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/rvm.png" alt="rvm" /></p>
 
 <p>A tool no Ruby developer can live without. RVM is a command-line gadget which allows you to easily install, manage, and work with multiple Ruby environments from interpreters to sets of gems. Recently, Ruby experienced a thing called &ldquo;fragmentation hell.&rdquo; There are two major versions of it, two major versions of its biggest framework (Hey! Rails! I&rsquo;m talking about you!), and a lot of concurrent gems. RVM helps you to catch up with all of that, and manage Ruby/Rails projects more efficiently.</p>
 
 <h2><a href="http://gruntjs.com/">Grunt</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/grunt.png" alt="Grunt" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/grunt.png" alt="Grunt" /></p>
 
 <p>This is a tool that our front-end guys love. It&rsquo;s a JavaScript task runner. It takes all the repeatable tasks off your shoulders. Thanks to its huge plugins database, it can minify CSS/JS files, compress images, compile LESS/SASS scripts, lint your source and even set a live-preview server for you. All in an easy-to-use JavaScript environment.</p>
 
 <h2><a href="http://www.alfredapp.com/">Alfred 2</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred.png" alt="Alfred 2" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred.png" alt="Alfred 2" /></p>
 
 <p>Alfred is a task launcher, designed to find files and operate on them quickly and easily. The application itself doesn&rsquo;t differ much from Spotlight, and careful reader may ask, what is the advantage of it.</p>
 
@@ -539,73 +539,73 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
 
 <h3><a href="https://github.com/willfarrell/alfred-caniuse-workflow">Can I Use&hellip;</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-caniuse.png" alt="Can I Use..." /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-caniuse.png" alt="Can I Use..." /></p>
 
 <p>Full <a href="http://caniuse.com/">caniuse.com</a> database under your fingertips. No extra browsing needed.</p>
 
 <h3><a href="https://github.com/TylerEich/Alfred-Extras/tree/master/Source/Colors">Colors</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-colors.png" alt="Colors" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-colors.png" alt="Colors" /></p>
 
 <p>Great tool for front-end developers. It converts colors between RGB, HSL and hexadecimal format. But the true power is the integration with color picker. By simply typing <code>#</code> it allows you to choose any pixel from your desktop, and then Colors will automatically return hex/rgb/hsl values for it, ready to be copied or pasted.</p>
 
 <h3><a href="https://github.com/willfarrell/alfred-dash-workflow">Dash</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-dash.png" alt="Dash" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-dash.png" alt="Dash" /></p>
 
 <p>Allows you to browse <a href="http://kapeli.com/dash">Dash</a> docsets database way faster. More about Dash, below.</p>
 
 <h3><a href="https://github.com/ajgon/alfred2-datauri">Data URI Scheme</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-datauri.png" alt="Data URI Scheme" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-datauri.png" alt="Data URI Scheme" /></p>
 
 <p>Another front-end dev tool. It can convert any given file to its representation in base64 data uri scheme. And for image and vector files it also does compression on the fly.</p>
 
 <h3><a href="https://github.com/cdraeger/alfred2-flushdns-workflow">Flush DNS cache</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-flush.png" alt="Flush DNS cache" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-flush.png" alt="Flush DNS cache" /></p>
 
 <p>Mac OS X can be very stubborn sometimes when it comes to adding new entries to <code>/etc/hosts</code>. This little extension is an excellent solution.</p>
 
 <h3><a href="https://github.com/ajgon/alfred2-html-entity-lookup">HTML Entity Lookup</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-entity.png" alt="HTML Entity Lookup" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-entity.png" alt="HTML Entity Lookup" /></p>
 
 <p>Alfred version of Remy&rsquo;s Sharp <a href="http://leftlogic.com/projects/entity-lookup/">excellent tool</a> &ndash; it allows the user to quickly find the entity based on how it looks.</p>
 
 <h3><a href="https://github.com/superkam/iOS_Simulator_Kit">iOS Simulator Kit</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-ios.png" alt="iOS Simulator Kit" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-ios.png" alt="iOS Simulator Kit" /></p>
 
 <p>For some reason, Alfred and Spotlight search results don&rsquo;t include iOS Simulator application in their results. With this workflow &ndash; it&rsquo;s not an issue anymore. Also, you can choose with device you wish to emulate from the very beginning.</p>
 
 <h3><a href="https://github.com/DavidStaron/alfred-workflow-stripClipboardFormatting">Strip clipboard</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-sclip.png" alt="Strip clipboard" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-sclip.png" alt="Strip clipboard" /></p>
 
 <p>This is one of the tools, that when installed &ndash; you can&rsquo;t live without them. It strips all the formatting from the clipboard content, leaving only raw text inside.</p>
 
 <h3><a href="https://github.com/zhaocai/alfred2-sourcetree-workflow">Source Tree</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-stree.png" alt="Source Tree" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-stree.png" alt="Source Tree" /></p>
 
 <p>As the name suggests &ndash; it&rsquo;s a workflow for SourceTree application. It lists all the repositories and allows you to view them in Source Tree or in Finder.</p>
 
 <h3><a href="http://www.alfredforum.com/topic/491-timezones-a-world-clock-script-filter-updated-to-v161/">TimeZones</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/alfred-tz.png" alt="TimeZones" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/alfred-tz.png" alt="TimeZones" /></p>
 
 <p>X-Team is spread around the globe. Most of the projects are handled simultaneously by developers from different timezones. This extension is a great tool to check if someone on the team is awake yet :)</p>
 
 <h3><a href="https://www.dropbox.com/s/51pyuuj051pydn2/VirtualBox.alfredworkflow">VirtualBox Control</a></h3>
 
-<p><img src="http://www.rzegocki.pl/images/upload/vm.png" alt="VirtualBox Control" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/vm.png" alt="VirtualBox Control" /></p>
 
 <p>Very useful extension for a QA team. They usually have a few VMs configured (mostly for IE8, IE9 and IE10) &ndash; and with this extension they can manage them faster.</p>
 
 <h2><a href="http://www.sublimetext.com/">Sublime Text</a> <a href="http://www.sublimetext.com/2">2</a> (or <a href="http://www.sublimetext.com/3">3</a>)</h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/sublime.png" alt="Sublime Text" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/sublime.png" alt="Sublime Text" /></p>
 
 <p>This is the editor of choice for most X-Team developers, and for <a href="http://net.tutsplus.com/articles/news/perfect-workflow-in-sublime-text-free-course/">a lot of other people too</a>. It is not language-oriented, like most of the IDEs, but it&rsquo;s irreplaceable when it comes to using multiple syntaxes.</p>
 
@@ -633,25 +633,25 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
 
 <h2><a href="http://kapeli.com/dash">Dash</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/dash.png" alt="Dash" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/dash.png" alt="Dash" /></p>
 
 <p>A very nice tool which can be a lifesaver on a plane, bus or any place where you want to work that has no Internet available. It&rsquo;s  an offline documentation database. Simply download docsets you need, and you&rsquo;re good to go. Integrates nicely with Alfred and Sublime Text, as mentioned earlier.</p>
 
 <h2><a href="http://mizage.com/divvy/">Divvy</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/divvy.png" alt="Divvy" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/divvy.png" alt="Divvy" /></p>
 
 <p>A simple click and drag window manager. Very useful on iMacs, which have a huge working space and you can confortably work with many windows on one desktop. It is also a very simple application, which does exactly what it&rsquo;s designed for very well &ndash; aligning windows, and assigning shortcuts for them.</p>
 
 <h2><a href="http://fontprep.com/">FontPrep</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/fontprep.png" alt="FontPrep" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/fontprep.png" alt="FontPrep" /></p>
 
 <p>Drag your font into it, click export and you will end up with your font converted to four of the most used formats on the web (otf, ttf, woff and eot) and a CSS file with @font-face directives. Beautiful.</p>
 
 <h2><a href="http://imageoptim.com/">ImageOptim</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/imageoptim.png" alt="ImageOptim" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/imageoptim.png" alt="ImageOptim" /></p>
 
 <p>Image files generated by graphics programs (such as Photoshop or GIMP), can be huge. The reason is that they add alot of unnecessary data and they handle color and alpha management poorly.</p>
 
@@ -659,13 +659,13 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
 
 <h2><a href="http://markedapp.com/">Marked</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/marked.png" alt="Marked" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/marked.png" alt="Marked" /></p>
 
 <p>MarkDown documents viewer. Great, when you need to edit a *.md file in your favorite editor (for example Sublime Text, with which it integrates smoothly) and see the live preview.</p>
 
 <h2><a href="http://www.sourcetreeapp.com/">SourceTree</a></h2>
 
-<p><img src="http://www.rzegocki.pl/images/upload/sourcetree.png" alt="SourceTree" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/sourcetree.png" alt="SourceTree" /></p>
 
 <p>There are to ways of using git. Conservatives use terminal. New-age programmers use GUI tools. And the most popular GUI for git in our company is SourceTree.</p>
 
@@ -678,12 +678,12 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
 <p>If you&rsquo;ve got better tools, please share them with us! Also do share with us your secret tips on organizing your development more efficiently.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Adding Email server autoconfig and autodiscover]]></title>
-    <link href="http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover/"/>
     <updated>2013-10-28T14:57:00+01:00</updated>
-    <id>http://www.rzegocki.pl/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover</id>
+    <id>http://www.rzegocki.pl/v3/blog/2013/10/28/adding-email-server-autoconfig-and-autodiscover</id>
     <content type="html"><![CDATA[<p>One of the nicest, yet badly documented features in new MUAs is email servers autodiscovering. When you type your e-mail address in configuration window, modern MUA is trying to determine what IMAP/POP3 servers are, and how to connect to them. To do so, they assume, that your email contains a server domain name. A nice assumption, but often not relevant (google apps is a good example here). Thankfully, there is also another way &ndash; asking an original server on a specially configured domain what those parameters are.</p>
 
 <!-- more -->
@@ -891,12 +891,12 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
 
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Setting encrypted backup Email server]]></title>
-    <link href="http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2013/04/14/setting-encrypted-backup-email-server/"/>
     <updated>2013-04-14T13:34:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2013/04/14/setting-encrypted-backup-email-server</id>
+    <id>http://www.rzegocki.pl/v3/blog/2013/04/14/setting-encrypted-backup-email-server</id>
     <content type="html"><![CDATA[<p>There is a popular Internet saying that people are divided into two groups &ndash;
 those who make backups, and those who will. I strongly believe into that,
 that&rsquo;s why despite that I trust my mailserver setup completely, I still want to
@@ -1111,17 +1111,17 @@ shiny and secure backup :)</p>
 
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Add more complexity to your Emails - use DKIM and SPF]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf/"/>
     <updated>2012-10-27T13:15:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/10/27/add-more-complexity-to-your-emails-use-dkim-and-spf</id>
     <content type="html"><![CDATA[<p>The next thing my paranoid me couldn&rsquo;t stand of is that my emails can be easily
 spoofed. Yeah, I know I&rsquo;m not a very famous person, so probability of such
 thing happening is similar to zero, but hey &ndash; tell this to my Paranoid me. :)
 I also sign every mail I could (they can be easily verified using
-<a href="http://www.rzegocki.pl/public-key.txt">my public key</a>), but still &ndash; DKIM seems to be a fine
+<a href="http://www.rzegocki.pl/v3/public-key.txt">my public key</a>), but still &ndash; DKIM seems to be a fine
 solution. And besides, I love to play with new things. So after many
 experiments with <a href="http://sourceforge.net/projects/dkim-milter/">dkim-milter</a>,
 <a href="http://sourceforge.net/projects/dkimproxy/">DKIMProxy</a> and
@@ -1401,12 +1401,12 @@ treat those suspicious messages differently than normal spam:</p>
 
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Setting secure, cloud-based backup system using git and box.com]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com/"/>
     <updated>2012-10-14T12:57:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/10/14/setting-secure-cloud-based-backup-system-using-git-and-box-com</id>
     <content type="html"><![CDATA[<p>After giving up my <a href="http://gmail.com/">spying e-mail provider</a>, and moving
 everything to my own <a href="https://github.com/ajgon/DeeDee">DeeDee server</a>, I moved
 smoothly from one paranoia to another. Ok, my e-mail is not read anymore by
@@ -1606,12 +1606,12 @@ good-space, webdav supporting clouds. I didn&rsquo;t find anything as good as
 box.com, but if you do &ndash; please, let me know!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Setting development environment on your Mac]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac/"/>
     <updated>2012-09-22T12:33:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/09/22/setting-development-environment-on-your-mac</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/09/22/setting-development-environment-on-your-mac</id>
     <content type="html"><![CDATA[<p>Recently I bought an
 <a href="http://www.anandtech.com/show/4253/the-crucial-m4-micron-c400-ssd-review">awesome piece of hardware</a>
 to my MacBook Pro. Unfortunatelly
@@ -1767,7 +1767,7 @@ do this, install <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq
 <p>Last thing left, is setting a nameserver to 127.0.0.1 in your Network prefpane,
 as shown below.</p>
 
-<p><img src="http://www.rzegocki.pl/images/upload/dnsmasq.png" alt="dnsmasq configuration" /></p>
+<p><img src="https://www.rzegocki.pl/v3/images/upload/dnsmasq.png" alt="dnsmasq configuration" /></p>
 
 <p>From now on all *.dev domains will be translated to <code>127.0.0.1</code> and from there
 all <code>wp.dev</code> and <code>php.dev</code> domains will be handled by nginx. Good stuff.</p>
@@ -1859,12 +1859,12 @@ script which will launch or disable all the services on demand. Just create
 I do :).</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Adding a little bit of SpamAssassin into Postfix/Dovecot/Sieve soup]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup/"/>
     <updated>2012-07-21T12:16:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/07/21/adding-a-little-bit-of-spamassassin-into-postfix-slash-dovecot-slash-sieve-soup</id>
     <content type="html"><![CDATA[<p>I was always prefering &ldquo;stay in the shadows&rdquo; policy in terms of email address.
 I have two secondary emails (for spam I want to read, and for spam I want to be
 sent into oblivion i.e. for &ldquo;Register NOW to download this 2KB file&rdquo; sites). My
@@ -2099,12 +2099,12 @@ chance, that you&rsquo;ll find your answers there.</p>
 
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Setting server-side mail filtering with sieve and dovecot]]></title>
-    <link href="http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot/"/>
     <updated>2012-07-16T11:43:00+02:00</updated>
-    <id>http://www.rzegocki.pl/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot</id>
+    <id>http://www.rzegocki.pl/v3/blog/2012/07/16/setting-server-side-mail-filtering-with-sieve-and-dovecot</id>
     <content type="html"><![CDATA[<p>Leaving GMail was of the best decisions for my mail I made recently. But also a
 most problematic one. I needed to set all the MTA architecture myself. I tested
 many solutions out there and finally ended with postfix + dovecot
@@ -2230,5 +2230,5 @@ documentation and multiple domain problems), but the final effect is awesome,
 and confirms that own server is an really, really great idea :)</p>
 ]]></content>
   </entry>
-  
+
 </feed>

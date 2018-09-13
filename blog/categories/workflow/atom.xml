@@ -2,22 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Workflow | Igor Rzegocki Personal Homepage]]></title>
-  <link href="http://www.rzegocki.pl/blog/categories/workflow/atom.xml" rel="self"/>
-  <link href="http://www.rzegocki.pl/"/>
+  <link href="http://www.rzegocki.pl/v3/blog/categories/workflow/atom.xml" rel="self"/>
+  <link href="http://www.rzegocki.pl/v3/"/>
   <updated>2015-07-26T18:21:37+02:00</updated>
-  <id>http://www.rzegocki.pl/</id>
+  <id>http://www.rzegocki.pl/v3/</id>
   <author>
     <name><![CDATA[Igor Rzegocki]]></name>
     <email><![CDATA[igor@rzegocki.pl]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
+
   <entry>
     <title type="html"><![CDATA[25 awesome tools every developer should have]]></title>
-    <link href="http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have/"/>
+    <link href="http://www.rzegocki.pl/v3/blog/2013/11/13/25-awesome-tools-every-developer-should-have/"/>
     <updated>2013-11-13T11:09:00+01:00</updated>
-    <id>http://www.rzegocki.pl/blog/2013/11/13/25-awesome-tools-every-developer-should-have</id>
+    <id>http://www.rzegocki.pl/v3/blog/2013/11/13/25-awesome-tools-every-developer-should-have</id>
     <content type="html"><![CDATA[<blockquote><p>This is a repost of my <a href="http://x-team.com/2013/11/25-awesome-tools-every-developer-should-have/">original post</a>
 on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for consistency.</p></blockquote>
 
@@ -211,5 +211,5 @@ on <a href="http://x-team.com/">X-Team</a> blog. I&rsquo;m putting it here for c
 <p>If you&rsquo;ve got better tools, please share them with us! Also do share with us your secret tips on organizing your development more efficiently.</p>
 ]]></content>
   </entry>
-  
+
 </feed>
